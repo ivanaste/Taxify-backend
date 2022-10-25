@@ -1,0 +1,1 @@
+insert into PASSENGER (BLOCKED, CITY, EMAIL, NAME, PASSWORD, PHONE_NUMBER, PROFILE_PICTURE, SURNAME, ACTIVATED, IN_PROCESS) values ('true', 'grad', 'milic@gmail.com', 'mico', '123', '066', 'g', 'milic', 'true', 'true');
