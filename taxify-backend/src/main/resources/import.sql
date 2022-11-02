@@ -1,1 +1,1 @@
-insert into PASSENGER (BLOCKED, CITY, EMAIL, NAME, PASSWORD, PHONE_NUMBER, PROFILE_PICTURE, SURNAME, ACTIVATED, IN_PROCESS) values ('true', 'grad', 'milic@gmail.com', 'mico', '123', '066', 'g', 'milic', 'true', 'true');
+//insert into "user" (AVAILABLE, CITY, EMAIL, NAME, PASSWORD_HASH, PHONE_NUMBER, SURNAME) values ('true', 'b', 'istevanovic@gmail.com', 'ivana', '$2a$10$tB0yL1oDE/0mYmhLhO6C2OHi.EEtj61Cx29ak5rzxG/B8QODhR.bO', '043535','stevanovic');

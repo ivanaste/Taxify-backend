@@ -1,13 +1,16 @@
 package com.kts.taxify.model;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -18,23 +21,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Route extends BaseEntity {
 
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "street", column = @Column(name = "departure_street")),
-		@AttributeOverride(name = "city", column = @Column(name = "departure_city")),
-		@AttributeOverride(name = "state", column = @Column(name = "departure_state")),
-		@AttributeOverride(name = "zipCode", column = @Column(name = "departure_zip"))
-	})
-	Address departure;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "street", column = @Column(name = "destination_street")),
-		@AttributeOverride(name = "city", column = @Column(name = "destination_city")),
-		@AttributeOverride(name = "state", column = @Column(name = "destination_state")),
-		@AttributeOverride(name = "zipCode", column = @Column(name = "destination_zip"))
-	})
-	Address destination;
+	@ManyToMany
+	@JoinTable(name = "route_waypoints", joinColumns = @JoinColumn(name = "route_id"),
+		inverseJoinColumns = @JoinColumn(name = "waypoint_id"))
+	List<Waypoint> waypoints;
 
 	@ManyToMany(mappedBy = "favoriteRoutes")
 	Set<Passenger> subscribedPassengers;
@@ -44,4 +34,21 @@ public class Route extends BaseEntity {
 
 	@Column(name = "duration", nullable = false)
 	Double duration;
+
+	@OneToMany(mappedBy = "route")
+	Set<Ride> rides;
+
+	Waypoint getDeparture() {
+		return waypoints.stream().filter(waypoint -> waypoint.getOrdinalNumber() == 0).findFirst().orElse(null);
+	}
+
+	Waypoint getDestination() {
+		return waypoints.stream().filter(waypoint -> waypoint.getOrdinalNumber() == waypoints.size() - 1).findFirst().orElse(null);
+	}
+
+	List<Waypoint> getStops() {
+		return waypoints.stream().filter(Waypoint::getIsStop).sorted(Comparator.comparingInt(Waypoint::getOrdinalNumber))
+			.collect(Collectors.toList());
+	}
+	
 }

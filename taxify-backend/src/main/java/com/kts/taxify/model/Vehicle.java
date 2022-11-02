@@ -1,28 +1,33 @@
 package com.kts.taxify.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "vehicle")
 public class Vehicle extends BaseEntity {
 
-	@OneToOne
+	@OneToOne(mappedBy = "vehicle")
 	Driver driver;
 
-	//lokacija vozila
+	@Embedded
+	Location location;
 
-	@Value("false")
 	@Column(name = "occupied", nullable = false)
 	Boolean occupied;
 
@@ -32,7 +37,7 @@ public class Vehicle extends BaseEntity {
 	@Column(name = "model", nullable = false)
 	String model;
 
-	@Column(name = "horsePower", nullable = false)
+	@Column(name = "horse_power", nullable = false)
 	Integer horsePower;
 
 	@Column(name = "type", nullable = false)

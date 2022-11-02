@@ -9,19 +9,26 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "passenger")
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class Passenger extends User {
+
+	@Column(name = "status")
+	PassengerStatus status;
 
 	@ManyToMany(mappedBy = "passengers")
 	Set<Ride> rides;
@@ -31,11 +38,6 @@ public class Passenger extends User {
 		inverseJoinColumns = @JoinColumn(name = "route_id"))
 	Set<Route> favoriteRoutes;
 
-	@Value("false")
-	@Column(name = "activated", nullable = false)
-	Boolean activated;
-
-	@Value("false")
-	@Column(name = "in_process", nullable = false)
-	Boolean inProcess; //lose ime -> korisnik zahtevao voznju ili se vozi
+	@Column(name = "inRide", nullable = false)
+	boolean inRide;
 }

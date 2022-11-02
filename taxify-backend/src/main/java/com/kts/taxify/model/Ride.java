@@ -40,7 +40,11 @@ public class Ride extends BaseEntity {
 	@Column(name = "scheduled_at")
 	LocalDateTime scheduledAt;
 
-	//izabrana ruta
-	//Set<Route>
+	@Column(name = "rejection_reason")
+	String rejectionReason;
+
+	@ManyToOne
+	@JoinColumn(name = "route_id")
+	Route route;
 
 }
