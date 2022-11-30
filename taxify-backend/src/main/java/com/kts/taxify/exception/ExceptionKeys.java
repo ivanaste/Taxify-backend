@@ -15,7 +15,10 @@ public enum ExceptionKeys implements Translation {
     BAD_LOGIN_CREDENTIALS("bad_login_credentials"),
 
     USER_ALREADY_EXISTS("user_already_exists"),
-    MISSING_AUTHENTICATION("missing_authentication");
+    MISSING_AUTHENTICATION("missing_authentication"),
+    ROLE_NOT_FOUND("role_not_found"),
+    INSUFFICIENT_PERMISSIONS("insufficient_permissions"),
+    AUTH_TOKEN_INVALID("auth_token_invalid");
 
     private final String code;
 
