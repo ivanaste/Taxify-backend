@@ -1,5 +1,7 @@
 HELP.md
 target/
+data/
+taxify.db
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

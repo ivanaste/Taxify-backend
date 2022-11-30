@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    password: nvt
+    username: kts
+    url: jdbc:h2:file:./data/taxify;AUTO_SERVER=true;
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+custom:
+  jwtSecret: superepiksecret
+  clientUrl: http://localhost:3000
+  authTokenExpirationMilliseconds: 2592000000
+  jwtForgotPasswordExpiration: 3600000
+  createUserTokenExpirationMilliseconds: 2592000000

@@ -1,0 +1,1 @@
+//insert into "user" (AVAILABLE, CITY, EMAIL, NAME, PASSWORD_HASH, PHONE_NUMBER, SURNAME) values ('true', 'b', 'istevanovic@gmail.com', 'ivana', '$2a$10$tB0yL1oDE/0mYmhLhO6C2OHi.EEtj61Cx29ak5rzxG/B8QODhR.bO', '043535','stevanovic');
