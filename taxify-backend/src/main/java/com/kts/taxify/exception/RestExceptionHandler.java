@@ -8,6 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,6 +39,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     })
     protected ResponseEntity<?> handleUnauthorizedExceptions(CustomRuntimeException ex) {
         return buildResponseEntity(new ApiException(toLocale(ex.getKey()), HttpStatus.UNAUTHORIZED));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<?> handleAccessDeniedException() {
+        return buildResponseEntity(new ApiException(toLocale(ExceptionKeys.INSUFFICIENT_PERMISSIONS), HttpStatus.FORBIDDEN));
+    }
+
+    @ExceptionHandler({
+            RoleNotFoundException.class
+    })
+    protected ResponseEntity<?> handleNotFoundExceptions(CustomRuntimeException ex) {
+        return buildResponseEntity(new ApiException(toLocale(ex.getKey()), HttpStatus.NOT_FOUND));
     }
 
     @ExceptionHandler(BadCredentialsException.class)

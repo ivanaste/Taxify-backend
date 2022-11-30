@@ -1,28 +1,29 @@
 package com.kts.taxify.model;
 
-import java.util.Set;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.experimental.FieldDefaults;
+import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Waypoint extends BaseEntity {
 
-	@Embedded
-	Location location;
+    @Embedded
+    Location location;
 
-	Integer ordinalNumber;
+    Integer ordinalNumber;
 
-	Boolean isStop;
+    Boolean isStop;
 
-	@ManyToMany(mappedBy = "waypoints")
-	Set<Route> routes;
+    @ManyToMany(mappedBy = "waypoints")
+    Set<Route> routes;
 
 }

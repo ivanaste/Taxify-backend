@@ -23,7 +23,6 @@ public class FilterChainExceptionHandler extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (final ServletException ignored) { // ignoring random exception that occurs
         } catch (final Exception e) {
             exceptionResolver.resolveException(request, response, null, e);
         }
