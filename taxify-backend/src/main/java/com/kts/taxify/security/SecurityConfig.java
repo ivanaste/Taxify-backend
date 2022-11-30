@@ -2,7 +2,7 @@ package com.kts.taxify.security;
 
 import com.kts.taxify.exception.FilterChainExceptionHandler;
 import com.kts.taxify.filter.AuthTokenFilter;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,65 +19,60 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import lombok.RequiredArgsConstructor;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-	private final AuthTokenFilter authTokenFilter;
-	private final AuthEntryPointJwt authEntryPointJwt;
+    private final AuthTokenFilter authTokenFilter;
+    private final AuthEntryPointJwt authEntryPointJwt;
 
-	private final FilterChainExceptionHandler filterChainExceptionHandler;
+    private final FilterChainExceptionHandler filterChainExceptionHandler;
 
-	@Bean
-	public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
-			.exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.authorizeRequests()
-			.antMatchers("/swagger-ui/**").permitAll()
-			.antMatchers("/api-docs/**").permitAll()
-			.antMatchers("/auth/login").permitAll()
-			.antMatchers("/auth/self").permitAll()
+    @Bean
+    public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/api-docs/**").permitAll()
+                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/self").permitAll()
 
-			.antMatchers("/passenger/create").permitAll()
+                .antMatchers("/passenger/create").permitAll()
+                .antMatchers("/**").authenticated()
+                .anyRequest().authenticated();
 
-			.antMatchers("/driver/create").hasRole("ADMIN")
+        httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
 
-			.antMatchers("/**").authenticated()
-			.anyRequest().authenticated();
+        httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-		httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
+        return httpSecurity.build();
+    }
 
-		httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		return httpSecurity.build();
-	}
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
 
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		final UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOriginPattern("*");
-		corsConfiguration.addAllowedHeader("*");
-		corsConfiguration.addAllowedMethod("*");
+        return corsConfigurationSource;
+    }
 
-		corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+    @Bean
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-		return corsConfigurationSource;
-	}
-
-	@Bean
-	public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
 

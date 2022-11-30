@@ -1,8 +1,6 @@
 package com.kts.taxify.dto.request.driver;
 
-import com.kts.taxify.model.UserRole;
 import com.kts.taxify.model.VehicleType;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,33 +10,31 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateDriverRequest {
-	String email;
+    String email;
 
-	UserRole role;
+    String password;
 
-	String password;
+    String name;
 
-	String name;
+    String surname;
 
-	String surname;
+    String city;
 
-	String city;
+    String phoneNumber;
 
-	String phoneNumber;
+    String profilePicture;
 
-	String profilePicture;
+    //initial vehicle location
 
-	//initial vehicle location
+    String vehicleBrand;
 
-	String vehicleBrand;
+    String vehicleModel;
 
-	String vehicleModel;
+    Integer vehicleHorsePower;
 
-	Integer vehicleHorsePower;
+    VehicleType vehicleType;
 
-	VehicleType vehicletype;
+    Boolean babyFriendly;
 
-	Boolean babyFriendly;
-
-	Boolean petFriendly;
+    Boolean petFriendly;
 }

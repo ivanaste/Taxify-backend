@@ -14,3 +14,9 @@ custom:
   authTokenExpirationMilliseconds: 2592000000
   jwtForgotPasswordExpiration: 3600000
   createUserTokenExpirationMilliseconds: 2592000000
+  messageSource: messages
+  defaultLocale: en
+server:
+  servlet:
+    contextPath: /api
+  port: '8080'

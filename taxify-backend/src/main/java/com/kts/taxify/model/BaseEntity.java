@@ -25,7 +25,7 @@ public abstract class BaseEntity {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false)
 	@Type(type = "uuid-char")
 	@ColumnDefault("random_uuid()")
 	private UUID id;

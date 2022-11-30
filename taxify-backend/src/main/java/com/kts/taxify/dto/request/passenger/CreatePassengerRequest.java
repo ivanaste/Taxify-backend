@@ -1,7 +1,5 @@
 package com.kts.taxify.dto.request.passenger;
 
-import com.kts.taxify.model.UserRole;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,19 +9,17 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreatePassengerRequest {
-	String email;
+    String email;
 
-	UserRole role;
+    String password;
 
-	String password;
+    String name;
 
-	String name;
+    String surname;
 
-	String surname;
+    String city;
 
-	String city;
+    String phoneNumber;
 
-	String phoneNumber;
-
-	String profilePicture;
+    String profilePicture;
 }
