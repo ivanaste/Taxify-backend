@@ -12,4 +12,7 @@ public class CustomProperties {
     private Long authTokenExpirationMilliseconds;
     private String messageSource;
     private String defaultLocale;
+    private String senderEmail;
+    private String clientUrl;
+    private Long jwtForgotPasswordExpiration;
 }

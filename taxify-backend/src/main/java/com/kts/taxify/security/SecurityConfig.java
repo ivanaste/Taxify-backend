@@ -40,6 +40,9 @@ public class SecurityConfig {
                 .antMatchers("/auth/self").permitAll()
 
                 .antMatchers("/passenger/create").permitAll()
+                .antMatchers("/password/request-change").permitAll()
+                .antMatchers("/password/change").permitAll()
+
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
