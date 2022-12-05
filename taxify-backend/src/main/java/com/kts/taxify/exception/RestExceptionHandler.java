@@ -28,13 +28,17 @@ import static com.kts.taxify.translations.Translator.toLocale;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ExceptionHandler({
+            UserAlreadyExistsException.class,
+            PasswordSameException.class,
+            PasswordMismatchException.class})
     protected ResponseEntity<?> handleBadRequestExceptions(CustomRuntimeException ex) {
         return buildResponseEntity(new ApiException(toLocale(ex.getKey()), HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({
             AuthTokenExpiredException.class,
+            AuthTokenInvalidException.class,
             UnauthorizedException.class,
     })
     protected ResponseEntity<?> handleUnauthorizedExceptions(CustomRuntimeException ex) {
