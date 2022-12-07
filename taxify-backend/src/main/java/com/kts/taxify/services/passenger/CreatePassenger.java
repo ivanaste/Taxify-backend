@@ -4,6 +4,7 @@ import com.kts.taxify.converter.UserConverter;
 import com.kts.taxify.dto.request.passenger.CreatePassengerRequest;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.exception.UserAlreadyExistsException;
+import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.PassengerStatus;
 import com.kts.taxify.services.role.GetRoleByName;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class CreatePassenger {
     private final SaveUser saveUser;
     private final GetRoleByName getRoleByName;
 
-    public UserResponse execute(@Valid final CreatePassengerRequest createPassengerRequest) {
+    public UserResponse execute(@Valid final CreatePassengerRequest createPassengerRequest, AccountProvider accountProvider) {
         if (userExistsByEmail.execute(createPassengerRequest.getEmail())) {
             throw new UserAlreadyExistsException();
         }
@@ -40,7 +42,8 @@ public class CreatePassenger {
                 .phoneNumber(createPassengerRequest.getPhoneNumber())
                 .profilePicture(createPassengerRequest.getProfilePicture())
                 .role(getRoleByName.execute("PASSENGER"))
-                .status(PassengerStatus.PENDING)
+                .accountProvider(accountProvider)
+                .status(Objects.equals(accountProvider, AccountProvider.LOCAL) ? PassengerStatus.PENDING : PassengerStatus.ACTIVE)
                 .build();
 
         //send activation email

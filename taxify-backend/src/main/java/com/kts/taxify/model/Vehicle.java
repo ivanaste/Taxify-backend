@@ -3,10 +3,7 @@ package com.kts.taxify.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -34,6 +31,7 @@ public class Vehicle extends BaseEntity {
     Integer horsePower;
 
     @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
     VehicleType type;
 
     @Column(name = "baby_friendly", nullable = false)

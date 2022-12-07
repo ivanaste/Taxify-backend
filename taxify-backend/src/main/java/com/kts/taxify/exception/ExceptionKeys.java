@@ -21,7 +21,8 @@ public enum ExceptionKeys implements Translation {
     AUTH_TOKEN_INVALID("auth_token_invalid"),
     MAIL_FAILED("mail_failed"),
     PASSWORD_SAME("password_same"),
-    PASSWORD_MISMATCH("password_mismatch");
+    PASSWORD_MISMATCH("password_mismatch"),
+    INVALID_GOOGLE_ACCOUNT("invalid_google_account");
 
     private final String code;
 

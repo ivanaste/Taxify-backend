@@ -15,4 +15,5 @@ public class CustomProperties {
     private String senderEmail;
     private String clientUrl;
     private Long jwtForgotPasswordExpiration;
+    private String googleClientId;
 }

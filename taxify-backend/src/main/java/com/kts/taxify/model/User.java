@@ -46,4 +46,7 @@ public class User extends BaseEntity {
 
     @Column(name = "profile_picture")
     String profilePicture;
+
+    @Enumerated(EnumType.STRING)
+    private AccountProvider accountProvider;
 }

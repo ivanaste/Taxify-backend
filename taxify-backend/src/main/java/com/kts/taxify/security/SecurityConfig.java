@@ -34,17 +34,13 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/api-docs/**").permitAll()
-                .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/self").permitAll()
-
+                .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+                .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}").permitAll()
+                .antMatchers("/password/request-change", "/password/change").permitAll()
                 .antMatchers("/passenger/create").permitAll()
-                .antMatchers("/password/request-change").permitAll()
-                .antMatchers("/password/change").permitAll()
-
                 .antMatchers("/**").authenticated()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+        ;
 
         httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
 

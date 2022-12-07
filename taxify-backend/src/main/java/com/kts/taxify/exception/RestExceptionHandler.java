@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<?> handleAccessDeniedException() {
         return buildResponseEntity(new ApiException(toLocale(ExceptionKeys.INSUFFICIENT_PERMISSIONS), HttpStatus.FORBIDDEN));
+    }
+
+    @ExceptionHandler({GeneralSecurityException.class, InvalidGoogleAccountException.class})
+    protected ResponseEntity<?> handleInvalidSignInExceptions() {
+        return buildResponseEntity(new ApiException(toLocale(ExceptionKeys.INVALID_GOOGLE_ACCOUNT), HttpStatus.FORBIDDEN));
     }
 
     @ExceptionHandler({

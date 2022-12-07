@@ -25,6 +25,7 @@ public class Ride extends BaseEntity {
     Set<Passenger> passengers;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     RideStatus status;
 
     @OneToMany(mappedBy = "ride")
