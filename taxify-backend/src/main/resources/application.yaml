@@ -10,9 +10,10 @@ spring:
       ddl-auto: create-drop
 custom:
   jwtSecret: superepiksecret
-  clientUrl: http://localhost:3000
-  authTokenExpirationMilliseconds: 2592000000
-  jwtForgotPasswordExpiration: 3600000
+  clientUrl: http://localhost:4200
+  authTokenExpirationMilliseconds: 604800000 #7 days
+  jwtForgotPasswordTokenExpiration: 3600000
+  jwtActivateEmailTokenExpiration: 3600000
   createUserTokenExpirationMilliseconds: 2592000000
   messageSource: messages
   defaultLocale: en

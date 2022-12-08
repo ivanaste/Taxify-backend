@@ -40,7 +40,12 @@ public class SecurityConfig {
                 .antMatchers("/auth/self").permitAll()
 
                 .antMatchers("/passenger/create").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/password/request-change").permitAll()
+                .antMatchers("/password/change").permitAll()
+                .antMatchers("/passenger/activateEmail/{token}").permitAll()
+
+
+            .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
