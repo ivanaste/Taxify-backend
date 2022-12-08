@@ -28,7 +28,7 @@ public class AuthController {
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/login")
 	public AuthTokenResponse login(@Valid @RequestBody final LoginRequest loginRequest) {
-		return new AuthTokenResponse(loginUser.execute(loginRequest.getEmail(), loginRequest.getPassword()));
+		return loginUser.execute(loginRequest.getEmail(), loginRequest.getPassword());
 	}
 
 	@ResponseStatus(HttpStatus.OK)

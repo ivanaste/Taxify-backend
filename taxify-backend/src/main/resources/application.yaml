@@ -11,7 +11,7 @@ spring:
 custom:
   jwtSecret: superepiksecret
   clientUrl: http://localhost:3000
-  authTokenExpirationMilliseconds: 2592000000
+  authTokenExpirationMilliseconds: 604800000 #7 days
   jwtForgotPasswordExpiration: 3600000
   createUserTokenExpirationMilliseconds: 2592000000
   messageSource: messages
