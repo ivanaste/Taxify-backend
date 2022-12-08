@@ -26,11 +26,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreatePassenger {
 
-	private final UserExistsByEmail userExistsByEmail;
+    private final UserExistsByEmail userExistsByEmail;
 
-	private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-	private final SaveUser saveUser;
+    private final SaveUser saveUser;
+    private final GetRoleByName getRoleByName;
 
     private final SendMail sendMail;
 
@@ -70,5 +71,4 @@ public class CreatePassenger {
         return customProperties.getClientUrl().concat(EMAIL_ACTIVATION_PATH).concat(authToken);
     }
 
->>>>>>> Stashed changes
 }

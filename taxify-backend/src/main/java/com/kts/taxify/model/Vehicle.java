@@ -3,20 +3,20 @@ package com.kts.taxify.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "vehicle")
 public class Vehicle extends BaseEntity {
-
-    @OneToOne(mappedBy = "vehicle")
-    Driver driver;
-
     @Embedded
     Location location;
 

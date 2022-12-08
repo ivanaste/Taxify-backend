@@ -5,8 +5,8 @@ import com.kts.taxify.dto.request.driver.CreateDriverRequest;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.exception.UserAlreadyExistsException;
 import com.kts.taxify.model.Driver;
-import com.kts.taxify.model.UserRole;
 import com.kts.taxify.model.Vehicle;
+import com.kts.taxify.services.role.GetRoleByName;
 import com.kts.taxify.services.user.SaveUser;
 import com.kts.taxify.services.user.UserExistsByEmail;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,7 @@ public class CreateDriver {
     private final PasswordEncoder passwordEncoder;
 
     private final SaveUser saveUser;
+    private final GetRoleByName getRoleByName;
 
     public UserResponse execute(@Valid final CreateDriverRequest createDriverRequest) {
         if (userExistsByEmail.execute(createDriverRequest.getEmail())) {
@@ -46,7 +47,7 @@ public class CreateDriver {
                 .city(createDriverRequest.getCity())
                 .phoneNumber(createDriverRequest.getPhoneNumber())
                 .profilePicture(createDriverRequest.getProfilePicture())
-                .role(UserRole.DRIVER)
+                .role(getRoleByName.execute("DRIVER"))
                 .vehicle(vehicle)
                 .build();
 

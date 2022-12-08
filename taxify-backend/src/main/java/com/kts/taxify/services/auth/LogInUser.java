@@ -29,8 +29,8 @@ public class LogInUser {
 	private final GetUserByEmail getUserByEmail;
 
 	private final CustomProperties customProperties;
-	
-	public String execute(final String email, final String password) {
+
+	public AuthTokenResponse execute(final String email, final String password) {
 		final Authentication authentication;
 		try {
 			authentication = authenticationManager.authenticate(

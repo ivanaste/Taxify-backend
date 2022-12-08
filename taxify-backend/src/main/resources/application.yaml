@@ -8,6 +8,18 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+  mail:
+    host: smtp.gmail.com
+    username: milicftn@gmail.com
+    password: zpfomujclzozrrnr
+    port: "587"
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: "true"
+            required: "true"
+          auth: "true"
 custom:
   jwtSecret: superepiksecret
   clientUrl: http://localhost:4200
@@ -17,7 +29,8 @@ custom:
   createUserTokenExpirationMilliseconds: 2592000000
   messageSource: messages
   defaultLocale: en
+  senderEmail: taxify@gmail.com
 server:
   servlet:
     contextPath: /api
-  port: '8080'
+  port: "8080"
