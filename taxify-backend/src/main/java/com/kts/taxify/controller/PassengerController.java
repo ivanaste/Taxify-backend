@@ -33,12 +33,12 @@ public class PassengerController {
 
     @PostMapping("/facebook-signup")
     public AuthTokenResponse signupFacebook(@Valid @RequestBody final FacebookSignupRequest facebookSignUpRequest) {
-        return new AuthTokenResponse(signUpFacebook.execute(facebookSignUpRequest));
+        return signUpFacebook.execute(facebookSignUpRequest);
     }
 
     @PostMapping("/google-signup")
     public AuthTokenResponse signupGoogle(@Valid @RequestBody final GoogleSignupRequest googleSignupRequest) throws GeneralSecurityException, IOException {
-        return new AuthTokenResponse(signUpGoogle.execute(googleSignupRequest));
+        return signUpGoogle.execute(googleSignupRequest);
     }
 
     @PutMapping("/activateEmail/{token}")

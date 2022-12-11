@@ -3,6 +3,7 @@ package com.kts.taxify.services.auth;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.exception.InvalidGoogleAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class SignInGoogle {
     private final GoogleIdTokenVerifier verifier;
 
 
-    public String execute(String credentials) throws GeneralSecurityException, IOException {
+    public AuthTokenResponse execute(String credentials) throws GeneralSecurityException, IOException {
         try {
             GoogleIdToken idToken = verifier.verify(credentials);
             Payload payload = idToken.getPayload();

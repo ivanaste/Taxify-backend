@@ -2,6 +2,7 @@ package com.kts.taxify.services.passenger;
 
 import com.kts.taxify.dto.request.passenger.CreatePassengerRequest;
 import com.kts.taxify.dto.request.passenger.FacebookSignupRequest;
+import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.exception.UserAlreadyExistsException;
 import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.services.auth.LogInUser;
@@ -17,7 +18,7 @@ public class SignUpFacebook {
     private final UserExistsByEmail userExistsByEmail;
     private final CreatePassenger createPassenger;
 
-    public String execute(final FacebookSignupRequest facebookSignUpRequest) {
+    public AuthTokenResponse execute(final FacebookSignupRequest facebookSignUpRequest) {
         if (!userExistsByEmail.execute(facebookSignUpRequest.getEmail())) {
             CreatePassengerRequest passengerRequest = constructPassengerRequest(facebookSignUpRequest);
             createPassenger.execute(passengerRequest, AccountProvider.FACEBOOK);

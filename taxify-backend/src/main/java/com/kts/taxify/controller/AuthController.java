@@ -35,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/login-google/{credentials}")
     public AuthTokenResponse loginGoogle(@PathVariable("credentials") String credentials) throws GeneralSecurityException, IOException {
-        return new AuthTokenResponse(signInWithGoogle.execute(credentials));
+        return signInWithGoogle.execute(credentials);
     }
 
     @GetMapping("/user-exists/{email}")
