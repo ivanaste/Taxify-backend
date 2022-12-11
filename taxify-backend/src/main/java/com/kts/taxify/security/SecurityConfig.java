@@ -37,10 +37,9 @@ public class SecurityConfig {
                 .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
                 .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}", "/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}").permitAll()
                 .antMatchers("/password/request-change", "/password/change").permitAll()
-                .antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup").permitAll()
+                .antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup", "/passenger/activateEmail/{token}").permitAll()
                 .antMatchers("/**").authenticated()
-                .anyRequest().authenticated()
-        ;
+                .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
 

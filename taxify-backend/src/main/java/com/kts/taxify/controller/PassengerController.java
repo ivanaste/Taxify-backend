@@ -6,14 +6,12 @@ import com.kts.taxify.dto.request.passenger.GoogleSignupRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.AccountProvider;
+import com.kts.taxify.services.passenger.ActivateEmail;
 import com.kts.taxify.services.passenger.CreatePassenger;
 import com.kts.taxify.services.passenger.SignUpFacebook;
 import com.kts.taxify.services.passenger.SignUpGoogle;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -26,6 +24,7 @@ public class PassengerController {
     private final CreatePassenger createPassenger;
     private final SignUpFacebook signUpFacebook;
     private final SignUpGoogle signUpGoogle;
+    private final ActivateEmail activateEmail;
 
     @PostMapping("/create")
     public UserResponse createPassenger(@Valid @RequestBody final CreatePassengerRequest createPassengerRequest) {
@@ -40,5 +39,10 @@ public class PassengerController {
     @PostMapping("/google-signup")
     public AuthTokenResponse signupGoogle(@Valid @RequestBody final GoogleSignupRequest googleSignupRequest) throws GeneralSecurityException, IOException {
         return new AuthTokenResponse(signUpGoogle.execute(googleSignupRequest));
+    }
+
+    @PutMapping("/activateEmail/{token}")
+    public void activateEmail(@PathVariable("token") final String token) {
+        activateEmail.execute(token);
     }
 }

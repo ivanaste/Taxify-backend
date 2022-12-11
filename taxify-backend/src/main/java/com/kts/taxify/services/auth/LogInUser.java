@@ -1,10 +1,14 @@
 package com.kts.taxify.services.auth;
 
 import com.kts.taxify.configProperties.CustomProperties;
+import com.kts.taxify.exception.PassengerNotActiveException;
+import com.kts.taxify.model.Passenger;
+import com.kts.taxify.model.PassengerStatus;
+import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.model.User;
 import com.kts.taxify.services.jwt.JwtGenerateToken;
 import com.kts.taxify.services.user.GetUserByEmail;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,33 +17,40 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class LogInUser {
-    private final AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-    private final JwtGenerateToken jwtGenerateToken;
+	private final JwtGenerateToken jwtGenerateToken;
 
-    private final GetUserByEmail getUserByEmail;
+	private final GetUserByEmail getUserByEmail;
 
-    private final CustomProperties customProperties;
+	private final CustomProperties customProperties;
 
-    public String execute(final String email, final String password) {
-        final Authentication authentication;
-        try {
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, password)
-            );
-        } catch (final Exception e) {
-            throw new BadCredentialsException("Bad login credentials");
-        }
+	public AuthTokenResponse execute(final String email, final String password) {
+		final Authentication authentication;
+		try {
+			authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(email, password)
+			);
+		} catch (final Exception e) {
+			throw new BadCredentialsException("Bad login credentials");
+		}
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        final User user = getUserByEmail.execute(userDetails.getUsername());
-        
-        return jwtGenerateToken.execute(user.getEmail(), customProperties.getAuthTokenExpirationMilliseconds());
-    }
+		final User user = getUserByEmail.execute(userDetails.getUsername());
+
+		if (user.getRole().getName().equals("PASSENGER") && ((Passenger) user).getStatus().equals(PassengerStatus.PENDING)) {
+			throw new PassengerNotActiveException();
+		}
+
+		return new AuthTokenResponse(jwtGenerateToken.execute(user.getEmail(), customProperties.getAuthTokenExpirationMilliseconds()),
+			customProperties.getAuthTokenExpirationMilliseconds(), user.getRole().getName());
+	}
 }

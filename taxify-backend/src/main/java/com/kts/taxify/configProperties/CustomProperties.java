@@ -14,6 +14,7 @@ public class CustomProperties {
     private String defaultLocale;
     private String senderEmail;
     private String clientUrl;
-    private Long jwtForgotPasswordExpiration;
     private String googleClientId;
+    private Long jwtForgotPasswordTokenExpiration;
+    private Long jwtActivateEmailTokenExpiration;
 }

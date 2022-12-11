@@ -6,7 +6,6 @@ import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.auth.LogInUser;
 import com.kts.taxify.services.auth.SignInGoogle;
-import com.kts.taxify.services.auth.SignInWithFacebook;
 import com.kts.taxify.services.user.UserExistsByEmail;
 import com.kts.taxify.services.user.UserSignedWithGoogleExists;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +23,8 @@ public class AuthController {
     private final LogInUser loginUser;
     private final GetSelf getSelf;
     private final SignInGoogle signInWithGoogle;
-    private final SignInWithFacebook signInWithFacebook;
     private final UserExistsByEmail userExistsByEmail;
     private final UserSignedWithGoogleExists userSignedWithGoogleExists;
-
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/login")
-    public AuthTokenResponse login(@Valid @RequestBody final LoginRequest loginRequest) {
-        return new AuthTokenResponse(loginUser.execute(loginRequest.getEmail(), loginRequest.getPassword()));
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/self")
@@ -54,6 +46,12 @@ public class AuthController {
     @GetMapping("/user-signed-with-google-exists/{credentials}")
     public Boolean userSignedWithGoogleExists(@PathVariable("credentials") String credentials) throws GeneralSecurityException, IOException {
         return userSignedWithGoogleExists.execute(credentials);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/login")
+    public AuthTokenResponse login(@Valid @RequestBody final LoginRequest loginRequest) {
+        return loginUser.execute(loginRequest.getEmail(), loginRequest.getPassword());
     }
 
 }
