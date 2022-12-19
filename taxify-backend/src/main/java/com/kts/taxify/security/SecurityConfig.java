@@ -44,6 +44,9 @@ public class SecurityConfig {
                 .antMatchers("/vehicle/location").permitAll()
                 .antMatchers("/vehicle/allInArea").permitAll()
                 .antMatchers("/passenger/create").permitAll()
+                .antMatchers("/password/request-change").permitAll()
+                .antMatchers("/password/change").permitAll()
+
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 

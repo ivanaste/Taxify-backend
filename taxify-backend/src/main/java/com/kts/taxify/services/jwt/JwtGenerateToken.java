@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class JwtGenerateToken {
 	public String execute(final String email, final long expirationMilliseconds) {
 		return Jwts.builder()
 			.setSubject(email)
-			.setExpiration(new Date(System.currentTimeMillis() + expirationMilliseconds))
+			.setExpiration(new Date(new Date().getTime() + expirationMilliseconds))
 			.setIssuedAt(new Date())
 			.signWith(SignatureAlgorithm.HS512, customProperties.getJwtSecret().getBytes())
 			.compact();
