@@ -20,4 +20,9 @@ public class Location {
     @Column(name = "latitude", nullable = true)
     Double latitude;
 
+    public Double distanceTo(Location l) {
+        Double x = Math.pow(Math.abs(l.getLatitude() - latitude), 2);
+        Double y = Math.pow(Math.abs(l.getLongitude() - longitude), 2);
+        return Math.sqrt(x + y);
+    }
 }
