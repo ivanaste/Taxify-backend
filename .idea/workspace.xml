@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd5ce97b-11c5-4940-9b1d-a2b2dc069bd6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/exception/ExceptionKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/exception/ExceptionKeys.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +158,7 @@
       <workItem from="1671296220994" duration="624000" />
       <workItem from="1671361480646" duration="2424000" />
       <workItem from="1671448080057" duration="1498000" />
-      <workItem from="1671458704945" duration="44000" />
+      <workItem from="1671458704945" duration="815000" />
     </task>
     <servers />
   </component>
