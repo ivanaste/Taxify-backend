@@ -42,4 +42,13 @@ public class Vehicle extends BaseEntity {
     @Column(name = "pet_friendly", nullable = false)
     Boolean petFriendly;
 
+    public Boolean isInArea(final Double minLongitude,
+                            final Double maxLongitude,
+                            final Double minLatitude,
+                            final Double maxLatitude) {
+        final Double vehicleLongitude = location.getLongitude();
+        final Double vehicleLatitude = location.getLatitude();
+        return (minLongitude < vehicleLongitude && vehicleLongitude < maxLongitude) &&
+                (minLatitude < vehicleLatitude && vehicleLatitude < maxLatitude);
+    }
 }
