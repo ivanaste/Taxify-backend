@@ -39,10 +39,10 @@ public class SecurityConfig {
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/self").permitAll()
 
-                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/vehicles/**").permitAll()
                 .antMatchers("/parking/closest").permitAll()
                 .antMatchers("/vehicle/location").permitAll()
-                .antMatchers("/driver/allActiveInArea").permitAll()
+                .antMatchers("/vehicle/allInArea").permitAll()
                 .antMatchers("/passenger/create").permitAll()
                 .antMatchers("/password/request-change").permitAll()
                 .antMatchers("/password/change").permitAll()
