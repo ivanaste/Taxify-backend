@@ -80,11 +80,6 @@
             <artifactId>google-oauth-client</artifactId>
             <version>1.34.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.facebook4j</groupId>
-            <artifactId>facebook4j-core</artifactId>
-            <version>2.4.13</version>
-        </dependency>
     </dependencies>
 
     <build>
