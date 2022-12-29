@@ -24,7 +24,8 @@ public enum ExceptionKeys implements Translation {
     PASSWORD_MISMATCH("password_mismatch"),
 
     VEHICLE_NOT_FOUND("vehicle_not_found"),
-    NO_PARKING("no_parking");
+    NO_PARKING("no_parking"),
+    INVALID_GOOGLE_ACCOUNT("invalid_google_account");
 
     private final String code;
 

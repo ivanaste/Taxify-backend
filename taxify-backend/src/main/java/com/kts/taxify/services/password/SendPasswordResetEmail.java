@@ -33,7 +33,7 @@ public class SendPasswordResetEmail {
     }
 
     private String constructResetPasswordUrl(final User user) {
-        final String authToken = jwtGenerateToken.execute(user.getEmail(), customProperties.getJwtForgotPasswordExpiration());
+        final String authToken = jwtGenerateToken.execute(user.getEmail(), customProperties.getJwtForgotPasswordTokenExpiration());
         return customProperties.getClientUrl().concat(PASSWORD_RESET_PATH).concat(authToken);
     }
 }

@@ -1,6 +1,9 @@
 package com.kts.taxify.services.auth;
 
 import com.kts.taxify.configProperties.CustomProperties;
+import com.kts.taxify.exception.PassengerNotActiveException;
+import com.kts.taxify.model.Passenger;
+import com.kts.taxify.model.PassengerStatus;
 import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.model.User;
 import com.kts.taxify.services.jwt.JwtGenerateToken;
@@ -42,6 +45,10 @@ public class LogInUser {
 		final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		final User user = getUserByEmail.execute(userDetails.getUsername());
+
+		if (user.getRole().getName().equals("PASSENGER") && ((Passenger) user).getStatus().equals(PassengerStatus.PENDING)) {
+			throw new PassengerNotActiveException();
+		}
 
 		return new AuthTokenResponse(jwtGenerateToken.execute(user.getEmail(), customProperties.getAuthTokenExpirationMilliseconds()),
 			customProperties.getAuthTokenExpirationMilliseconds(), user.getRole().getName());

@@ -34,19 +34,18 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/api-docs/**").permitAll()
-                .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/self").permitAll()
-
                 .antMatchers("/vehicles/**").permitAll()
                 .antMatchers("/parking/closest").permitAll()
                 .antMatchers("/vehicle/location").permitAll()
                 .antMatchers("/vehicle/allInArea").permitAll()
-                .antMatchers("/passenger/create").permitAll()
-                .antMatchers("/password/request-change").permitAll()
-                .antMatchers("/password/change").permitAll()
-
+                .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+                .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
+                        "/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}")
+                .permitAll()
+                .antMatchers("/password/request-change", "/password/change").permitAll()
+                .antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup",
+                        "/passenger/activateEmail/{token}")
+                .permitAll()
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
@@ -73,7 +72,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -82,4 +82,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
