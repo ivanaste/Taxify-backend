@@ -1,11 +1,11 @@
 package com.kts.taxify.dto.response;
 
-import com.kts.taxify.model.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
@@ -13,25 +13,25 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehicleResponse {
+public class DriverResponse {
     @NotEmpty
     UUID id;
 
     @NotEmpty
-    private Boolean occupied;
+    String name;
 
     @NotEmpty
-    private Location location;
+    String surname;
 
     @NotEmpty
-    private String brand;
+    String phoneNumber;
+
+    @Email
+    @NotEmpty
+    String email;
+
+    String profilePicture;
 
     @NotEmpty
-    private String model;
-
-    @NotEmpty
-    private String horsePower;
-
-    @NotEmpty
-    private String type;
+    VehicleResponse vehicle;
 }
