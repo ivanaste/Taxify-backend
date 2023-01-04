@@ -5,6 +5,7 @@ import com.kts.taxify.model.Vehicle;
 import com.kts.taxify.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class GetVehicleById {
     private final VehicleRepository vehicleRepository;
 
+    @Transactional
     public Vehicle execute(final UUID id) {
         return vehicleRepository.findById(id).orElseThrow(VehicleNotFoundException::new);
     }
