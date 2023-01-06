@@ -1,8 +1,10 @@
 package com.kts.taxify.controller;
 
 import com.kts.taxify.dto.request.auth.LoginRequest;
+import com.kts.taxify.dto.request.auth.SelfChangeRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.dto.response.UserResponse;
+import com.kts.taxify.services.auth.ChangeSelf;
 import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.auth.LogInUser;
 import com.kts.taxify.services.auth.SignInGoogle;
@@ -22,6 +24,7 @@ import java.security.GeneralSecurityException;
 public class AuthController {
     private final LogInUser loginUser;
     private final GetSelf getSelf;
+    private final ChangeSelf changeSelf;
     private final SignInGoogle signInWithGoogle;
     private final UserExistsByEmail userExistsByEmail;
     private final UserSignedWithGoogleExists userSignedWithGoogleExists;
@@ -32,6 +35,10 @@ public class AuthController {
         return getSelf.execute();
     }
 
+    @PutMapping("/self")
+    public UserResponse changeSelf(@Valid @RequestBody final SelfChangeRequest selfChangeRequest) {
+        return changeSelf.execute(selfChangeRequest.getName(), selfChangeRequest.getSurname(), selfChangeRequest.getPhoneNumber(), selfChangeRequest.getCity());
+    }
 
     @PostMapping("/login-google/{credentials}")
     public AuthTokenResponse loginGoogle(@PathVariable("credentials") String credentials) throws GeneralSecurityException, IOException {

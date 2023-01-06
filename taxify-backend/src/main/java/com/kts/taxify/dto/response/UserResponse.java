@@ -7,12 +7,16 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse {
+    @NotEmpty
+    UUID id;
+
     @Email
     @NotEmpty
     String email;
@@ -22,4 +26,13 @@ public class UserResponse {
 
     @NotEmpty
     private String surname;
+
+    @NotEmpty
+    String city;
+
+    @NotEmpty
+    String phoneNumber;
+
+    @NotEmpty
+    String profilePicture;
 }
