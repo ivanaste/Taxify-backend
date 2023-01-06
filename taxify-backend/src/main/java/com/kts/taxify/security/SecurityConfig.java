@@ -46,6 +46,10 @@ public class SecurityConfig {
                 .antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup",
                         "/passenger/activateEmail/{token}")
                 .permitAll()
+
+                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/driver/allActiveInArea").permitAll()
+
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
