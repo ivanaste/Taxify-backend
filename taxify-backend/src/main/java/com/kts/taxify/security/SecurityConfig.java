@@ -34,10 +34,10 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/ws/**").permitAll()
+
                 .antMatchers("/parking/closest").permitAll()
                 .antMatchers("/vehicle/location").permitAll()
-                .antMatchers("/driver/allActiveInArea").permitAll()
+
                 .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
                 .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
                         "/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}")
@@ -47,6 +47,9 @@ public class SecurityConfig {
                         "/passenger/activateEmail/{token}")
                 .permitAll()
 
+                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/driver/allActiveInArea").permitAll()
+                
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
