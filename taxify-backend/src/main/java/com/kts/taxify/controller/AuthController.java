@@ -4,10 +4,7 @@ import com.kts.taxify.dto.request.auth.LoginRequest;
 import com.kts.taxify.dto.request.auth.SelfChangeRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.dto.response.UserResponse;
-import com.kts.taxify.services.auth.ChangeSelf;
-import com.kts.taxify.services.auth.GetSelf;
-import com.kts.taxify.services.auth.LogInUser;
-import com.kts.taxify.services.auth.SignInGoogle;
+import com.kts.taxify.services.auth.*;
 import com.kts.taxify.services.user.UserExistsByEmail;
 import com.kts.taxify.services.user.UserSignedWithGoogleExists;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +22,12 @@ public class AuthController {
     private final LogInUser loginUser;
     private final GetSelf getSelf;
     private final ChangeSelf changeSelf;
+    private final ChangeSelfProfilePicture changeSelfProfilePicture;
+    private final ChangeSelfPassword changeSelfPassword;
     private final SignInGoogle signInWithGoogle;
     private final UserExistsByEmail userExistsByEmail;
     private final UserSignedWithGoogleExists userSignedWithGoogleExists;
+    private final IsOldPasswordCorrect isOldPasswordCorrect;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/self")
@@ -38,6 +38,16 @@ public class AuthController {
     @PutMapping("/self")
     public UserResponse changeSelf(@Valid @RequestBody final SelfChangeRequest selfChangeRequest) {
         return changeSelf.execute(selfChangeRequest.getName(), selfChangeRequest.getSurname(), selfChangeRequest.getPhoneNumber(), selfChangeRequest.getCity());
+    }
+
+    @PutMapping("/self-picture")
+    public UserResponse changeSelfProfilePicture(@Valid @RequestParam final String profilePicture) {
+        return changeSelfProfilePicture.execute(profilePicture);
+    }
+
+    @PutMapping("/self-password")
+    public UserResponse changeSelfPassword(@Valid @RequestParam final String newPassword) {
+        return changeSelfPassword.execute(newPassword);
     }
 
     @PostMapping("/login-google/{credentials}")
@@ -59,6 +69,12 @@ public class AuthController {
     @PostMapping("/login")
     public AuthTokenResponse login(@Valid @RequestBody final LoginRequest loginRequest) {
         return loginUser.execute(loginRequest.getEmail(), loginRequest.getPassword());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/password-confirm")
+    public boolean login(@RequestParam final String oldPassword) {
+        return isOldPasswordCorrect.execute(oldPassword);
     }
 
 }

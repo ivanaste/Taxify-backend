@@ -20,6 +20,9 @@ spring:
             enable: "true"
             required: "true"
           auth: "true"
+  servlet:
+    multipart:
+      max-file-size: 10MB
 custom:
   jwtSecret: superepiksecret
   clientUrl: http://localhost:4200

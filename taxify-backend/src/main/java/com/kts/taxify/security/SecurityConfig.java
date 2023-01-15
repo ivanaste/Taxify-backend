@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
 
+                .antMatchers("/picture/**").permitAll()
                 .antMatchers("/parking/closest").permitAll()
                 .antMatchers("/vehicle/location").permitAll()
 
@@ -49,7 +50,7 @@ public class SecurityConfig {
 
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/driver/allActiveInArea").permitAll()
-                
+
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
