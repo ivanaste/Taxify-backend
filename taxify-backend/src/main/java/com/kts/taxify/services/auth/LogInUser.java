@@ -1,11 +1,12 @@
 package com.kts.taxify.services.auth;
 
 import com.kts.taxify.configProperties.CustomProperties;
+import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.exception.PassengerNotActiveException;
 import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.PassengerStatus;
-import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.model.User;
+import com.kts.taxify.services.driver.MakeDriverActive;
 import com.kts.taxify.services.jwt.JwtGenerateToken;
 import com.kts.taxify.services.user.GetUserByEmail;
 
@@ -30,6 +31,8 @@ public class LogInUser {
 
 	private final CustomProperties customProperties;
 
+	private final MakeDriverActive makeDriverActive;
+
 	public AuthTokenResponse execute(final String email, final String password) {
 		final Authentication authentication;
 		try {
@@ -48,6 +51,12 @@ public class LogInUser {
 
 		if (user.getRole().getName().equals("PASSENGER") && ((Passenger) user).getStatus().equals(PassengerStatus.PENDING)) {
 			throw new PassengerNotActiveException();
+		}
+
+		//da li je driver blokiran
+
+		if (user.getRole().getName().equals("DRIVER")) {
+			makeDriverActive.execute(user.getEmail());
 		}
 
 		return new AuthTokenResponse(jwtGenerateToken.execute(user.getEmail(), customProperties.getAuthTokenExpirationMilliseconds()),

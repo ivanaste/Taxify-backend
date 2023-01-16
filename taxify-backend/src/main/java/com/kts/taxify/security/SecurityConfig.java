@@ -2,7 +2,7 @@ package com.kts.taxify.security;
 
 import com.kts.taxify.exception.FilterChainExceptionHandler;
 import com.kts.taxify.filter.AuthTokenFilter;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,70 +19,74 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthTokenFilter authTokenFilter;
-    private final AuthEntryPointJwt authEntryPointJwt;
+	private final AuthTokenFilter authTokenFilter;
+	private final AuthEntryPointJwt authEntryPointJwt;
 
-    private final FilterChainExceptionHandler filterChainExceptionHandler;
+	private final FilterChainExceptionHandler filterChainExceptionHandler;
 
-    @Bean
-    public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
+	@Bean
+	public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
+			.exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+			.authorizeRequests()
 
-                .antMatchers("/parking/closest").permitAll()
-                .antMatchers("/vehicle/location").permitAll()
+			.antMatchers("/parking/closest").permitAll()
+			.antMatchers("/vehicle/location").permitAll()
 
-                .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
-                .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
-                        "/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}")
-                .permitAll()
-                .antMatchers("/password/request-change", "/password/change").permitAll()
-                .antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup",
-                        "/passenger/activateEmail/{token}")
-                .permitAll()
+			.antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+			.antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
+				"/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}")
+			.permitAll()
+			.antMatchers("/password/request-change", "/password/change").permitAll()
+			.antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup",
+				"/passenger/activateEmail/{token}")
+			.permitAll()
 
-                .antMatchers("/ws/**").permitAll()
-                .antMatchers("/driver/allActiveInArea").permitAll()
-                
-                .antMatchers("/**").authenticated()
-                .anyRequest().authenticated();
+			.antMatchers("/ws/**").permitAll()
+			.antMatchers("/driver/allActiveInArea").permitAll()
+			.antMatchers("driver/workedTime/*").permitAll()
+			.antMatchers("driver/changeActiveStatus/*").permitAll()
 
-        httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
+			.antMatchers("/**").authenticated()
+			.anyRequest().authenticated();
 
-        httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
 
-        return httpSecurity.build();
-    }
+		httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+		return httpSecurity.build();
+	}
 
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOriginPattern("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addAllowedOriginPattern("*");
+		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedMethod("*");
 
-        return corsConfigurationSource;
-    }
+		corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 
-    @Bean
-    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+		return corsConfigurationSource;
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+		throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }

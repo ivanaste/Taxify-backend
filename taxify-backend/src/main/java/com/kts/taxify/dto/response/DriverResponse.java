@@ -1,13 +1,14 @@
 package com.kts.taxify.dto.response;
 
+import java.util.UUID;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -29,6 +30,9 @@ public class DriverResponse {
     @Email
     @NotEmpty
     String email;
+
+    @NotEmpty
+    Boolean active;
 
     String profilePicture;
 
