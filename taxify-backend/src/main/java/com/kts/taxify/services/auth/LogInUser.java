@@ -7,6 +7,7 @@ import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.PassengerStatus;
 import com.kts.taxify.model.User;
 import com.kts.taxify.services.driver.MakeDriverActive;
+import com.kts.taxify.services.driverTimetable.GetDriverRemainingWorkTime;
 import com.kts.taxify.services.jwt.JwtGenerateToken;
 import com.kts.taxify.services.user.GetUserByEmail;
 
@@ -33,6 +34,8 @@ public class LogInUser {
 
 	private final MakeDriverActive makeDriverActive;
 
+	private final GetDriverRemainingWorkTime getDriverRemainingWorkTime;
+
 	public AuthTokenResponse execute(final String email, final String password) {
 		final Authentication authentication;
 		try {
@@ -55,7 +58,7 @@ public class LogInUser {
 
 		//da li je driver blokiran
 
-		if (user.getRole().getName().equals("DRIVER")) {
+		if (user.getRole().getName().equals("DRIVER") && getDriverRemainingWorkTime.execute(user.getEmail()) > 0) {
 			makeDriverActive.execute(user.getEmail());
 		}
 

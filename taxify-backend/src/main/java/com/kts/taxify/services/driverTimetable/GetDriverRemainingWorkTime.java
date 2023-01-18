@@ -12,13 +12,13 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class GetRemainingWorkTime {
-	private final GetDriverTimetablesToday getTimetablesToday;
+public class GetDriverRemainingWorkTime {
+	private final GetDriverTimetablesInPast24Hours getTimetablesInPast24Hours;
 
 	static final long ALLOWED_NUMBER_OF_WORKING_MINUTES = 480;
 
 	public long execute(String email) {
-		List<DriverTimetable> driverTimetables = getTimetablesToday.execute(email);
+		List<DriverTimetable> driverTimetables = getTimetablesInPast24Hours.execute(email);
 		long workedMinutes = 0;
 		for (DriverTimetable timetable : driverTimetables) {
 			if (timetable.getEndTime() == null) {

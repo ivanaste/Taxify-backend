@@ -10,7 +10,7 @@ import com.kts.taxify.services.driver.GetActiveDriversInArea;
 import com.kts.taxify.services.driver.GetDriverInfo;
 import com.kts.taxify.services.driver.MakeDriverActive;
 import com.kts.taxify.services.driver.MakeDriverInactive;
-import com.kts.taxify.services.driverTimetable.GetRemainingWorkTime;
+import com.kts.taxify.services.driverTimetable.GetDriverRemainingWorkTime;
 
 import java.util.Collection;
 
@@ -35,7 +35,7 @@ public class DriverController {
 
 	private final GetDriverInfo getDriverInfo;
 
-	private final GetRemainingWorkTime getRemainingWorkTime;
+	private final GetDriverRemainingWorkTime getRemainingWorkTime;
 
 	private final MakeDriverInactive makeDriverInactive;
 

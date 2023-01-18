@@ -15,27 +15,30 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DriverResponse {
-    @NotEmpty
-    UUID id;
+	@NotEmpty
+	UUID id;
 
-    @NotEmpty
-    String name;
+	@NotEmpty
+	String name;
 
-    @NotEmpty
-    String surname;
+	@NotEmpty
+	String surname;
 
-    @NotEmpty
-    String phoneNumber;
+	@NotEmpty
+	String phoneNumber;
 
-    @Email
-    @NotEmpty
-    String email;
+	@Email
+	@NotEmpty
+	String email;
 
-    @NotEmpty
-    Boolean active;
+	@NotEmpty
+	Boolean active;
 
-    String profilePicture;
+	@NotEmpty
+	Long remainingWorkTime;
 
-    @NotEmpty
-    VehicleResponse vehicle;
+	String profilePicture;
+
+	@NotEmpty
+	VehicleResponse vehicle;
 }
