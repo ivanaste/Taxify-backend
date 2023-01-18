@@ -8,6 +8,9 @@ VEHICLE_ID = ""
 START = []
 END = []
 
+"""
+locust -f vehicleMovementScripts/simulate_to_client.py --conf vehicleMovementScripts/locust.conf --data '{"id":"08a26db0-21f1-4641-b74c-4ea70a536494","start":{"longitude":19.837602745318073,"latitude":45.24064981289879},"end":{"longitude":19.84326,"latitude":45.24328}}'
+"""
 
 @events.init_command_line_parser.add_listener
 def _(parser):
@@ -37,6 +40,7 @@ class SimulateToClient(HttpUser):
         url += "&end="
         url += f"{END[0]},{END[1]}"
         response = self.client.get(url)
+        print(response)
         route = [START, *response.json()["features"][0]["geometry"]["coordinates"], END]
 
         for waypoint in route:

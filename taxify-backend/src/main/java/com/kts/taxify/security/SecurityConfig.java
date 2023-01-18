@@ -37,6 +37,7 @@ public class SecurityConfig {
 
                 .antMatchers("/parking/closest").permitAll()
                 .antMatchers("/vehicle/location").permitAll()
+                .antMatchers("/simulation/**").permitAll()
 
                 .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
                 .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
@@ -49,7 +50,7 @@ public class SecurityConfig {
 
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/driver/allActiveInArea").permitAll()
-                
+
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 
