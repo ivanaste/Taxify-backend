@@ -25,7 +25,8 @@ public enum ExceptionKeys implements Translation {
 
     VEHICLE_NOT_FOUND("vehicle_not_found"),
     NO_PARKING("no_parking"),
-    INVALID_GOOGLE_ACCOUNT("invalid_google_account");
+    INVALID_GOOGLE_ACCOUNT("invalid_google_account"),
+    ACCOUNT_NOT_LOCAL("account_not_local");
 
     private final String code;
 

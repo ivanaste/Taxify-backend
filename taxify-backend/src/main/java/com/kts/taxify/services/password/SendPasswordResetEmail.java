@@ -1,6 +1,8 @@
 package com.kts.taxify.services.password;
 
 import com.kts.taxify.configProperties.CustomProperties;
+import com.kts.taxify.exception.AccountNotLocalException;
+import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.model.EmailDetails;
 import com.kts.taxify.model.User;
 import com.kts.taxify.services.jwt.JwtGenerateToken;
@@ -25,6 +27,7 @@ public class SendPasswordResetEmail {
     @Transactional(readOnly = true)
     public String execute(final String email) {
         final User user = getUserByEmail.execute(email);
+        if (!user.getAccountProvider().equals(AccountProvider.LOCAL)) throw new AccountNotLocalException();
         //if (!Objects.equals(user.get, UserStatus.ACTIVE)) throw new UserNotActiveException();
         final String resetPasswordUrl = constructResetPasswordUrl(user);
         final EmailDetails emailDetails = new EmailDetails(email, toLocale(Codes.PASSWORD_RESET_LINK, new String[]{resetPasswordUrl}), toLocale(Codes.PASSWORD_RESET_EMAIL_SUBJECT));
