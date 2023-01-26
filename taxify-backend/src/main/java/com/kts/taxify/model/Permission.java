@@ -8,8 +8,13 @@ public enum Permission implements GrantedAuthority {
     GET_ALL_NOTIFICATIONS;
     //permission list
 
-    @Override
-    public String getAuthority() {
-        return name();
-    }
+	GET_DRIVER_INFO,
+
+	SET_DRIVER_INACTIVE;
+	//permission list
+
+	@Override
+	public String getAuthority() {
+		return name();
+	}
 }
