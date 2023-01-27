@@ -7,6 +7,7 @@ import com.kts.taxify.exception.UserAlreadyExistsException;
 import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.services.auth.LogInUser;
 import com.kts.taxify.services.user.UserExistsByEmail;
+import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class SignUpFacebook {
     private final UserExistsByEmail userExistsByEmail;
     private final CreatePassenger createPassenger;
 
-    public AuthTokenResponse execute(final FacebookSignupRequest facebookSignUpRequest) {
+    public AuthTokenResponse execute(final FacebookSignupRequest facebookSignUpRequest) throws StripeException {
         if (!userExistsByEmail.execute(facebookSignUpRequest.getEmail())) {
             CreatePassengerRequest passengerRequest = constructPassengerRequest(facebookSignUpRequest);
             createPassenger.execute(passengerRequest, AccountProvider.FACEBOOK);

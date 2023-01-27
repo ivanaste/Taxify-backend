@@ -12,6 +12,7 @@ import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.services.auth.LogInUser;
 import com.kts.taxify.services.user.UserExistsByEmail;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SignUpGoogle {
@@ -34,6 +36,7 @@ public class SignUpGoogle {
             Payload payload = idToken.getPayload();
             String email = payload.getEmail();
             String password = payload.getSubject();
+            log.info("Password: " + password);
             if (!userExistsByEmail.execute(email)) {
                 createPassenger.execute(constructPassengerRequest(payload, googleSignupRequest), AccountProvider.GOOGLE);
                 return logInUser.execute(email, password);

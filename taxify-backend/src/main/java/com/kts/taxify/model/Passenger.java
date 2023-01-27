@@ -29,6 +29,9 @@ public class Passenger extends User {
             inverseJoinColumns = @JoinColumn(name = "route_id"))
     Set<Route> favoriteRoutes;
 
-    @Column(name = "inRide", nullable = false)
+    @Column(name = "in_ride", nullable = false)
     boolean inRide;
+
+    @Column(name = "customer_id")
+    String customerId;
 }

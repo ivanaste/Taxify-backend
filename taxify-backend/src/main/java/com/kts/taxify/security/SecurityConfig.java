@@ -51,6 +51,8 @@ public class SecurityConfig {
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/driver/allActiveInArea").permitAll()
 
+                .antMatchers("/checkout/paypal/success").permitAll()
+
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
 

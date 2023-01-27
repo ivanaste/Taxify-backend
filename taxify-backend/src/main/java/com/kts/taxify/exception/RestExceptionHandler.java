@@ -1,5 +1,6 @@
 package com.kts.taxify.exception;
 
+import com.stripe.exception.StripeException;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +80,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiException(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<?> handeStripeException(StripeException e) {
+        return buildResponseEntity(new ApiException(e.getUserMessage(), HttpStatus.valueOf(e.getStatusCode())));
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

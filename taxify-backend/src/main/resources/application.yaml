@@ -34,6 +34,8 @@ custom:
   defaultLocale: en
   senderEmail: taxify@gmail.com
   googleClientId: '84188920859-ip1b5avhcc6qer7q99g97hgtusb8lur1.apps.googleusercontent.com'
+  stripeSecret: 'sk_test_51MRkdwDSxhX8YRHr3mkGtJ7VehBqLGWvVVadF9JIruoksnLsqZ7daUGM0rJhYOy8aUDihEcMeqBfIf1FxSx5kRWa00Qlcw681K'
+  stripePublic: 'pk_test_51MRkdwDSxhX8YRHrtGFwWm5fbBi6XzL7VKsnh15egMp8WBXvLmkM4Y0Qia1ixWM64ZMabCgBsVS0ot0TPGNgXnTg00enV3yuVb'
 server:
   servlet:
     contextPath: /api

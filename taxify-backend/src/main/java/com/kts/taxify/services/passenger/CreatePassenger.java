@@ -9,13 +9,17 @@ import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.model.EmailDetails;
 import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.PassengerStatus;
+import com.kts.taxify.services.checkout.CreateStripeCustomer;
 import com.kts.taxify.services.jwt.JwtGenerateToken;
 import com.kts.taxify.services.mail.SendMail;
 import com.kts.taxify.services.role.GetRoleByName;
 import com.kts.taxify.services.user.SaveUser;
 import com.kts.taxify.services.user.UserExistsByEmail;
 import com.kts.taxify.translations.Codes;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +29,7 @@ import java.util.Objects;
 import static com.kts.taxify.constants.LinkConstants.EMAIL_ACTIVATION_PATH;
 import static com.kts.taxify.translations.Translator.toLocale;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreatePassenger {
@@ -42,7 +47,9 @@ public class CreatePassenger {
 
     private final CustomProperties customProperties;
 
-    public UserResponse execute(@Valid final CreatePassengerRequest createPassengerRequest, AccountProvider accountProvider) {
+    private final CreateStripeCustomer createStripeCustomer;
+
+    public UserResponse execute(@Valid final CreatePassengerRequest createPassengerRequest, AccountProvider accountProvider) throws StripeException {
         if (userExistsByEmail.execute(createPassengerRequest.getEmail())) {
             throw new UserAlreadyExistsException();
         }
@@ -59,7 +66,7 @@ public class CreatePassenger {
                 .accountProvider(accountProvider)
                 .status(Objects.equals(accountProvider, AccountProvider.LOCAL) ? PassengerStatus.PENDING : PassengerStatus.ACTIVE)
                 .build();
-
+        log.info("Password hash: " + passenger.getPasswordHash());
         if (Objects.equals(accountProvider, AccountProvider.LOCAL)) {
             final String activateEmailUrl = constructActivateEmailUrl(passenger.getEmail());
             final EmailDetails emailDetails = new EmailDetails(passenger.getEmail(), toLocale(Codes.PASSENGER_SIGN_UP_ACTIVATION_EMAIL, new String[]{activateEmailUrl}),
@@ -67,6 +74,9 @@ public class CreatePassenger {
             sendMail.execute(emailDetails);
         }
 
+        Customer customer = createStripeCustomer.execute(passenger);
+        passenger.setCustomerId(customer.getId());
+        log.info(passenger.getCustomerId());
         return UserConverter.toUserResponse(saveUser.execute(passenger));
     }
 

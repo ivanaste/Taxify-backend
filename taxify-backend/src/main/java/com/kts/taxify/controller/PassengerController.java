@@ -10,6 +10,7 @@ import com.kts.taxify.services.passenger.ActivateEmail;
 import com.kts.taxify.services.passenger.CreatePassenger;
 import com.kts.taxify.services.passenger.SignUpFacebook;
 import com.kts.taxify.services.passenger.SignUpGoogle;
+import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +28,12 @@ public class PassengerController {
     private final ActivateEmail activateEmail;
 
     @PostMapping("/create")
-    public UserResponse createPassenger(@Valid @RequestBody final CreatePassengerRequest createPassengerRequest) {
+    public UserResponse createPassenger(@Valid @RequestBody final CreatePassengerRequest createPassengerRequest) throws StripeException {
         return createPassenger.execute(createPassengerRequest, AccountProvider.LOCAL);
     }
 
     @PostMapping("/facebook-signup")
-    public AuthTokenResponse signupFacebook(@Valid @RequestBody final FacebookSignupRequest facebookSignUpRequest) {
+    public AuthTokenResponse signupFacebook(@Valid @RequestBody final FacebookSignupRequest facebookSignUpRequest) throws StripeException {
         return signUpFacebook.execute(facebookSignUpRequest);
     }
 

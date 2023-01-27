@@ -17,4 +17,9 @@ public class CustomProperties {
     private String googleClientId;
     private Long jwtForgotPasswordTokenExpiration;
     private Long jwtActivateEmailTokenExpiration;
+    private String paypalBaseUrl;
+    private String paypalClientId;
+    private String paypalSecret;
+    private String stripeSecret;
+    private String stripePublic;
 }
