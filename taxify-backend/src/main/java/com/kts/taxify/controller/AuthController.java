@@ -13,7 +13,6 @@ import com.kts.taxify.services.user.UserExistsByEmail;
 import com.kts.taxify.services.user.UserSignedWithGoogleExists;
 import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collection;
 
-@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
