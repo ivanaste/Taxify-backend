@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface DriverRepository extends JpaRepository<Driver, UUID> {
     public List<Driver> findAllByCityAndActiveIsTrue(String city);
+
+    public List<Driver> findAllByActive(boolean active);
 }
