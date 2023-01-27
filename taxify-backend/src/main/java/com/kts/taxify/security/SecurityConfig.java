@@ -23,69 +23,69 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthTokenFilter authTokenFilter;
-    private final AuthEntryPointJwt authEntryPointJwt;
+	private final AuthTokenFilter authTokenFilter;
+	private final AuthEntryPointJwt authEntryPointJwt;
 
-    private final FilterChainExceptionHandler filterChainExceptionHandler;
+	private final FilterChainExceptionHandler filterChainExceptionHandler;
 
-    @Bean
-    public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
+	@Bean
+	public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
+				.exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.authorizeRequests()
 
-                .antMatchers("/picture/**").permitAll()
-                .antMatchers("/parking/closest").permitAll()
-                .antMatchers("/vehicle/location").permitAll()
+				.antMatchers("/picture/**").permitAll()
+				.antMatchers("/parking/closest").permitAll()
+				.antMatchers("/vehicle/location").permitAll()
 
-                .antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
-                .antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
-                        "/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}")
-                .permitAll()
-                .antMatchers("/password/request-change", "/password/change").permitAll()
-                .antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup",
-                        "/passenger/activateEmail/{token}")
-                .permitAll()
+				.antMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+				.antMatchers("/auth/login", "/auth/self", "/auth/login-google/{credentials}",
+						"/auth/user-exists/{email}", "/auth/user-signed-with-google-exists/{credentials}")
+				.permitAll()
+				.antMatchers("/password/request-change", "/password/change").permitAll()
+				.antMatchers("/passenger/create", "/passenger/google-signup", "/passenger/facebook-signup",
+						"/passenger/activateEmail/{token}")
+				.permitAll()
 
-                .antMatchers("/ws/**").permitAll()
-                .antMatchers("/driver/allActiveInArea").permitAll()
+				.antMatchers("/ws/**").permitAll()
+				.antMatchers("/driver/allActiveInArea").permitAll()
+				.antMatchers("driver/workedTime/*").permitAll()
+				.antMatchers("driver/changeActiveStatus/*").permitAll()
 
-                .antMatchers("/checkout/paypal/success").permitAll()
+				.antMatchers("/**").authenticated()
+				.anyRequest().authenticated();
 
-                .antMatchers("/**").authenticated()
-                .anyRequest().authenticated();
+		httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
 
-        httpSecurity.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
+		httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+		return httpSecurity.build();
+	}
 
-        return httpSecurity.build();
-    }
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addAllowedOriginPattern("*");
+		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedMethod("*");
 
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOriginPattern("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
+		corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 
-        corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+		return corsConfigurationSource;
+	}
 
-        return corsConfigurationSource;
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 
-    @Bean
-    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }
