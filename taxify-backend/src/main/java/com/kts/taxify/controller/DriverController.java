@@ -67,11 +67,13 @@ public class DriverController {
 	}
 
 	@PutMapping("/goOffline/{email}")
+	@HasAnyPermission({ Permission.SET_DRIVER_INACTIVE })
 	public DriverResponse makeDriverOffline(@PathVariable("email") String email) {
 		return makeDriverInactive.execute(email);
 	}
 
 	@PutMapping("/goOnline/{email}")
+	@HasAnyPermission({ Permission.SET_DRIVER_INACTIVE })
 	public DriverResponse makeDriverOnline(@PathVariable("email") String email) {
 		return makeDriverActive.execute(email);
 	}

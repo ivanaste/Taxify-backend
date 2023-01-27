@@ -50,4 +50,7 @@ public class Notification extends BaseEntity {
 
 	@Column(name = "read", nullable = false)
 	boolean read;
+
+	@Column(name = "status", columnDefinition = "varchar(32) default 'PENDING'")
+	NotificationStatus status = NotificationStatus.PENDING;
 }
