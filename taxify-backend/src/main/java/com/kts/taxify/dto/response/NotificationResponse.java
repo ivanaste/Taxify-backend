@@ -33,4 +33,7 @@ public class NotificationResponse {
 
 	@NotEmpty
 	boolean read;
+
+	@NotEmpty
+	String status;
 }

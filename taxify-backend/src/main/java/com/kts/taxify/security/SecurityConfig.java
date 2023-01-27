@@ -56,6 +56,8 @@ public class SecurityConfig {
 
 			//popravi
 			.antMatchers("/notification/*").permitAll()
+			.antMatchers("driver/workedTime/*").permitAll()
+
 			.antMatchers("/**").authenticated()
 			.anyRequest().authenticated();
 
