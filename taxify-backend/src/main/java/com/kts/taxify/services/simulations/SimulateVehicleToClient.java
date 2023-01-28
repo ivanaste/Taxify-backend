@@ -22,11 +22,12 @@ public class SimulateVehicleToClient {
 
 	@Transactional
 	public DriverResponse execute(Location clientLocation, Driver driver) throws IOException, InterruptedException {
-		Data data = new Data(driver.getVehicle().getId().toString(), driver.getVehicle().getLocation(), clientLocation);
-		String dataString = objectMapper.writeValueAsString(data);
-		Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data",
-			dataString).start();
-		int exitVal = p.waitFor();
+		 Data data = new Data(driver.getVehicle().getId().toString(), driver.getVehicle().getLocation(), clientLocation);
+        String dataStringMacOS = objectMapper.writeValueAsString(data);
+        String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
+        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
+        int exitVal = p.waitFor();
 		return DriverConverter.toDriverResponse(driver);
 	}
+
 }

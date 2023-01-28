@@ -14,8 +14,9 @@ public class SimulateRide {
 
 
     public boolean execute(RidingSimulationRequest ridingSimulationRequest) throws IOException, InterruptedException {
-        String dataString = objectMapper.writeValueAsString(ridingSimulationRequest);
-        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataString).start();
+        String dataStringMacOS = objectMapper.writeValueAsString(ridingSimulationRequest);
+        String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
+        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
         int exitVal = p.waitFor();
         return true;
     }
