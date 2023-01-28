@@ -22,8 +22,9 @@ public class SimulateVehicleToClient {
     public DriverResponse execute(Location clientLocation) throws IOException, InterruptedException {
         Driver driver = getClosestUnoccupiedDriver.execute("Novi Sad", clientLocation);
         Data data = new Data(driver.getVehicle().getId().toString(), driver.getVehicle().getLocation(), clientLocation);
-        String dataString = objectMapper.writeValueAsString(data);
-        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataString).start();
+        String dataStringMacOS = objectMapper.writeValueAsString(data);
+        String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
+        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data",dataStringWindowsOS).start();
         int exitVal = p.waitFor();
         return DriverConverter.toDriverResponse(driver);
     }
