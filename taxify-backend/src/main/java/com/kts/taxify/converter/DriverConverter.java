@@ -12,6 +12,7 @@ public class DriverConverter {
         DriverResponse driverResponse = modelMapper.map(driver, DriverResponse.class);
         final VehicleResponse vehicleResponse = VehicleConverter.toVehicleResponse(driver.getVehicle());
         driverResponse.setVehicle(vehicleResponse);
+        driverResponse.setRole(driver.getRole().getName());
         return driverResponse;
     }
 }

@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd5ce97b-11c5-4940-9b1d-a2b2dc069bd6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/passenger/CreatePassenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/passenger/CreatePassenger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/passenger/SavePassenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/passenger/SavePassenger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/passenger/SignUpGoogle.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/passenger/SignUpGoogle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/converter/DriverConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/converter/DriverConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/converter/UserConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/converter/UserConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/dto/response/DriverResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/dto/response/DriverResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/dto/response/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/dto/response/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Driver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Permission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/resources/import.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,6 +214,7 @@
       <workItem from="1674668696750" duration="9072000" />
       <workItem from="1674726034742" duration="22035000" />
       <workItem from="1674779005937" duration="174000" />
+      <workItem from="1674812673593" duration="13887000" />
     </task>
     <servers />
   </component>

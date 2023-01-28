@@ -14,30 +14,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DriverResponse {
-	@NotEmpty
-	UUID id;
-
-	@NotEmpty
-	String name;
-
-	@NotEmpty
-	String surname;
-
-	@NotEmpty
-	String phoneNumber;
-
-	@Email
-	@NotEmpty
-	String email;
+public class DriverResponse extends UserResponse {
 
 	@NotEmpty
 	Boolean active;
 
 	@NotEmpty
 	Long remainingWorkTime;
-
-	String profilePicture;
 
 	@NotEmpty
 	VehicleResponse vehicle;

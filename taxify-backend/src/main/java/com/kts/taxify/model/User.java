@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,6 +47,10 @@ public class User extends BaseEntity {
 
     @Column(name = "profile_picture")
     String profilePicture;
+
+    @Column(name = "blocked")
+    @Value("false")
+    boolean blocked;
 
     @Enumerated(EnumType.STRING)
     private AccountProvider accountProvider;

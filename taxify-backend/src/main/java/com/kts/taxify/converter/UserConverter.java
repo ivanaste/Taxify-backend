@@ -9,6 +9,8 @@ public class UserConverter {
 	private final static ModelMapper modelMapper = new ModelMapper();
 
 	public static UserResponse toUserResponse(final User user) {
-		return modelMapper.map(user, UserResponse.class);
+		UserResponse userResponse = modelMapper.map(user, UserResponse.class);
+		userResponse.setRole(user.getRole().getName());
+		return userResponse;
 	}
 }

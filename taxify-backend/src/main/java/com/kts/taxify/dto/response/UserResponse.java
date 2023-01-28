@@ -1,5 +1,6 @@
 package com.kts.taxify.dto.response;
 
+import com.kts.taxify.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,10 @@ public class UserResponse {
 
     @NotEmpty
     String profilePicture;
+
+    @NotEmpty
+    boolean blocked;
+
+    @NotEmpty
+    String role;
 }

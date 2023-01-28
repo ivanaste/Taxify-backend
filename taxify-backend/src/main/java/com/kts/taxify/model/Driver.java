@@ -26,10 +26,6 @@ public class Driver extends User {
     @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
     Set<Ride> ride;
 
-    @Column(name = "blocked")
-    @Value("false")
-    private boolean blocked;
-
     @Column(name = "active")
     private boolean active;
 }
