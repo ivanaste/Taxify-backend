@@ -29,6 +29,10 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "notification")
 public class Notification extends BaseEntity {
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ride_id")
+	Ride ride;
+
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	NotificationType type;

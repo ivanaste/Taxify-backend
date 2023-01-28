@@ -29,7 +29,10 @@ public enum ExceptionKeys implements Translation {
 	INVALID_GOOGLE_ACCOUNT("invalid_google_account"),
 	ACCOUNT_NOT_LOCAL("account_not_local"),
 
-	NOTIFICATION_NOT_FOUND("notification_not_found");
+	NOTIFICATION_NOT_FOUND("notification_not_found"),
+	RIDE_NOT_FOUND("ride_not_found"),
+
+	NO_ACTIVE_DRIVERS("no_active_drivers");
 
 	private final String code;
 

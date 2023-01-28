@@ -12,7 +12,9 @@ public enum Permission implements GrantedAuthority {
 
 	ANSWER_ON_ADDING_TO_THE_RIDE,
 
-	LINK_PASSENGERS_TO_THE_RIDE;
+	LINK_PASSENGERS_TO_THE_RIDE,
+
+	FIND_SUITABLE_DRIVER;
 	//permission list
 
 	@Override

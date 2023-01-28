@@ -6,25 +6,27 @@ import com.kts.taxify.dto.response.DriverResponse;
 import com.kts.taxify.model.Driver;
 import com.kts.taxify.model.Location;
 import com.kts.taxify.simulatorModel.Data;
-import lombok.RequiredArgsConstructor;
+
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class SimulateVehicleToClient {
-    private final ObjectMapper objectMapper;
-    private final GetClosestUnoccupiedDriver getClosestUnoccupiedDriver;
+	private final ObjectMapper objectMapper;
+	private final GetClosestUnoccupiedDriver getClosestUnoccupiedDriver;
 
-    @Transactional
-    public DriverResponse execute(Location clientLocation) throws IOException, InterruptedException {
-        Driver driver = getClosestUnoccupiedDriver.execute("Novi Sad", clientLocation);
-        Data data = new Data(driver.getVehicle().getId().toString(), driver.getVehicle().getLocation(), clientLocation);
-        String dataString = objectMapper.writeValueAsString(data);
-        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataString).start();
-        int exitVal = p.waitFor();
-        return DriverConverter.toDriverResponse(driver);
-    }
+	@Transactional
+	public DriverResponse execute(Location clientLocation, Driver driver) throws IOException, InterruptedException {
+		Data data = new Data(driver.getVehicle().getId().toString(), driver.getVehicle().getLocation(), clientLocation);
+		String dataString = objectMapper.writeValueAsString(data);
+		Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data",
+			dataString).start();
+		int exitVal = p.waitFor();
+		return DriverConverter.toDriverResponse(driver);
+	}
 }

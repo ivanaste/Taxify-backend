@@ -19,10 +19,14 @@ public class AcceptAddingToTheRide {
 
 	private final SaveNotification saveNotification;
 
+	private final CheckIfAllRideNotificationsAreAccepted checkIfAllRideNotificationsAreAccepted;
+
 	public NotificationResponse execute(UUID notificationId) {
 		Notification notification = getNotificationById.execute(notificationId);
 		notification.setStatus(NotificationStatus.ACCEPTED);
 		saveNotification.execute(notification);
+
+		checkIfAllRideNotificationsAreAccepted.execute(notification.getRide(), notification.getSender().getEmail());
 		return NotificationConverter.toNotificationResponse(notification);
 	}
 }

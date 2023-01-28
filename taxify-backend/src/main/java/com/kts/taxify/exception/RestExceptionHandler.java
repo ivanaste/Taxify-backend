@@ -60,7 +60,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		RoleNotFoundException.class,
 		UserNotFoundException.class,
 		VehicleNotFoundException.class,
-		NotificationNotFound.class
+		NotificationNotFound.class,
+		RideNotFoundException.class,
+		NoActiveDriversException.class
 	})
 	protected ResponseEntity<?> handleNotFoundExceptions(CustomRuntimeException ex) {
 		return buildResponseEntity(new ApiException(toLocale(ex.getKey()), HttpStatus.NOT_FOUND));

@@ -1,17 +1,20 @@
 package com.kts.taxify.controller;
 
 import com.kts.taxify.dto.request.driver.CreateDriverRequest;
+import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.dto.response.DriverResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.Permission;
 import com.kts.taxify.security.HasAnyPermission;
 import com.kts.taxify.services.driver.CreateDriver;
+import com.kts.taxify.services.driver.FindSuitableDriver;
 import com.kts.taxify.services.driver.GetActiveDriversInArea;
 import com.kts.taxify.services.driver.GetDriverInfo;
 import com.kts.taxify.services.driver.MakeDriverActive;
 import com.kts.taxify.services.driver.MakeDriverInactive;
 import com.kts.taxify.services.driverTimetable.GetDriverRemainingWorkTime;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +43,8 @@ public class DriverController {
 	private final MakeDriverInactive makeDriverInactive;
 
 	private final MakeDriverActive makeDriverActive;
+
+	private final FindSuitableDriver findSuitableDriver;
 
 	@PostMapping("/create")
 	@HasAnyPermission({ Permission.REGISTER_DRIVER })
@@ -76,5 +81,11 @@ public class DriverController {
 	@HasAnyPermission({ Permission.SET_DRIVER_INACTIVE })
 	public DriverResponse makeDriverOnline(@PathVariable("email") String email) {
 		return makeDriverActive.execute(email);
+	}
+
+	@PostMapping(value = "/suitableDriverForRide")
+	@HasAnyPermission({ Permission.FIND_SUITABLE_DRIVER })
+	public DriverResponse getSuitableDriverForRide(@RequestBody final RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException {
+		return findSuitableDriver.execute(requestedRideRequest);
 	}
 }
