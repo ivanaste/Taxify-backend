@@ -37,6 +37,8 @@ public class NotificationController {
 
 	private final RejectAddingToTheRide rejectAddingToTheRide;
 
+	@HasAnyPermission({ Permission.LINK_PASSENGERS_TO_THE_RIDE })
+
 	@PostMapping("/addToTheRide")
 	public void addPassengersToTheRide(@Valid @RequestBody final AddLinkedPassengersToTheRideRequest addLinkedPassengersToTheRideRequest) {
 		addLinkedPassengersToTheRide.execute(addLinkedPassengersToTheRideRequest);
