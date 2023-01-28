@@ -49,6 +49,6 @@ public class Passenger extends User {
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
 	Set<Notification> sentNotifications;
 
-	@ManyToMany(mappedBy = "recipients", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
 	Set<Notification> receivedNotifications;
 }

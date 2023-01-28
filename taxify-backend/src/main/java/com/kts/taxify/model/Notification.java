@@ -1,7 +1,6 @@
 package com.kts.taxify.model;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +8,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -40,10 +37,9 @@ public class Notification extends BaseEntity {
 	@JoinColumn(name = "sender_id")
 	Passenger sender;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "notification_recipient", joinColumns = @JoinColumn(name = "notification_id"),
-		inverseJoinColumns = @JoinColumn(name = "passenger_id"))
-	Set<Passenger> recipients;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "recipient_id")
+	Passenger recipient;
 
 	@Column(name = "arrivalTime")
 	LocalDateTime arrivalTime;

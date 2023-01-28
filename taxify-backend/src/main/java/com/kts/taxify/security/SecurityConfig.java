@@ -54,8 +54,6 @@ public class SecurityConfig {
 			.antMatchers("/ws/**").permitAll()
 			.antMatchers("/driver/allActiveInArea").permitAll()
 
-			//popravi
-			.antMatchers("/notification/*").permitAll()
 			.antMatchers("driver/workedTime/*").permitAll()
 
 			.antMatchers("/**").authenticated()
