@@ -1,6 +1,6 @@
 package com.kts.taxify.controller;
 
-import com.kts.taxify.dto.request.notification.AddLinkedPassengersToTheRideRequest;
+import com.kts.taxify.dto.request.notification.LinkedPassengersToTheRideRequest;
 import com.kts.taxify.dto.response.NotificationResponse;
 import com.kts.taxify.model.Permission;
 import com.kts.taxify.security.HasAnyPermission;
@@ -40,8 +40,8 @@ public class NotificationController {
 	@HasAnyPermission({ Permission.LINK_PASSENGERS_TO_THE_RIDE })
 
 	@PostMapping("/addToTheRide")
-	public void addPassengersToTheRide(@Valid @RequestBody final AddLinkedPassengersToTheRideRequest addLinkedPassengersToTheRideRequest) {
-		addLinkedPassengersToTheRide.execute(addLinkedPassengersToTheRideRequest);
+	public void addPassengersToTheRide(@Valid @RequestBody final LinkedPassengersToTheRideRequest linkedPassengersToTheRideRequest) {
+		addLinkedPassengersToTheRide.execute(linkedPassengersToTheRideRequest);
 	}
 
 	@HasAnyPermission({ Permission.GET_ALL_NOTIFICATIONS })

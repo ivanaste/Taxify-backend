@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 
 @lombok.Data
 @AllArgsConstructor
-public class Data {
+public class ToClientData {
     private String id;
     private Location start;
     private Location end;

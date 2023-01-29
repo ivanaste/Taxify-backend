@@ -23,14 +23,15 @@ public class NotifyRecipientsOfAddingToTheRide {
 
 	private final SaveNotification saveNotification;
 
+	private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
+
 	public void execute(Set<Passenger> recipients, Passenger sender, Ride ride) {
 		for (Passenger recipient : recipients) {
 			final Notification notification = Notification.builder().sender(sender).type(NotificationType.ADDED_TO_THE_RIDE).recipient(recipient)
 				.arrivalTime(LocalDateTime.now()).read(false).status(NotificationStatus.PENDING).ride(ride)
 				.build();
 			saveNotification.execute(notification);
-			simpMessagingTemplate.convertAndSend("/topic/passenger-notification/" + recipient.getEmail(),
-				NotificationType.ADDED_TO_THE_RIDE.toString());
+			notifyPassengerOfChangedRideState.execute(recipient.getEmail(), NotificationType.ADDED_TO_THE_RIDE);
 		}
 	}
 }
