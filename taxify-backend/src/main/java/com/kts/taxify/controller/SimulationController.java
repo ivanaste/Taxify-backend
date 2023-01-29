@@ -18,13 +18,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SimulationController {
 
-	private final SimulateVehicleToClient runVehicleToClientScript;
+	private final SimulateVehicleToClient simulateVehicleToClient;
 	private final SimulateRide simulateRide;
 
-	//    @PostMapping(value = "/to-client")
-	//    public DriverResponse simulateVehicleToClient(@RequestBody Location clientLocation) throws IOException, InterruptedException {
-	//        return runVehicleToClientScript.execute(clientLocation);
-	//    }
+	@PostMapping(value = "/to-client")
+	public void simulateVehicleToClient() throws IOException, InterruptedException {
+		simulateVehicleToClient.execute();
+	}
 
 	@PostMapping("/through-route")
 	public boolean moveVehicle(@RequestBody RidingSimulationRequest ridingSimulationRequest) throws IOException, InterruptedException {

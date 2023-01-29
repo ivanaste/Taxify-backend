@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class NotifyDriverOfActivityCheck {
+public class NotifyDriverOfAssignedRide {
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
 
-	public void execute() {
-		simpMessagingTemplate.convertAndSend("/topic/driver", "Remaining working hours check...");
+	public void execute(String driverEmail) {
+		simpMessagingTemplate.convertAndSend("/topic/driver/" + driverEmail, "A ride has been assigned to you...");
 	}
 }

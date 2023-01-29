@@ -3,6 +3,7 @@ package com.kts.taxify.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -54,7 +55,7 @@ public class Ride extends BaseEntity {
 	@Column(name = "rejection_reason")
 	String rejectionReason;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "route_id")
 	Route route;
 
