@@ -1,8 +1,8 @@
 package com.kts.taxify.services.ride;
 
-import com.kts.taxify.converter.RideConverter;
-import com.kts.taxify.dto.response.RideResponse;
-import com.kts.taxify.model.*;
+import com.kts.taxify.model.Driver;
+import com.kts.taxify.model.Ride;
+import com.kts.taxify.model.RideStatus;
 import com.kts.taxify.repository.RideRepository;
 import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.user.GetUserByEmail;
@@ -21,6 +21,6 @@ public class GetDriverAssignedRide {
     @Transactional
     public Ride execute() {
         Driver driver = (Driver) getUserByEmail.execute(getSelf.execute().getEmail());
-        return rideRepository.getRideByDriverAndStatus(driver, RideStatus.ACCEPTED);
+        return rideRepository.getRideByDriverAndStatusOrStatusOrStatus(driver, RideStatus.ACCEPTED, RideStatus.ARRIVED, RideStatus.STARTED);
     }
 }

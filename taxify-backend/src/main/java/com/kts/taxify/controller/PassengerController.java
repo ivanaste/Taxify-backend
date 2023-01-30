@@ -1,15 +1,15 @@
 package com.kts.taxify.controller;
 
+import com.kts.taxify.dto.request.passenger.CreateComplaintRequest;
 import com.kts.taxify.dto.request.passenger.CreatePassengerRequest;
 import com.kts.taxify.dto.request.passenger.FacebookSignupRequest;
 import com.kts.taxify.dto.request.passenger.GoogleSignupRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.AccountProvider;
-import com.kts.taxify.services.passenger.ActivateEmail;
-import com.kts.taxify.services.passenger.CreatePassenger;
-import com.kts.taxify.services.passenger.SignUpFacebook;
-import com.kts.taxify.services.passenger.SignUpGoogle;
+import com.kts.taxify.model.Permission;
+import com.kts.taxify.security.HasAnyPermission;
+import com.kts.taxify.services.passenger.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +25,8 @@ public class PassengerController {
     private final SignUpFacebook signUpFacebook;
     private final SignUpGoogle signUpGoogle;
     private final ActivateEmail activateEmail;
+
+    private final LeaveComplaint leaveComplaint;
 
     @PostMapping("/create")
     public UserResponse createPassenger(@Valid @RequestBody final CreatePassengerRequest createPassengerRequest) {
@@ -44,5 +46,11 @@ public class PassengerController {
     @PutMapping("/activateEmail/{token}")
     public void activateEmail(@PathVariable("token") final String token) {
         activateEmail.execute(token);
+    }
+
+    @PostMapping("/complaint")
+    @HasAnyPermission({Permission.LEAVE_COMPLAINT})
+    public void leaveComplaint(@RequestBody CreateComplaintRequest createComplaintRequest) {
+        leaveComplaint.execute(createComplaintRequest.getComplaintReason());
     }
 }

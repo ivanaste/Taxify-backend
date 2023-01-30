@@ -3,28 +3,31 @@ package com.kts.taxify.model;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Permission implements GrantedAuthority {
-	REGISTER_DRIVER,
+    REGISTER_DRIVER,
 
-	GET_ALL_NOTIFICATIONS,
-	GET_DRIVER_INFO,
+    GET_ALL_NOTIFICATIONS,
+    GET_DRIVER_INFO,
 
-	SET_DRIVER_INACTIVE,
+    SET_DRIVER_INACTIVE,
 
-	ANSWER_ON_ADDING_TO_THE_RIDE,
+    ANSWER_ON_ADDING_TO_THE_RIDE,
 
-	LINK_PASSENGERS_TO_THE_RIDE,
+    LINK_PASSENGERS_TO_THE_RIDE,
 
-	FIND_SUITABLE_DRIVER,
+    FIND_SUITABLE_DRIVER,
 
-	GET_ASSIGNED_RIDE,
+    GET_ASSIGNED_RIDE,
 
-	FINISH_RIDE,
+    FINISH_RIDE,
 
-	VEHICLE_ARRIVED;
-	//permission list
+    VEHICLE_ARRIVED,
 
-	@Override
-	public String getAuthority() {
-		return name();
-	}
+    REJECT_RIDE,
+
+    LEAVE_COMPLAINT;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

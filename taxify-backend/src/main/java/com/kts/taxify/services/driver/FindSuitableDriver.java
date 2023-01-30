@@ -11,9 +11,8 @@ import com.kts.taxify.services.simulations.GetClosestUnoccupiedDriver;
 
 import java.io.IOException;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
