@@ -2,8 +2,11 @@ package com.kts.taxify.controller;
 
 import com.kts.taxify.dto.request.notification.LinkedPassengersToTheRideRequest;
 import com.kts.taxify.dto.response.NotificationResponse;
+import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.model.Permission;
+import com.kts.taxify.model.RideStatus;
 import com.kts.taxify.security.HasAnyPermission;
+import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.notification.AcceptAddingToTheRide;
 import com.kts.taxify.services.notification.AddLinkedPassengersToTheRide;
 import com.kts.taxify.services.notification.GetPassengerNotifications;
@@ -14,6 +17,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +40,8 @@ public class NotificationController {
 	private final AcceptAddingToTheRide acceptAddingToTheRide;
 
 	private final RejectAddingToTheRide rejectAddingToTheRide;
+
+	private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
 
 	@HasAnyPermission({ Permission.LINK_PASSENGERS_TO_THE_RIDE })
 
@@ -60,5 +66,11 @@ public class NotificationController {
 	@PutMapping("/rejectAddingToTheRide/{notificationId}")
 	public NotificationResponse rejectAddingToTheRide(@PathVariable("notificationId") final UUID notificationId) {
 		return rejectAddingToTheRide.execute(notificationId);
+	}
+
+	@PutMapping("/vehicleArrivedToClient/{clientEmail}")
+	@HasAnyPermission({ Permission.VEHICLE_ARRIVED })
+	public void notifyOfArrivingToClient(@PathVariable("clientEmail") String clientEmail) {
+		notifyPassengerOfChangedRideState.execute(clientEmail, NotificationType.VEHICLE_ARRIVED);
 	}
 }

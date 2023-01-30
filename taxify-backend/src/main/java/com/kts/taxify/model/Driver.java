@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.AccessLevel;
@@ -35,6 +36,7 @@ public class Driver extends User {
 	@OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
 	Set<DriverTimetable> timetables;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
 	Set<Ride> rides;
 

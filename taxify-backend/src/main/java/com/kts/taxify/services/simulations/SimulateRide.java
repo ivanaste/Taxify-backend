@@ -2,6 +2,7 @@ package com.kts.taxify.services.simulations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kts.taxify.model.Driver;
+import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.model.Ride;
 import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
@@ -31,7 +32,7 @@ public class SimulateRide {
     public boolean execute(UUID assignedRideId) throws IOException, InterruptedException {
         Driver driver = (Driver) getUserByEmail.execute(getSelf.execute().getEmail());
         Ride ride = getRideById.execute(assignedRideId);
-        //notifyPassengerOfChangedRideState.execute(ride.getPassengers().stream().findFirst().get().getEmail(), NotificationType.RIDE_STARTED);
+        notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_STARTED);
         FromClientToDestinationData data = new FromClientToDestinationData(driver.getVehicle().getId().toString(), ride.getRoute().getWaypoints());
         String dataStringMacOS = objectMapper.writeValueAsString(data);
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");

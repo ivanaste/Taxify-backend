@@ -24,11 +24,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SimulateVehicleToClient {
 	private final ObjectMapper objectMapper;
-	private final GetClosestUnoccupiedDriver getClosestUnoccupiedDriver;
-	private final GetSelf getSelf;
-
-	private final GetUserByEmail getUserByEmail;
-
 	private final GetDriverAssignedRide getDriverAssignedRide;
 
 	@Transactional

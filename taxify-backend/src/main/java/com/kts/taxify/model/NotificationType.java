@@ -6,4 +6,5 @@ public enum NotificationType {
 	VEHICLE_ARRIVED,
 	RIDE_STARTED,
 	SCHEDULED_RIDE,
+	RIDE_FINISHED
 }

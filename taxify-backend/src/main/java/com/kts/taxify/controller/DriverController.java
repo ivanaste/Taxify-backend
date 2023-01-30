@@ -18,7 +18,9 @@ import com.kts.taxify.services.driverTimetable.GetDriverRemainingWorkTime;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.UUID;
 
+import com.kts.taxify.services.ride.FinishRide;
 import com.kts.taxify.services.ride.GetDriverAssignedRide;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +52,8 @@ public class DriverController {
 	private final FindSuitableDriver findSuitableDriver;
 
 	private final GetDriverAssignedRide getDriverAssignedRide;
+
+	private final FinishRide finishRide;
 
 	@PostMapping("/create")
 	@HasAnyPermission({ Permission.REGISTER_DRIVER })
@@ -99,4 +103,11 @@ public class DriverController {
 	public RideResponse getAssignedRide() {
 		return RideConverter.toRideResponse(getDriverAssignedRide.execute());
 	}
+
+	@PutMapping("/finishRide/{assignedRideId}")
+	@HasAnyPermission({ Permission.FINISH_RIDE })
+	public void finishRide(@PathVariable("assignedRideId") UUID assignedRideId) {
+		finishRide.execute(assignedRideId);
+	}
+
 }

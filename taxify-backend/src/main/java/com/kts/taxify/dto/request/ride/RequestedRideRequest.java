@@ -1,5 +1,6 @@
 package com.kts.taxify.dto.request.ride;
 
+import com.kts.taxify.dto.request.notification.LinkedPassengersToTheRideRequest;
 import com.kts.taxify.model.Location;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public class RequestedRideRequest {
 	boolean petFriendly;
 
 	boolean babyFriendly;
+
+	LinkedPassengersToTheRideRequest passengers;
 }

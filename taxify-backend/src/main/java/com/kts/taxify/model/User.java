@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,4 +50,7 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private AccountProvider accountProvider;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    Set<Notification> sentNotifications;
 }

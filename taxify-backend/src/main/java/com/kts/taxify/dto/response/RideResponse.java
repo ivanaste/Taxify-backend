@@ -16,4 +16,6 @@ public class RideResponse {
 
     @NotEmpty
     UUID id;
+
+    String sender;
 }
