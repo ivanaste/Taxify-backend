@@ -2,9 +2,11 @@ package com.kts.taxify.controller;
 
 import com.kts.taxify.dto.request.message.ChangeMessagesStatusesRequest;
 import com.kts.taxify.dto.request.message.MessageCreationRequest;
-import com.kts.taxify.model.Message;
+import com.kts.taxify.dto.response.ChatResponse;
+import com.kts.taxify.dto.response.MessageResponse;
 import com.kts.taxify.services.message.ChangeMessagesStatuses;
 import com.kts.taxify.services.message.CreateMessage;
+import com.kts.taxify.services.message.GetAllChats;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +17,22 @@ import java.util.Collection;
 @RequiredArgsConstructor
 @RequestMapping("/message")
 public class MessageController {
+    private final GetAllChats getAllChats;
     private final CreateMessage createMessage;
     private final ChangeMessagesStatuses changeMessagesStatuses;
 
+    @GetMapping("/all")
+    public Collection<ChatResponse> getAllChats() {
+        return getAllChats.execute();
+    }
+
     @PostMapping("/send")
-    public Message sendMessage(@Valid @RequestBody final MessageCreationRequest messageCreationRequest) {
+    public MessageResponse sendMessage(@Valid @RequestBody final MessageCreationRequest messageCreationRequest) {
         return createMessage.execute(messageCreationRequest);
     }
 
     @PutMapping("/status")
-    public Collection<Message> changeMessagesStatuses(@Valid @RequestBody final ChangeMessagesStatusesRequest changeMessagesStatusesRequest) {
+    public Collection<MessageResponse> changeMessagesStatuses(@Valid @RequestBody final ChangeMessagesStatusesRequest changeMessagesStatusesRequest) {
         return changeMessagesStatuses.execute(changeMessagesStatusesRequest);
     }
 }

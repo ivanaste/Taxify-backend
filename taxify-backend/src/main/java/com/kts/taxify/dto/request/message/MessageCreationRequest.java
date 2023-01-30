@@ -13,9 +13,6 @@ import javax.validation.constraints.NotEmpty;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MessageCreationRequest {
     @NotEmpty
-    @Email
-    String senderEmail;
-    @NotEmpty
     String content;
     @Email
     String receiverEmail;

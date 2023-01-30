@@ -1,9 +1,12 @@
 package com.kts.taxify.services.message;
 
+import com.kts.taxify.converter.MessageConverter;
 import com.kts.taxify.dto.request.message.MessageCreationRequest;
+import com.kts.taxify.dto.response.MessageResponse;
 import com.kts.taxify.model.Message;
 import com.kts.taxify.model.MessageStatus;
 import com.kts.taxify.model.User;
+import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.user.GetUserByEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,14 +14,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CreateMessage {
+    private final GetSelf getSelf;
+    private final SendMessage sendMessage;
     private final GetUserByEmail getUserByEmail;
     private final AddMessageToSender addMessageToSender;
     private final AddMessageToReceiver addMessageToReceiver;
     private final ChangeMessageStatus changeMessageStatus;
     private final SetRepliedStatusToReceiversSeenMessages setRepliedStatusToReceiversSeenMessages;
 
-    public Message execute(final MessageCreationRequest messageCreationRequest) {
-        User sender = getUserByEmail.execute(messageCreationRequest.getSenderEmail());
+    public MessageResponse execute(final MessageCreationRequest messageCreationRequest) {
+        User sender = getUserByEmail.execute(getSelf.execute().getEmail());
         User receiver = messageCreationRequest.getReceiverEmail() != null ? getUserByEmail.execute(messageCreationRequest.getReceiverEmail()) : null;
         Message message = Message.builder()
                 .content(messageCreationRequest.getContent())
@@ -33,6 +38,7 @@ public class CreateMessage {
         if (receiver != null) {
             addMessageToReceiver.execute(receiver, message);
         }
-        return message;
+        sendMessage.execute(receiver != null ? receiver.getEmail() : null, message.getSender().getId().toString());
+        return MessageConverter.toMessageResponse(message);
     }
 }
