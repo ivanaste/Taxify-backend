@@ -1,8 +1,10 @@
 package com.kts.taxify.controller;
 
+import com.kts.taxify.converter.RideConverter;
 import com.kts.taxify.dto.request.driver.CreateDriverRequest;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.dto.response.DriverResponse;
+import com.kts.taxify.dto.response.RideResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.Permission;
 import com.kts.taxify.security.HasAnyPermission;
@@ -16,7 +18,10 @@ import com.kts.taxify.services.driverTimetable.GetDriverRemainingWorkTime;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.UUID;
 
+import com.kts.taxify.services.ride.FinishRide;
+import com.kts.taxify.services.ride.GetDriverAssignedRide;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +50,10 @@ public class DriverController {
 	private final MakeDriverActive makeDriverActive;
 
 	private final FindSuitableDriver findSuitableDriver;
+
+	private final GetDriverAssignedRide getDriverAssignedRide;
+
+	private final FinishRide finishRide;
 
 	@PostMapping("/create")
 	@HasAnyPermission({ Permission.REGISTER_DRIVER })
@@ -88,4 +97,17 @@ public class DriverController {
 	public DriverResponse getSuitableDriverForRide(@RequestBody final RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException {
 		return findSuitableDriver.execute(requestedRideRequest);
 	}
+
+	@GetMapping(value = "/assignedRide")
+	@HasAnyPermission({ Permission.GET_ASSIGNED_RIDE })
+	public RideResponse getAssignedRide() {
+		return RideConverter.toRideResponse(getDriverAssignedRide.execute());
+	}
+
+	@PutMapping("/finishRide/{assignedRideId}")
+	@HasAnyPermission({ Permission.FINISH_RIDE })
+	public void finishRide(@PathVariable("assignedRideId") UUID assignedRideId) {
+		finishRide.execute(assignedRideId);
+	}
+
 }

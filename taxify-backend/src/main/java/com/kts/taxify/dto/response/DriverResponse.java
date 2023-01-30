@@ -41,4 +41,7 @@ public class DriverResponse {
 
 	@NotEmpty
 	VehicleResponse vehicle;
+
+	RideResponse ride;
+
 }

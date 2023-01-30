@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class AddLinkedPassengersToTheRideRequest {
+public class LinkedPassengersToTheRideRequest {
 	String senderEmail;
 
 	Set<String> recipientsEmails;

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,13 +35,17 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "ride")
 public class Ride extends BaseEntity {
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "driver_id")
+	@JsonBackReference
 	Driver driver;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "ride_passenger", joinColumns = @JoinColumn(name = "ride_id"),
 		inverseJoinColumns = @JoinColumn(name = "passenger_id"))
 	Set<Passenger> passengers;
+
+	@Column(name = "sender", nullable = false)
+	String sender;
 
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)

@@ -46,9 +46,6 @@ public class Passenger extends User {
 	@Column(name = "inRide", nullable = false)
 	boolean inRide;
 
-	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
-	Set<Notification> sentNotifications;
-
 	@OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
 	Set<Notification> receivedNotifications;
 }

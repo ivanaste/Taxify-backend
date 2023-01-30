@@ -22,7 +22,7 @@ spring:
           auth: "true"
 custom:
   jwtSecret: superepiksecret
-  clientUrl: http://localhost:4200
+  clientUrl: https://localhost:4200
   authTokenExpirationMilliseconds: 604800000 #7 days
   jwtForgotPasswordTokenExpiration: 3600000
   jwtActivateEmailTokenExpiration: 3600000
@@ -35,3 +35,8 @@ server:
   servlet:
     contextPath: /api
   port: "8080"
+  ssl:
+    key-store: keystore.p12
+    key-store-password: Micomilic123!
+    keyStoreType: PKCS12
+    keyAlias: tomcat

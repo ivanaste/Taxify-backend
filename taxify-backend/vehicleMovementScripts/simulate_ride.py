@@ -24,7 +24,7 @@ def _(environment, **kw):
     VEHICLE_ID = data["id"]
     FOLLOW_ROUTE = data["follow"]
     for waypoint in data["waypoints"]:
-        coordinates = [waypoint["longitude"], waypoint["latitude"], waypoint["stop"]]
+        coordinates = [waypoint["location"]["longitude"], waypoint["location"]["latitude"], waypoint["stop"]]
         ROUTE.append(coordinates)
 
 
@@ -67,5 +67,5 @@ class SimulateRide(HttpUser):
             }
             self.client.put("/vehicle/location", json=request_body)
             print(location)
-            time.sleep(2)
+            time.sleep(1)
         self.environment.runner.quit()

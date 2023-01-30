@@ -1,15 +1,12 @@
 package com.kts.taxify.controller;
 
-import com.kts.taxify.dto.request.simulation.RidingSimulationRequest;
 import com.kts.taxify.services.simulations.SimulateRide;
 import com.kts.taxify.services.simulations.SimulateVehicleToClient;
 
 import java.io.IOException;
+import java.util.UUID;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +23,8 @@ public class SimulationController {
 		simulateVehicleToClient.execute();
 	}
 
-	@PostMapping("/through-route")
-	public boolean moveVehicle(@RequestBody RidingSimulationRequest ridingSimulationRequest) throws IOException, InterruptedException {
-		return simulateRide.execute(ridingSimulationRequest);
+	@PostMapping("/through-route/{assignedRideId}")
+	public boolean moveVehicle(@PathVariable("assignedRideId") UUID assignedRideId) throws IOException, InterruptedException {
+		return simulateRide.execute(assignedRideId);
 	}
 }
