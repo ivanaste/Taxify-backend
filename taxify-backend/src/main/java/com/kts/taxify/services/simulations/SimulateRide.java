@@ -36,7 +36,7 @@ public class SimulateRide {
         FromClientToDestinationData data = new FromClientToDestinationData(driver.getVehicle().getId().toString(), ride.getRoute().getWaypoints());
         String dataStringMacOS = objectMapper.writeValueAsString(data);
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
-        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
+        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringMacOS).start();
         int exitVal = p.waitFor();
         return true;
     }
