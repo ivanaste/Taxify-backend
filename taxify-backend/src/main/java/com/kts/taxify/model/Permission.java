@@ -10,8 +10,21 @@ public enum Permission implements GrantedAuthority {
     SET_PAYMENT_METHODS,
 
     GET_DRIVER_INFO,
+    GET_ALL_NOTIFICATIONS,
 
-    SET_DRIVER_INACTIVE;
+    SET_DRIVER_INACTIVE,
+
+    ANSWER_ON_ADDING_TO_THE_RIDE,
+
+    LINK_PASSENGERS_TO_THE_RIDE,
+
+    FIND_SUITABLE_DRIVER,
+
+    GET_ASSIGNED_RIDE,
+
+    FINISH_RIDE,
+
+    VEHICLE_ARRIVED;
     //permission list
 
     @Override

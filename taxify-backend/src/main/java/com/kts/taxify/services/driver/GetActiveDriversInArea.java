@@ -22,12 +22,10 @@ public class GetActiveDriversInArea {
                                               final Double minLatitude,
                                               final Double maxLatitude) {
         Set<DriverResponse> driversInArea = new HashSet<>();
-        driverRepository.findAll().forEach(driver -> {
-            if (driver.isActive()) {
-                final Vehicle vehicle = driver.getVehicle();
-                if (vehicle.isInArea(minLongitude, maxLongitude, minLatitude, maxLatitude)) {
-                    driversInArea.add(DriverConverter.toDriverResponse(driver));
-                }
+        driverRepository.findAllByActive(true).forEach(driver -> {
+            final Vehicle vehicle = driver.getVehicle();
+            if (vehicle.isInArea(minLongitude, maxLongitude, minLatitude, maxLatitude)) {
+                driversInArea.add(DriverConverter.toDriverResponse(driver));
             }
         });
         return driversInArea;

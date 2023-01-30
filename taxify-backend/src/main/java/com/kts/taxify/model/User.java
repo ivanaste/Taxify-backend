@@ -58,4 +58,7 @@ public class User extends BaseEntity {
     @Column(name = "sent_messages")
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     Set<Message> sentMessages;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    Set<Notification> sentNotifications;
 }
