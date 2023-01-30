@@ -67,5 +67,5 @@ class SimulateRide(HttpUser):
             }
             self.client.put("/vehicle/location", json=request_body)
             print(location)
-            time.sleep(0.3)
+            time.sleep(1)
         self.environment.runner.quit()

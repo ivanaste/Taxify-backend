@@ -52,5 +52,5 @@ class SimulateToClient(HttpUser):
                 "location": location
             }
             self.client.put("/vehicle/location", json=request_body)
-            time.sleep(2)
+            time.sleep(1)
         self.environment.runner.quit()
