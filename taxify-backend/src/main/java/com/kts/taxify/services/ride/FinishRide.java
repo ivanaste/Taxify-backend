@@ -24,6 +24,6 @@ public class FinishRide {
         ride.setStatus(RideStatus.FINISHED);
         ride.getDriver().getVehicle().setOccupied(false);
         saveRide.execute(ride);
-        notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_FINISHED);
+        notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_FINISHED_PASSENGER);
     }
 }

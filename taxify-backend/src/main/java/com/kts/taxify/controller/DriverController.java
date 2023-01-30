@@ -5,6 +5,7 @@ import com.kts.taxify.dto.request.driver.CreateDriverRequest;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.dto.response.DriverResponse;
 import com.kts.taxify.dto.response.RideResponse;
+import com.kts.taxify.dto.response.RideRouteResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.Permission;
 import com.kts.taxify.security.HasAnyPermission;

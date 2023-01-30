@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kts.taxify.model.Driver;
 import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.model.Ride;
+import com.kts.taxify.model.RideStatus;
+import com.kts.taxify.repository.RideRepository;
 import com.kts.taxify.services.auth.GetSelf;
+import com.kts.taxify.services.driver.NotifyDriver;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import com.kts.taxify.services.ride.GetRideById;
 import com.kts.taxify.services.user.GetUserByEmail;
@@ -27,6 +30,8 @@ public class SimulateRide {
     private final GetRideById getRideById;
 
     private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
+    private final RideRepository rideRepository;
+    private final NotifyDriver notifyDriver;
 
 
     public boolean execute(UUID assignedRideId) throws IOException, InterruptedException {
@@ -38,6 +43,9 @@ public class SimulateRide {
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
         Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
         int exitVal = p.waitFor();
+        ride.setStatus(RideStatus.FINISHED);
+        rideRepository.save(ride);
+        notifyDriver.execute(driver.getEmail(), NotificationType.RIDE_FINISHED_DRIVER);
         return true;
     }
 }

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RideRepository extends JpaRepository<Ride, UUID> {
     Ride getRideByDriverAndStatus(Driver driver, RideStatus status);
+    Ride getRideByPassengersContainingAndStatusOrStatusOrStatus(Passenger passenger, RideStatus accepted, RideStatus arrived, RideStatus stated);
+    Ride getRideByDriverAndStatusOrStatusOrStatus(Driver driver, RideStatus accepted, RideStatus arrived, RideStatus started);
 
     Ride getRideBySenderAndStatus(String senderEmail, RideStatus status);
 }

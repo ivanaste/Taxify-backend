@@ -1,16 +1,14 @@
 package com.kts.taxify.converter;
 
+import com.google.gson.JsonObject;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.dto.request.ride.RouteRequest;
 import com.kts.taxify.dto.request.ride.WaypointRequest;
-import com.kts.taxify.dto.response.DriverResponse;
-import com.kts.taxify.dto.response.RideResponse;
-import com.kts.taxify.dto.response.VehicleResponse;
+import com.kts.taxify.dto.response.*;
 import com.kts.taxify.model.*;
 import org.modelmapper.ModelMapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RideConverter {
     private final static ModelMapper modelMapper = new ModelMapper();
@@ -30,5 +28,28 @@ public class RideConverter {
         Route route = Route.builder().waypoints(waypoints).build();
         route.getWaypoints().forEach(waypoint -> waypoint.setRoute(route));
         return route;
+    }
+
+    public static RideRouteResponse toRideRouteResponse(final Ride ride) {
+        if (Objects.isNull(ride)) return null;
+        RideRouteResponse rideRouteResponse = new RideRouteResponse();
+        rideRouteResponse.setDriver(DriverConverter.toDriverResponse(ride.getDriver()));
+        rideRouteResponse.setRideStatus(ride.getStatus());
+        int counter = 1;
+        List<WaypointResponse> routePart = new ArrayList<>();
+        Map<String, List<WaypointResponse>> route = new HashMap<>();
+        for(Waypoint waypoint: ride.getRoute().getWaypoints()) {
+            if (waypoint.isStop()) {
+                routePart.add(new WaypointResponse(waypoint.getLocation().getLongitude(), waypoint.getLocation().getLatitude(), waypoint.isStop()));
+                String key = "location".concat(String.valueOf(counter));
+                route.put(key, routePart);
+                routePart = new ArrayList<>();
+                counter++;
+                continue;
+            }
+            routePart.add(new WaypointResponse(waypoint.getLocation().getLongitude(), waypoint.getLocation().getLatitude(), waypoint.isStop()));
+        }
+        rideRouteResponse.setRoute(route);
+        return rideRouteResponse;
     }
 }
