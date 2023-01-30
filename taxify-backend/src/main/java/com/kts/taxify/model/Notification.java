@@ -39,7 +39,7 @@ public class Notification extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sender_id")
-	Passenger sender;
+	User sender;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "recipient_id")

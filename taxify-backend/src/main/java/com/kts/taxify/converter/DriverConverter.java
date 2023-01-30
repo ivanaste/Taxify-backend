@@ -20,7 +20,7 @@ public class DriverConverter {
     public static DriverResponse toDriverWithAssignedRideResponse(final Driver driver, final Ride ride) {
         DriverResponse driverResponse = modelMapper.map(driver, DriverResponse.class);
         final VehicleResponse vehicleResponse = VehicleConverter.toVehicleResponse(driver.getVehicle());
-        final RideResponse rideResponse = new RideResponse(ride.getId());
+        final RideResponse rideResponse = new RideResponse(ride.getId(), ride.getSender());
         driverResponse.setVehicle(vehicleResponse);
         driverResponse.setRide(rideResponse);
         return driverResponse;

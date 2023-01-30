@@ -30,7 +30,7 @@ public class AddLinkedPassengersToTheRide {
 	public void execute(LinkedPassengersToTheRideRequest request) {
 		Set<Passenger> recipients = getPassengersByEmails.execute(request.getRecipientsEmails());
 		Passenger sender = (Passenger) getUserByEmail.execute(request.getSenderEmail());
-		Ride ride = Ride.builder().status(RideStatus.PENDING).passengers(recipients).build();
+		Ride ride = Ride.builder().status(RideStatus.PENDING).passengers(recipients).sender(request.getSenderEmail()).build();
 		ride.getPassengers().add(sender);
 		ride = saveRide.execute(ride);
 		recipients.remove(sender);
