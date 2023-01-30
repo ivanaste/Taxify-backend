@@ -1,8 +1,10 @@
 import json
 import time
-
+import urllib3
 from locust import events, HttpUser, task
 from urllib3 import PoolManager
+
+urllib3.disable_warnings()
 
 VEHICLE_ID = ""
 START = []
@@ -49,6 +51,6 @@ class SimulateToParking(HttpUser):
                 "id": VEHICLE_ID,
                 "location": location
             }
-            self.client.put("/vehicle/location", json=request_body)
-            time.sleep(2)
+            self.client.put("/vehicle/location", json=request_body, verify=False)
+            time.sleep(1)
         self.environment.runner.quit()

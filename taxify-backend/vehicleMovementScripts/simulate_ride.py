@@ -3,6 +3,8 @@ import time
 
 from locust import events, HttpUser, task
 from urllib3 import PoolManager
+import urllib3
+urllib3.disable_warnings()
 
 VEHICLE_ID = ""
 ROUTE = []
@@ -10,7 +12,7 @@ FOLLOW_ROUTE = None
 
 """ 
 PRIMER KOMANDE ZA POKRETANJE:
-locust -f vehicleMovementScripts/simulate_ride.py --conf locust.conf --data '{"id": "08a26db0-21f1-4641-b74c-4ea70a536494","waypoints": [{"longitude": 19.83879, "latitude": 45.23814, "isStop": false},{"longitude": 19.83892, "latitude": 45.2379, "isStop": false},{"longitude": 19.839231, "latitude": 45.237828, "isStop": false},{"longitude": 19.839405, "latitude": 45.237483, "isStop": false},{"longitude": 19.83957, "latitude": 45.237116, "isStop": false},{"longitude": 19.839739, "latitude":45.236798, "isStop": false},{"longitude": 19.840029, "latitude": 45.236254, "isStop": false},{"longitude": 19.840265, "latitude": 45.235854, "isStop": false},{"longitude": 19.840731, "latitude": 45.23596, "isStop": false},{"longitude": 19.841273, "latitude": 45.236058, "isStop": false}], "follow":true}'
+locust -f vehicleMovementScripts/simulate_ride.py --conf  vehicleMovementScripts/locust.conf --data '{"id": "08a26db0-21f1-4641-b74c-4ea70a536494","waypoints": [{"longitude": 19.83879, "latitude": 45.23814, "isStop": false},{"longitude": 19.83892, "latitude": 45.2379, "isStop": false},{"longitude": 19.839231, "latitude": 45.237828, "isStop": false},{"longitude": 19.839405, "latitude": 45.237483, "isStop": false},{"longitude": 19.83957, "latitude": 45.237116, "isStop": false},{"longitude": 19.839739, "latitude":45.236798, "isStop": false},{"longitude": 19.840029, "latitude": 45.236254, "isStop": false},{"longitude": 19.840265, "latitude": 45.235854, "isStop": false},{"longitude": 19.840731, "latitude": 45.23596, "isStop": false},{"longitude": 19.841273, "latitude": 45.236058, "isStop": false}], "follow":true}'
 """
 @events.init_command_line_parser.add_listener
 def _(parser):
@@ -65,7 +67,7 @@ class SimulateRide(HttpUser):
                 "id": VEHICLE_ID,
                 "location": location
             }
-            self.client.put("/vehicle/location", json=request_body)
+            self.client.put("/vehicle/location", json=request_body, verify=False)
             print(location)
             time.sleep(1)
         self.environment.runner.quit()
