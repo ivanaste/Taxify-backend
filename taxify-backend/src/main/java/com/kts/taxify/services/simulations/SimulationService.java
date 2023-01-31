@@ -3,6 +3,7 @@ package com.kts.taxify.services.simulations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kts.taxify.model.*;
 import com.kts.taxify.services.auth.GetSelf;
+import com.kts.taxify.services.driver.NotifyDriver;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import com.kts.taxify.services.ride.GetDriverAssignedRide;
 import com.kts.taxify.services.ride.GetRideById;
@@ -31,6 +32,7 @@ public class SimulationService {
     private final GetRideById getRideById;
     private final SaveRide saveRide;
     private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
+    private final NotifyDriver notifyDriver;
 
     public int simulateRideToClient() throws IOException, InterruptedException {
         Ride ride = getDriverAssignedRide.execute();
@@ -40,7 +42,7 @@ public class SimulationService {
         String dataStringMacOS = objectMapper.writeValueAsString(toClientData);
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
         Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data",
-                dataStringMacOS).start();
+                dataStringWindowsOS).start();
         activeProcesses.put(ride.getId(), p);
         int exitVal = p.waitFor();
         return exitVal;
@@ -55,9 +57,10 @@ public class SimulationService {
         FromClientToDestinationData data = new FromClientToDestinationData(driver.getVehicle().getId().toString(), ride.getRoute().getWaypoints());
         String dataStringMacOS = objectMapper.writeValueAsString(data);
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
-        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringMacOS).start();
+        Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
         activeProcesses.put(ride.getId(), p);
         int exitVal = p.waitFor();
+        notifyDriver.execute(driver.getEmail(), NotificationType.RIDE_FINISHED_DRIVER);
         return true;
     }
 }

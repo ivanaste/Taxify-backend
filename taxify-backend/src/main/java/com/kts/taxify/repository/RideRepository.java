@@ -1,6 +1,7 @@
 package com.kts.taxify.repository;
 
 import com.kts.taxify.model.Driver;
+import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.Ride;
 import com.kts.taxify.model.RideStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
