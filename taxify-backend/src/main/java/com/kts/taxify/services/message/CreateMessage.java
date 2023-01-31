@@ -38,7 +38,7 @@ public class CreateMessage {
         if (receiver != null) {
             addMessageToReceiver.execute(receiver, message);
         }
-        sendMessage.execute(receiver != null ? receiver.getEmail() : null, message.getSender().getId().toString());
+        sendMessage.execute(receiver != null ? receiver.getEmail() : null, message.getSender().getEmail());
         return MessageConverter.toMessageResponse(message);
     }
 }

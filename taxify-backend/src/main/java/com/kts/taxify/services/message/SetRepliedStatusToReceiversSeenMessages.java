@@ -7,6 +7,7 @@ import com.kts.taxify.services.user.SaveUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ public class SetRepliedStatusToReceiversSeenMessages {
             if (message.getStatus().equals(MessageStatus.SEEN)) {
                 sentMessages.remove(message);
                 message.setStatus(MessageStatus.REPLIED);
+                message.setRepliedOn(LocalDateTime.now());
                 sentMessages.add(i, saveMessage.execute(message));
             }
         }

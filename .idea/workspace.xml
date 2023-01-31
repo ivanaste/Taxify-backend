@@ -8,8 +8,14 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/taxify.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/taxify.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/taxify.trace.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/taxify.trace.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/configProperties/CustomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/configProperties/CustomProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/keystore.p12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ChangeMessageStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ChangeMessageStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/CreateMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/CreateMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetAllChats.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetAllChats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SaveMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SaveMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SendMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SetRepliedStatusToReceiversSeenMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SetRepliedStatusToReceiversSeenMessages.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/resources/import.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -234,11 +240,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/driver/GetActiveDriversInArea.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/http/client/PayPalHttpClient.java</url>
           <line>67</line>

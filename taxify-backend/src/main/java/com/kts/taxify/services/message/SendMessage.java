@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 public class SendMessage {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public void execute(@Nullable final String recipientEmail, final String senderId) {
-        simpMessagingTemplate.convertAndSend("/topic/message/" + (recipientEmail == null ? "admin" : recipientEmail), senderId);
+    public void execute(@Nullable final String recipientEmail, final String senderEmail) {
+        simpMessagingTemplate.convertAndSend("/topic/message/" + (recipientEmail == null ? "admin" : recipientEmail), senderEmail);
     }
 }
