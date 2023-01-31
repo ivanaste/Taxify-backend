@@ -13,5 +13,6 @@ import lombok.experimental.FieldDefaults;
 public class RouteRequest {
 
 	private List<WaypointRequest> waypoints;
+	private List<String> locationNames;
 
 }

@@ -24,7 +24,8 @@ public enum Permission implements GrantedAuthority {
 
     REJECT_RIDE,
 
-    LEAVE_COMPLAINT;
+    LEAVE_COMPLAINT,
+    GET_RIDE_HISTORY;
 
     @Override
     public String getAuthority() {
