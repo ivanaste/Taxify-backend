@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,7 +27,7 @@ public class User extends BaseEntity {
 
     @ManyToOne
     @JsonManagedReference
-    private Role role;
+    Role role;
 
     @Column(name = "password_hash", nullable = false, length = 60)
     @JsonProperty(access = Access.WRITE_ONLY)
@@ -53,5 +54,16 @@ public class User extends BaseEntity {
     boolean blocked;
 
     @Enumerated(EnumType.STRING)
-    private AccountProvider accountProvider;
+    AccountProvider accountProvider;
+
+    @Column(name = "received_messages")
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
+    Set<Message> receivedMessages;
+
+    @Column(name = "sent_messages")
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    Set<Message> sentMessages;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    Set<Notification> sentNotifications;
 }

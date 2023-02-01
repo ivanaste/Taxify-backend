@@ -24,4 +24,7 @@ public class DriverResponse extends UserResponse {
 
 	@NotEmpty
 	VehicleResponse vehicle;
+
+	RideResponse ride;
+
 }
