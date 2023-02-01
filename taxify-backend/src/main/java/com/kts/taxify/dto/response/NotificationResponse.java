@@ -1,14 +1,13 @@
 package com.kts.taxify.dto.response;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -33,6 +32,8 @@ public class NotificationResponse {
 
 	@NotEmpty
 	boolean read;
+
+	String userStatusChangeReason;
 
 	@NotEmpty
 	String status;

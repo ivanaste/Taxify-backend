@@ -66,4 +66,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     Set<Notification> sentNotifications;
+
+    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
+    Set<Notification> receivedNotifications;
 }

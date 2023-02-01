@@ -30,13 +30,16 @@ public class Notification extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recipient_id")
-    Passenger recipient;
+    User recipient;
 
     @Column(name = "arrivalTime")
     LocalDateTime arrivalTime;
 
     @Column(name = "read", nullable = false)
     boolean read;
+
+    @Column(name = "user_status_change_reason")
+    String userStatusChangeReason;
 
     @Column(name = "status", columnDefinition = "varchar(32) default 'PENDING'")
     @Enumerated(EnumType.STRING)

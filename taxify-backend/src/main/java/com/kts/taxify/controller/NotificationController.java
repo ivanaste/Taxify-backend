@@ -37,7 +37,6 @@ public class NotificationController {
         addLinkedPassengersToTheRide.execute(linkedPassengersToTheRideRequest);
     }
 
-    @HasAnyPermission({Permission.GET_ALL_PASSENGERS_NOTIFICATIONS})
     @GetMapping("/all/{notificationsAreRead}")
     public Collection<NotificationResponse> getAllPassengerNotifications(@PathVariable("notificationsAreRead") final boolean notificationsAreRead) {
         return getPassengerNotifications.execute(notificationsAreRead);

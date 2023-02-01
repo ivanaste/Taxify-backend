@@ -34,7 +34,4 @@ public class Passenger extends User {
 
     @Column(name = "customer_id")
     String customerId;
-
-    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
-    Set<Notification> receivedNotifications;
 }
