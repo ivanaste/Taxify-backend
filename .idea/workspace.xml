@@ -6,16 +6,28 @@
   <component name="ChangeListManager">
     <list default="true" id="cd5ce97b-11c5-4940-9b1d-a2b2dc069bd6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/taxify.lock.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/taxify.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/taxify.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/taxify.trace.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/taxify.trace.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/keystore.p12" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/controller/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/dto/request/message/ChangeMessagesStatusesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/dto/request/message/ChangeMessagesStatusesRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/NotificationType.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/NotificationType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/model/Permission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/repository/MessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/repository/NotificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/repository/NotificationRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ChangeMessageStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ChangeMessageStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ChangeMessagesStatuses.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ChangeMessagesStatuses.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/CreateMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/CreateMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ExtractChatFromMessagesForReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/ExtractChatFromMessagesForInterlocutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetAllChats.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetAllChats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetChatWithInterlocutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetChatWithInterlocutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetChatWithReceiver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetMessageById.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/GetMessageById.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SaveMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SaveMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SendMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SetRepliedStatusToReceiversSeenMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SetRepliedStatusToReceiversSeenMessages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/SetRepliedStatusToReceiversSeenMessages.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/taxify-backend/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/taxify-backend/src/main/resources/import.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -131,6 +143,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/taxify-backend/src/main/resources" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -139,7 +152,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -220,6 +233,8 @@
       <workItem from="1674779005937" duration="174000" />
       <workItem from="1674983685323" duration="24237000" />
       <workItem from="1675096568604" duration="370000" />
+      <workItem from="1675161303530" duration="26326000" />
+      <workItem from="1675248991095" duration="3567000" />
     </task>
     <servers />
   </component>
@@ -244,6 +259,11 @@
           <url>file://$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/http/client/PayPalHttpClient.java</url>
           <line>67</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/taxify-backend/src/main/java/com/kts/taxify/services/message/CreateMessage.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

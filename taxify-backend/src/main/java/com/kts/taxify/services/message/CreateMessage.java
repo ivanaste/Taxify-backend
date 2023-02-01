@@ -4,9 +4,9 @@ import com.kts.taxify.converter.MessageConverter;
 import com.kts.taxify.dto.request.message.MessageCreationRequest;
 import com.kts.taxify.dto.response.MessageResponse;
 import com.kts.taxify.model.Message;
-import com.kts.taxify.model.MessageStatus;
 import com.kts.taxify.model.User;
 import com.kts.taxify.services.auth.GetSelf;
+import com.kts.taxify.services.notification.CreateAdminNotification;
 import com.kts.taxify.services.user.GetUserByEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,9 @@ public class CreateMessage {
     private final AddMessageToSender addMessageToSender;
     private final AddMessageToReceiver addMessageToReceiver;
     private final ChangeMessageStatus changeMessageStatus;
-    private final SetRepliedStatusToReceiversSeenMessages setRepliedStatusToReceiversSeenMessages;
+    private final ChangeMessageStatusToSent changeMessageStatusToSent;
+    private final ChangeMessageStatusToRepliedForInterlocutorsMessages changeMessageStatusToRepliedForInterlocutorsMessages;
+    private final CreateAdminNotification createAdminNotification;
 
     public MessageResponse execute(final MessageCreationRequest messageCreationRequest) {
         User sender = getUserByEmail.execute(getSelf.execute().getEmail());
@@ -28,12 +30,17 @@ public class CreateMessage {
         Message message = Message.builder()
                 .content(messageCreationRequest.getContent())
                 .sender(sender)
+                .receiver(receiver)
                 .build();
+        // If receiver exists set all his previous messages' status to REPLIED
         if (receiver != null) {
-            message.setReceiver(receiver);
-            setRepliedStatusToReceiversSeenMessages.execute(receiver);
+            changeMessageStatusToRepliedForInterlocutorsMessages.execute(receiver);
+            // If receiver does not exist and sender role is not admin, add notification for admins
+        } else if (!sender.getRole().getName().equals("ADMIN")) {
+            message.setNotification(createAdminNotification.execute(message.getSender()));
         }
-        message = changeMessageStatus.execute(message, MessageStatus.SENT);
+        // Setting message status
+        message = changeMessageStatusToSent.execute(message);
         addMessageToSender.execute(sender, message);
         if (receiver != null) {
             addMessageToReceiver.execute(receiver, message);

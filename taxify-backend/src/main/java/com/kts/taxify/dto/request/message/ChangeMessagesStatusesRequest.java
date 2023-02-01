@@ -7,13 +7,14 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChangeMessagesStatusesRequest {
     @NotEmpty
-    List<String> messagesIds;
+    List<UUID> messagesIds;
     @NotEmpty
     String status;
 }

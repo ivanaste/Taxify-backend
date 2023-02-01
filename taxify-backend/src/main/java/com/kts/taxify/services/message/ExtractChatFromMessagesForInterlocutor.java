@@ -14,12 +14,19 @@ import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
-public class ExtractChatFromMessagesForReceiver {
+public class ExtractChatFromMessagesForInterlocutor {
 
-    public ChatResponse execute(final Collection<Message> messages, @Nullable final User receiver) {
+    public ChatResponse execute(final Collection<Message> messages, @Nullable final User interlocutor) {
         Collection<MessageResponse> chatMessages = new ArrayList<>();
         for (Message message : messages) {
-            if ((message.getReceiver() != null && (message.getReceiver().equals(receiver) || message.getSender().equals(receiver))) || message.getReceiver() == receiver) {
+            // Get messages for all admins
+            if (message.getReceiver() == null && interlocutor == null) {
+                chatMessages.add(MessageConverter.toMessageResponse(message));
+                // Get messages where receiver is selected interlocutor
+            } else if (message.getReceiver() != null && message.getReceiver().equals(interlocutor)) {
+                chatMessages.add(MessageConverter.toMessageResponse(message));
+                // Get messages where sender is selected interlocutor
+            } else if (message.getSender().equals(interlocutor)) {
                 chatMessages.add(MessageConverter.toMessageResponse(message));
             }
         }

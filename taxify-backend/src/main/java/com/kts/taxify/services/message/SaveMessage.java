@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SaveMessage {
     private final MessageRepository messageRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public Message execute(Message message) {
         return messageRepository.save(message);
     }

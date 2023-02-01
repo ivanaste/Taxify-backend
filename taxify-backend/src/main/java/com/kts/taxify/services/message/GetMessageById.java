@@ -1,5 +1,6 @@
 package com.kts.taxify.services.message;
 
+import com.kts.taxify.exception.UserNotFoundException;
 import com.kts.taxify.model.Message;
 import com.kts.taxify.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class GetMessageById {
     private final MessageRepository messageRepository;
 
-    public Message execute(final String id) {
-        return messageRepository.getReferenceById(UUID.fromString(id));
+    public Message execute(final UUID id) {
+        return messageRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 }

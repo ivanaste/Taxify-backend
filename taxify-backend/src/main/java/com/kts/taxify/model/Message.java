@@ -42,4 +42,7 @@ public class Message extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "receiver_id")
     User receiver;
+
+    @OneToOne
+    Notification notification;
 }

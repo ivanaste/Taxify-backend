@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +19,8 @@ public class ChangeMessagesStatuses {
     private final ChangeMessageStatus changeMessageStatus;
 
     public Collection<MessageResponse> execute(ChangeMessagesStatusesRequest changeMessagesStatusesRequest) {
-        Collection<MessageResponse> responseMessages = new ArrayList<>();
-        for (String messageId : changeMessagesStatusesRequest.getMessagesIds()) {
+        List<MessageResponse> responseMessages = new ArrayList<>();
+        for (UUID messageId : changeMessagesStatusesRequest.getMessagesIds()) {
             responseMessages.add(MessageConverter.toMessageResponse(changeMessageStatus.execute(getMessageById.execute(messageId), MessageStatus.valueOf(changeMessagesStatusesRequest.getStatus()))));
         }
         return responseMessages;

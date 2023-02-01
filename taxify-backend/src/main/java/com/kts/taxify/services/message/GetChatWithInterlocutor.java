@@ -15,11 +15,11 @@ import java.util.Collection;
 public class GetChatWithInterlocutor {
     private final GetUserByEmail getUserByEmail;
     private final GetAllSelfMessages getAllSelfMessages;
-    private final ExtractChatFromMessagesForReceiver extractChatFromMessagesForReceiver;
+    private final ExtractChatFromMessagesForInterlocutor extractChatFromMessagesForInterlocutor;
 
     public ChatResponse execute(@Nullable String interlocutorEmail) {
         final Collection<Message> selfMessages = getAllSelfMessages.execute();
         final User receiver = interlocutorEmail == null ? null : getUserByEmail.execute(interlocutorEmail);
-        return extractChatFromMessagesForReceiver.execute(selfMessages, receiver);
+        return extractChatFromMessagesForInterlocutor.execute(selfMessages, receiver);
     }
 }
