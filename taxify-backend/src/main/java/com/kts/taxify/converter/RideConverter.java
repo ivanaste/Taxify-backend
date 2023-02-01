@@ -58,7 +58,9 @@ public class RideConverter {
             for (String locationName: ride.getRoute().getLocationNames()) {
                 route = route.concat(locationName.split(",")[0]).concat(" - ");
             }
-            rideHistoryResponse.add(new RideHistoryResponse(ride.getId(),route.substring(0,route.length()-2), ride.getRoute().getPrice().toString(), ride.getScheduledAt(), ride.getFinishedAt()));
+            List<UserResponse> passengers = new ArrayList<>();
+            for(User user: ride.getPassengers()) passengers.add(UserConverter.toUserResponse(user));
+            rideHistoryResponse.add(new RideHistoryResponse(ride.getId(),route.substring(0,route.length()-2), ride.getRoute().getLocationNames(), passengers, ride.getRoute().getPrice().toString(), ride.getScheduledAt(), ride.getFinishedAt()));
         }
         return rideHistoryResponse;
     }
