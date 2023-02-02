@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Collection;
->>>>>>>Stashed changes
 
 @RestController
 @RequestMapping("/driver")

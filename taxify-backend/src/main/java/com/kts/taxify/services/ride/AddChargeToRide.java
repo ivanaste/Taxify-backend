@@ -6,6 +6,9 @@ import com.kts.taxify.services.checkout.SaveCharge;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class AddChargeToRide {
@@ -13,14 +16,22 @@ public class AddChargeToRide {
     private final SaveRide saveRide;
 
     public Ride execute(Ride ride, String customerId, String paymentMethodId, Double amount) {
+        amount = Double.parseDouble("15.2");
         Charge charge = Charge.builder()
                 .ride(ride)
                 .customerId(customerId)
                 .amount(amount)
-                .paymentId(paymentMethodId)
+                .paymentMethodId(paymentMethodId)
                 .build();
         charge = saveCharge.execute(charge);
-        ride.getPassengersCharges().add(charge);
+        Set<Charge> charges;
+        if (ride.getPassengersCharges() == null) {
+            charges = new HashSet<>();
+        } else {
+            charges = ride.getPassengersCharges();
+        }
+        charges.add(charge);
+        ride.setPassengersCharges(charges);
         return saveRide.execute(ride);
     }
 }
