@@ -9,7 +9,6 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class CreateAcceptedRideForOnePassenger {
 	private final SaveRide saveRide;
 
 	public Ride execute(RequestedRideRequest requestedRideRequest, Driver driver, Passenger sender) {
-		Route route = RideConverter.routeResponseToRoute(requestedRideRequest.getRouteRequest());
+		Route route = RideConverter.routeRequestToRoute(requestedRideRequest.getRouteRequest());
 		Ride ride = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).route(route).passengers(new HashSet<>(Collections.singletonList(sender))).sender(sender.getEmail()).build();
 		return saveRide.execute(ride);
 	}

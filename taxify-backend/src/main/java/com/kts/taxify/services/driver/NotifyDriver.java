@@ -1,5 +1,6 @@
 package com.kts.taxify.services.driver;
 
+import com.kts.taxify.model.NotificationType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -7,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class NotifyDriverOfAssignedRide {
+public class NotifyDriver {
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
 
-	public void execute(String driverEmail) {
-		simpMessagingTemplate.convertAndSend("/topic/driver/" + driverEmail, "A ride has been assigned to you...");
+	public void execute(String driverEmail, NotificationType notificationType) {
+		simpMessagingTemplate.convertAndSend("/topic/driver/" + driverEmail, notificationType.toString());
 	}
 }

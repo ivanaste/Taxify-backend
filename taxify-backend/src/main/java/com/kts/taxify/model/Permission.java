@@ -13,6 +13,8 @@ public enum Permission implements GrantedAuthority {
 
     GET_DRIVER_INFO,
     GET_ALL_ADMINS_NOTIFICATIONS,
+
+    GET_ALL_NOTIFICATIONS,
     SET_DRIVER_INACTIVE,
 
     ANSWER_ON_ADDING_TO_THE_RIDE,
@@ -25,8 +27,12 @@ public enum Permission implements GrantedAuthority {
 
     FINISH_RIDE,
 
-    VEHICLE_ARRIVED;
-    //permission list
+    VEHICLE_ARRIVED,
+
+    REJECT_RIDE,
+
+    LEAVE_COMPLAINT,
+    GET_RIDE_HISTORY;
 
     @Override
     public String getAuthority() {

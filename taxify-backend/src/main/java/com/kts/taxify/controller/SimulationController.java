@@ -1,30 +1,27 @@
 package com.kts.taxify.controller;
 
-import com.kts.taxify.services.simulations.SimulateRide;
-import com.kts.taxify.services.simulations.SimulateVehicleToClient;
+import com.kts.taxify.services.simulations.SimulationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.UUID;
-
-import org.springframework.web.bind.annotation.*;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/simulation")
 @RequiredArgsConstructor
 public class SimulationController {
 
-	private final SimulateVehicleToClient simulateVehicleToClient;
-	private final SimulateRide simulateRide;
+    private final SimulationService simulationService;
 
-	@PostMapping(value = "/to-client")
-	public void simulateVehicleToClient() throws IOException, InterruptedException {
-		simulateVehicleToClient.execute();
-	}
+    @PostMapping(value = "/to-client")
+    public int simulateVehicleToClient() throws IOException, InterruptedException {
+        return simulationService.simulateRideToClient();
+    }
 
-	@PostMapping("/through-route/{assignedRideId}")
-	public boolean moveVehicle(@PathVariable("assignedRideId") UUID assignedRideId) throws IOException, InterruptedException {
-		return simulateRide.execute(assignedRideId);
-	}
+    @PostMapping("/through-route")
+    public boolean moveVehicle() throws IOException, InterruptedException {
+        return simulationService.simulateRideFromClientToDestination();
+    }
 }
