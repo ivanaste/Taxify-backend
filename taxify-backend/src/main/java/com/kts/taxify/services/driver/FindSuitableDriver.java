@@ -50,7 +50,6 @@ public class FindSuitableDriver {
 		Driver closestDriver = getClosestUnoccupiedDriver.execute(requestedRideRequest.getClientLocation());
 		Ride assignedRide = createAcceptedRide.execute(requestedRideRequest, closestDriver);
 		setDriverVehicleAssOccupied.execute(closestDriver.getVehicle());
-		notifyDriver.execute(closestDriver.getEmail(), NotificationType.RIDE_ASSIGNED);
 		closestDriver.setReserved(false);
 		driverRepository.save(closestDriver);
         if (checkoutRide.execute(assignedRide)) {
