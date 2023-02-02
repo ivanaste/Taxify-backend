@@ -5,8 +5,8 @@ import com.kts.taxify.model.*;
 import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.driver.NotifyDriver;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
+import com.kts.taxify.services.ride.ChangeRideStatus;
 import com.kts.taxify.services.ride.GetDriverAssignedRide;
-import com.kts.taxify.services.ride.GetRideById;
 import com.kts.taxify.services.ride.SaveRide;
 import com.kts.taxify.services.user.GetUserByEmail;
 import com.kts.taxify.simulatorModel.FromClientToDestinationData;
@@ -29,10 +29,10 @@ public class SimulationService {
     private final GetDriverAssignedRide getDriverAssignedRide;
     private final GetSelf getSelf;
     private final GetUserByEmail getUserByEmail;
-    private final GetRideById getRideById;
     private final SaveRide saveRide;
     private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
     private final NotifyDriver notifyDriver;
+    private final ChangeRideStatus changeRideStatus;
 
     public int simulateRideToClient() throws IOException, InterruptedException {
         Ride ride = getDriverAssignedRide.execute();
@@ -60,7 +60,8 @@ public class SimulationService {
         Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
         activeProcesses.put(ride.getId(), p);
         int exitVal = p.waitFor();
-        notifyDriver.execute(driver.getEmail(), NotificationType.RIDE_FINISHED_DRIVER);
+        notifyDriver.execute(driver.getEmail(), NotificationType.ON_DESTINATION_DRIVER);
+        changeRideStatus.execute(RideStatus.ON_DESTINATION, NotificationType.ON_DESTINATION_PASSENGER);
         return true;
     }
 }

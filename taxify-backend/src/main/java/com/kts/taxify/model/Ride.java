@@ -34,7 +34,7 @@ public class Ride extends BaseEntity {
     @Enumerated(EnumType.STRING)
     RideStatus status;
 
-    @OneToMany(mappedBy = "ride")
+    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
     Set<Review> reviews;
 
     @Column(name = "scheduled_at")

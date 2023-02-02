@@ -2,13 +2,15 @@ package com.kts.taxify.controller;
 
 import com.kts.taxify.dto.request.notification.LinkedPassengersToTheRideRequest;
 import com.kts.taxify.dto.response.NotificationResponse;
+import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.model.Permission;
+import com.kts.taxify.model.RideStatus;
 import com.kts.taxify.security.HasAnyPermission;
 import com.kts.taxify.services.notification.AcceptAddingToTheRide;
 import com.kts.taxify.services.notification.AddLinkedPassengersToTheRide;
 import com.kts.taxify.services.notification.GetPassengerNotifications;
 import com.kts.taxify.services.notification.RejectAddingToTheRide;
-import com.kts.taxify.services.passenger.NotifyPassengerOfVehicleArrived;
+import com.kts.taxify.services.ride.ChangeRideStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +30,8 @@ public class NotificationController {
     private final AcceptAddingToTheRide acceptAddingToTheRide;
 
     private final RejectAddingToTheRide rejectAddingToTheRide;
-    private final NotifyPassengerOfVehicleArrived notifyPassengerOfVehicleArrived;
+
+    private final ChangeRideStatus changeRideStatus;
 
     @HasAnyPermission({Permission.LINK_PASSENGERS_TO_THE_RIDE})
 
@@ -55,9 +58,9 @@ public class NotificationController {
         return rejectAddingToTheRide.execute(notificationId);
     }
 
-    @PutMapping("/vehicleArrived")
-    @HasAnyPermission({Permission.VEHICLE_ARRIVED})
-    public void notifyOfVehicleArrived() {
-        notifyPassengerOfVehicleArrived.execute();
+    @PutMapping("/vehicleArrivedToClient")
+    @HasAnyPermission({Permission.RIDE_STATUS_CHANGED})
+    public void notifyOfVehicleArrivedToClient() {
+        changeRideStatus.execute(RideStatus.ARRIVED, NotificationType.VEHICLE_ARRIVED);
     }
 }

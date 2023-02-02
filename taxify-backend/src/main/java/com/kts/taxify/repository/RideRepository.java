@@ -7,12 +7,18 @@ import com.kts.taxify.model.RideStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface RideRepository extends JpaRepository<Ride, UUID> {
     Ride getRideByDriverAndStatus(Driver driver, RideStatus status);
-    Ride getRideByPassengersContainingAndStatusOrStatusOrStatus(Passenger passenger, RideStatus accepted, RideStatus arrived, RideStatus stated);
-    Ride getRideByDriverAndStatusOrStatusOrStatus(Driver driver, RideStatus accepted, RideStatus arrived, RideStatus started);
+
+    Ride getRideByPassengersContainingAndStatusOrStatusOrStatusOrStatus(Passenger passenger, RideStatus accepted, RideStatus arrived, RideStatus started, RideStatus arrivedToDestination);
+
+    Ride getRideByDriverAndStatusOrStatusOrStatusOrStatus(Driver driver, RideStatus accepted, RideStatus arrivedToClient, RideStatus started, RideStatus arrivedToDestination);
+
     Ride getRideBySenderAndStatus(String senderEmail, RideStatus status);
+
+    List<Ride> getRidesByStatus(RideStatus rideStatus);
 }

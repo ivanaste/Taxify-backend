@@ -20,11 +20,15 @@ public enum Permission implements GrantedAuthority {
 
     FINISH_RIDE,
 
-    VEHICLE_ARRIVED,
+    RIDE_STATUS_CHANGED,
 
     REJECT_RIDE,
 
-    LEAVE_COMPLAINT;
+    LEAVE_COMPLAINT,
+
+    LAST_FINISHED_RIDE_OF_PASSENGER,
+
+    ADD_RIDE_REVIEW;
 
     @Override
     public String getAuthority() {
