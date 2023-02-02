@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -55,5 +56,8 @@ public class Ride extends BaseEntity {
 
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
     Set<Complaint> complaints;
+
+    @OneToMany(mappedBy = "ride")
+    Set<Charge> passengersCharges = new HashSet<>();
 
 }

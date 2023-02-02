@@ -2,28 +2,29 @@ package com.kts.taxify.dto.request.ride;
 
 import com.kts.taxify.dto.request.notification.LinkedPassengersToTheRideRequest;
 import com.kts.taxify.model.Location;
-
-import java.util.List;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestedRideRequest {
 
-	Location clientLocation;
+    Location clientLocation;
 
-	RouteRequest routeRequest;
+    RouteRequest routeRequest;
 
-	List<String> vehicleTypes;
+    List<String> vehicleTypes;
 
-	boolean petFriendly;
+    boolean petFriendly;
 
-	boolean babyFriendly;
+    boolean babyFriendly;
 
-	LinkedPassengersToTheRideRequest passengers;
+    String paymentMethodId;
+
+    LinkedPassengersToTheRideRequest passengers;
 }

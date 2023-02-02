@@ -3,21 +3,22 @@ package com.kts.taxify.services.ride;
 import com.kts.taxify.converter.RideConverter;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.model.*;
-
-import java.util.*;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.Collections;
+import java.util.HashSet;
+
 
 @Service
 @RequiredArgsConstructor
 public class CreateAcceptedRideForOnePassenger {
-	private final SaveRide saveRide;
+    private final SaveRide saveRide;
 
-	public Ride execute(RequestedRideRequest requestedRideRequest, Driver driver, Passenger sender) {
-		Route route = RideConverter.routeRequestToRoute(requestedRideRequest.getRouteRequest());
-		Ride ride = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).route(route).passengers(new HashSet<>(Collections.singletonList(sender))).sender(sender.getEmail()).build();
-		return saveRide.execute(ride);
-	}
+    public Ride execute(RequestedRideRequest requestedRideRequest, Driver driver, Passenger sender) {
+        Route route = RideConverter.routeRequestToRoute(requestedRideRequest.getRouteRequest());
+        Ride ride = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).route(route).passengers(new HashSet<>(Collections.singletonList(sender))).sender(sender.getEmail()).build();
+        return saveRide.execute(ride);
+    }
+
 }

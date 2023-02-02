@@ -1,8 +1,6 @@
 package com.kts.taxify.services.ride;
 
-import com.kts.taxify.converter.DriverConverter;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
-import com.kts.taxify.dto.response.DriverResponse;
 import com.kts.taxify.model.Driver;
 import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.Ride;
@@ -22,13 +20,19 @@ public class CreateAcceptedRide {
 
     private final GetUserByEmail getUserByEmail;
 
+    private final AddChargeToRide addChargeToRide;
 
     public Ride execute(RequestedRideRequest requestedRideRequest, Driver assignedDriver) throws IOException, InterruptedException {
         Passenger sender = (Passenger) getUserByEmail.execute(requestedRideRequest.getPassengers().getSenderEmail());
+        Ride ride;
+        Double price;
         if (requestedRideRequest.getPassengers().getRecipientsEmails().size() > 0) {
-            return createAcceptedRideForMultiplePassengers.execute(requestedRideRequest, assignedDriver, sender);
+            ride = createAcceptedRideForMultiplePassengers.execute(requestedRideRequest, assignedDriver, sender);
+            price = ride.getRoute().getPrice() / ride.getPassengers().size();
         } else {
-            return createAcceptedRideForOnePassenger.execute(requestedRideRequest, assignedDriver, sender);
+            ride = createAcceptedRideForOnePassenger.execute(requestedRideRequest, assignedDriver, sender);
+            price = ride.getRoute().getPrice();
         }
+        return addChargeToRide.execute(ride, sender.getCustomerId(), requestedRideRequest.getPaymentMethodId(), price);
     }
 }

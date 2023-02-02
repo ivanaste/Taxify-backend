@@ -35,9 +35,14 @@ public class NotificationController {
 
     private final ChangeRideStatus changeRideStatus;
 
+    @HasAnyPermission({Permission.LINK_PASSENGERS_TO_THE_RIDE})
+    @PostMapping("/addToTheRide")
+    public void addPassengersToTheRide(@Valid @RequestBody LinkedPassengersToTheRideRequest linkedPassengersToTheRideRequest) {
+        addLinkedPassengersToTheRide.execute(linkedPassengersToTheRideRequest);
+    }
+
     @GetMapping("/all/{notificationsAreRead}")
-    public Collection<NotificationResponse> getAllPassengerNotifications(
-            @PathVariable("notificationsAreRead") final boolean notificationsAreRead) {
+    public Collection<NotificationResponse> getAllPassengerNotifications(@PathVariable("notificationsAreRead") boolean notificationsAreRead) {
         return getPassengerNotifications.execute(notificationsAreRead);
     }
 
@@ -48,22 +53,15 @@ public class NotificationController {
     }
 
     @HasAnyPermission({Permission.ANSWER_ON_ADDING_TO_THE_RIDE})
-    @PutMapping("/acceptAddingToTheRide/{notificationId}")
-    public NotificationResponse acceptAddingToTheRide(@PathVariable("notificationId") final UUID notificationId) {
-        return acceptAddingToTheRide.execute(notificationId);
+    @PutMapping("/acceptAddingToTheRide/{notificationId}/{paymentMethodId}")
+    public NotificationResponse acceptAddingToTheRide(@PathVariable("notificationId") UUID notificationId, @PathVariable("paymentMethodId") String paymentMethodId) {
+        return acceptAddingToTheRide.execute(notificationId, paymentMethodId);
     }
 
     @HasAnyPermission({Permission.ANSWER_ON_ADDING_TO_THE_RIDE})
     @PutMapping("/rejectAddingToTheRide/{notificationId}")
-    public NotificationResponse rejectAddingToTheRide(@PathVariable("notificationId") final UUID notificationId) {
+    public NotificationResponse rejectAddingToTheRide(@PathVariable("notificationId") UUID notificationId) {
         return rejectAddingToTheRide.execute(notificationId);
-    }
-
-    @HasAnyPermission({Permission.LINK_PASSENGERS_TO_THE_RIDE})
-    @PostMapping("/addToTheRide")
-    public void addPassengersToTheRide(
-            @Valid @RequestBody final LinkedPassengersToTheRideRequest linkedPassengersToTheRideRequest) {
-        addLinkedPassengersToTheRide.execute(linkedPassengersToTheRideRequest);
     }
 
     @PutMapping("/vehicleArrivedToClient")

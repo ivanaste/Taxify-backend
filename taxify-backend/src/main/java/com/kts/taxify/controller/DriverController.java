@@ -6,7 +6,6 @@ import com.kts.taxify.dto.request.ride.RejectRideRequest;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.dto.response.DriverResponse;
 import com.kts.taxify.dto.response.RideResponse;
-import com.kts.taxify.dto.response.RideRouteResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.Permission;
 import com.kts.taxify.security.HasAnyPermission;
@@ -15,6 +14,7 @@ import com.kts.taxify.services.driverTimetable.GetDriverRemainingWorkTime;
 import com.kts.taxify.services.ride.FinishRide;
 import com.kts.taxify.services.ride.GetDriverAssignedRide;
 import com.kts.taxify.services.ride.RejectRide;
+import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,15 +48,15 @@ public class DriverController {
 
     @PostMapping("/create")
     @HasAnyPermission({Permission.REGISTER_DRIVER})
-    public UserResponse createDriver(@RequestBody final CreateDriverRequest createDriverRequest) {
+    public UserResponse createDriver(@RequestBody CreateDriverRequest createDriverRequest) {
         return createDriver.execute(createDriverRequest);
     }
 
     @GetMapping("/allActiveInArea")
-    public Collection<DriverResponse> getVehiclesInArea(@RequestParam final Double minLongitude,
-                                                        @RequestParam final Double maxLongitude,
-                                                        @RequestParam final Double minLatitude,
-                                                        @RequestParam final Double maxLatitude) {
+    public Collection<DriverResponse> getVehiclesInArea(@RequestParam Double minLongitude,
+                                                        @RequestParam Double maxLongitude,
+                                                        @RequestParam Double minLatitude,
+                                                        @RequestParam Double maxLatitude) {
         return getActiveDriversInArea.execute(minLongitude, maxLongitude, minLatitude, maxLatitude);
     }
 
@@ -85,7 +85,7 @@ public class DriverController {
 
     @PostMapping(value = "/suitableDriverForRide")
     @HasAnyPermission({Permission.FIND_SUITABLE_DRIVER})
-    public DriverResponse getSuitableDriverForRide(@RequestBody final RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, ExecutionException {
+    public DriverResponse getSuitableDriverForRide(@RequestBody RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, StripeException {
         return findSuitableDriver.execute(requestedRideRequest);
     }
 

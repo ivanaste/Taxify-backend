@@ -1,7 +1,7 @@
 package com.kts.taxify.services.checkout;
 
 import com.kts.taxify.configProperties.CustomProperties;
-import com.kts.taxify.dto.request.checkout.ChargeRequest;
+import com.kts.taxify.model.Charge;
 import com.kts.taxify.model.Passenger;
 import com.kts.taxify.services.auth.GetSelfAsPassenger;
 import com.stripe.Stripe;
@@ -25,14 +25,13 @@ public class CreatePaymentIntent {
         Stripe.apiKey = customProperties.getStripeSecret();
     }
 
-    public PaymentIntent execute(final ChargeRequest chargeRequest) throws StripeException {
+    public PaymentIntent execute(final Charge charge) throws StripeException {
         final Passenger passenger = getSelfAsPassenger.execute();
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setDescription(chargeRequest.getDescription())
-                .setCurrency(chargeRequest.getCurrency())
-                .setAmount((long) (chargeRequest.getAmount() * 100))
+                .setCurrency("EUR")
+                .setAmount((long) (charge.getAmount() * 100))
                 .setConfirm(true)
-                .setPaymentMethod(chargeRequest.getPaymentMethodId())
+                .setPaymentMethod(charge.getPaymentMethodId())
                 .setCustomer(passenger.getCustomerId())
                 .setReceiptEmail(passenger.getEmail())
                 .setCaptureMethod(PaymentIntentCreateParams.CaptureMethod.AUTOMATIC)
