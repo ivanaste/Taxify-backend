@@ -64,12 +64,6 @@ public class NotificationController {
         return rejectAddingToTheRide.execute(notificationId);
     }
 
-    @PutMapping("/vehicleArrived")
-    @HasAnyPermission({Permission.VEHICLE_ARRIVED})
-    public void notifyOfVehicleArrived() {
-        notifyPassengerOfVehicleArrived.execute();
-    }
-
     @PutMapping("/vehicleArrivedToClient")
     @HasAnyPermission({Permission.RIDE_STATUS_CHANGED})
     public void notifyOfVehicleArrivedToClient() {
