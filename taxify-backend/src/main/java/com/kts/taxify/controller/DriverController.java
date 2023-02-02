@@ -85,7 +85,7 @@ public class DriverController {
 
     @PostMapping(value = "/suitableDriverForRide")
     @HasAnyPermission({Permission.FIND_SUITABLE_DRIVER})
-    public DriverResponse getSuitableDriverForRide(@RequestBody RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, StripeException {
+    public DriverResponse getSuitableDriverForRide(@RequestBody RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, StripeException, ExecutionException {
         return findSuitableDriver.execute(requestedRideRequest);
     }
 

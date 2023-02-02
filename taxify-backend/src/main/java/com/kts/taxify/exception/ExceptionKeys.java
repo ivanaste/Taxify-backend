@@ -32,7 +32,7 @@ public enum ExceptionKeys implements Translation {
     RIDE_NOT_FOUND("ride_not_found"),
 
 	NO_ACTIVE_DRIVERS("no_active_drivers"),
-	DRIVES_BUSY_AND_RESERVED("drivers_busy_and_reserved")
+	DRIVES_BUSY_AND_RESERVED("drivers_busy_and_reserved"),
     INVALID_PAYMENT_FOR_SHARED_RIDE("invalid_payment_for_shared_ride");
 
 

@@ -49,7 +49,6 @@ public class FindSuitableDriver {
 	public DriverResponse execute(RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, ExecutionException, StripeException {
 		Driver closestDriver = getClosestUnoccupiedDriver.execute(requestedRideRequest.getClientLocation());
 		Ride assignedRide = createAcceptedRide.execute(requestedRideRequest, closestDriver);
-        throw new InvalidPaymentForSharedRideException();
 		setDriverVehicleAssOccupied.execute(closestDriver.getVehicle());
 		notifyDriver.execute(closestDriver.getEmail(), NotificationType.RIDE_ASSIGNED);
 		closestDriver.setReserved(false);
