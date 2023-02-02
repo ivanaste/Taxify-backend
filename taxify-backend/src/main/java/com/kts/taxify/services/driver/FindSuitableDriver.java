@@ -6,13 +6,21 @@ import com.kts.taxify.dto.response.DriverResponse;
 import com.kts.taxify.model.Driver;
 import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.model.Ride;
+import com.kts.taxify.model.RideStatus;
+import com.kts.taxify.repository.DriverRepository;
+import com.kts.taxify.repository.RideRepository;
 import com.kts.taxify.services.ride.CreateAcceptedRide;
+import com.kts.taxify.services.ride.GetDriverAssignedRide;
 import com.kts.taxify.services.simulations.GetClosestUnoccupiedDriver;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,12 +32,19 @@ public class FindSuitableDriver {
 	private final CreateAcceptedRide createAcceptedRide;
 
 	private final SetDriverVehicleAssOccupied setDriverVehicleAssOccupied;
+	private final DriverRepository driverRepository;
+	private final GetDriverAssignedRide getDriverAssignedRide;
 
-	public DriverResponse execute(RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException {
+
+	@Transactional
+	public DriverResponse execute(RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, ExecutionException {
 		Driver closestDriver = getClosestUnoccupiedDriver.execute(requestedRideRequest.getClientLocation());
-		setDriverVehicleAssOccupied.execute(closestDriver);
 		Ride assignedRide = createAcceptedRide.execute(requestedRideRequest, closestDriver);
+		setDriverVehicleAssOccupied.execute(closestDriver.getVehicle());
 		notifyDriver.execute(closestDriver.getEmail(), NotificationType.RIDE_ASSIGNED);
+		closestDriver.setReserved(false);
+		driverRepository.save(closestDriver);
 		return DriverConverter.toDriverWithAssignedRideResponse(closestDriver, assignedRide);
 	}
+
 }

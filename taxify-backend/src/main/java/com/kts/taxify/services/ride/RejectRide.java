@@ -22,7 +22,7 @@ public class RejectRide {
 
     public void execute(String rejectionReason) {
         Ride ride = getDriverAssignedRide.execute();
-        Process currentProcess = simulationService.activeProcesses.get(ride.getId());
+        Process currentProcess = simulationService.activeProcesses.get(ride.getId()).getProcess();
         currentProcess.destroy();
         ride.setStatus(RideStatus.REJECTED);
         ride.setRejectionReason(rejectionReason);

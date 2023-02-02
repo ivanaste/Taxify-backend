@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DriverRepository extends JpaRepository<Driver, UUID> {
-    public List<Driver> findAllByCityAndActiveIsTrue(String city);
+    public List<Driver> findAllByCityAndActiveIsTrueAndReservedIsFalse(String city);
 
     public List<Driver> findAllByActive(boolean active);
 }

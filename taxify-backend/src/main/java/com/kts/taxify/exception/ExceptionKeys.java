@@ -32,7 +32,8 @@ public enum ExceptionKeys implements Translation {
 	NOTIFICATION_NOT_FOUND("notification_not_found"),
 	RIDE_NOT_FOUND("ride_not_found"),
 
-	NO_ACTIVE_DRIVERS("no_active_drivers");
+	NO_ACTIVE_DRIVERS("no_active_drivers"),
+	DRIVES_BUSY_AND_RESERVED("drivers_busy_and_reserved");
 
 	private final String code;
 

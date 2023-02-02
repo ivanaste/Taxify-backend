@@ -42,4 +42,7 @@ public class Driver extends User {
 
     @Column(name = "active")
     private boolean active;
+
+	@Column(name = "reserved")
+	private boolean reserved;
 }

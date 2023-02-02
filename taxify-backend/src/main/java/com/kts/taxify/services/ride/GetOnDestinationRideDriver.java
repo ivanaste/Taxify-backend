@@ -8,13 +8,12 @@ import com.kts.taxify.services.auth.GetSelf;
 import com.kts.taxify.services.user.GetUserByEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
-public class GetDriverAssignedRide {
+public class GetOnDestinationRideDriver {
 
     private final GetUserByEmail getUserByEmail;
     private final GetSelf getSelf;
@@ -23,6 +22,6 @@ public class GetDriverAssignedRide {
     @Transactional
     public Ride execute() {
         Driver driver = (Driver) getUserByEmail.execute(getSelf.execute().getEmail());
-        return rideRepository.findFirstByDriverAndStatusIn(driver, Arrays.asList(RideStatus.ACCEPTED, RideStatus.ARRIVED, RideStatus.STARTED, RideStatus.ON_DESTINATION));
+        return rideRepository.getRideByDriverAndStatus(driver, RideStatus.ON_DESTINATION);
     }
 }

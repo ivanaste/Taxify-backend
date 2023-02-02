@@ -7,6 +7,7 @@ import com.kts.taxify.services.driver.NotifyDriver;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -14,14 +15,15 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class FinishRide {
 
-    private final GetDriverAssignedRide getDriverAssignedRide;
+    private final GetOnDestinationRideDriver getOnDestinationRideDriver;
     private final SaveRide saveRide;
     private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
     private final NotifyDriver notifyDriver;
 
 
+    @Transactional
     public void execute() {
-        Ride ride = getDriverAssignedRide.execute();
+        Ride ride = getOnDestinationRideDriver.execute();
         ride.setStatus(RideStatus.FINISHED);
         ride.getDriver().getVehicle().setOccupied(false);
         ride.setFinishedAt(LocalDateTime.now());

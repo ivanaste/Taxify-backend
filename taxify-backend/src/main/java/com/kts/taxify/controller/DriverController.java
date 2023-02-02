@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/driver")
@@ -84,7 +85,7 @@ public class DriverController {
 
     @PostMapping(value = "/suitableDriverForRide")
     @HasAnyPermission({Permission.FIND_SUITABLE_DRIVER})
-    public DriverResponse getSuitableDriverForRide(@RequestBody final RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException {
+    public DriverResponse getSuitableDriverForRide(@RequestBody final RequestedRideRequest requestedRideRequest) throws IOException, InterruptedException, ExecutionException {
         return findSuitableDriver.execute(requestedRideRequest);
     }
 
