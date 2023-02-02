@@ -25,8 +25,7 @@ public class Passenger extends User {
     Set<Ride> rides;
 
     @ManyToMany
-    @JoinTable(name = "passenger_favorite_routes", joinColumns = @JoinColumn(name = "passenger_id"),
-            inverseJoinColumns = @JoinColumn(name = "route_id"))
+    @JoinTable(name = "passenger_favorite_routes", joinColumns = @JoinColumn(name = "passenger_id"), inverseJoinColumns = @JoinColumn(name = "route_id"))
     Set<Route> favoriteRoutes;
 
     @Column(name = "in_ride", nullable = false)
@@ -34,4 +33,10 @@ public class Passenger extends User {
 
     @Column(name = "customer_id")
     String customerId;
+
+    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
+    Set<Notification> receivedNotifications;
+
+    @OneToMany(mappedBy = "passenger")
+    Set<Review> reviews;
 }

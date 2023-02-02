@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -18,16 +19,16 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "ride_id")
     Ride ride;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "passenger_id")
+    Passenger passenger;
+
     @Column(name = "driver_rating")
     Double driverRating;
 
     @Column(name = "vehicle_rating")
     Double vehicleRating;
 
-    @Column(name = "driver_comment")
-    String driverComment;
-
-    @Column(name = "vehicle_comment")
-    String vehicleComment;
-
+    @Column(name = "comment")
+    String comment;
 }

@@ -27,11 +27,15 @@ public enum Permission implements GrantedAuthority {
 
     FINISH_RIDE,
 
-    VEHICLE_ARRIVED,
+    RIDE_STATUS_CHANGED,
 
     REJECT_RIDE,
 
     LEAVE_COMPLAINT,
+
+    LAST_FINISHED_RIDE_OF_PASSENGER,
+
+    ADD_RIDE_REVIEW,
     GET_RIDE_HISTORY;
 
     @Override

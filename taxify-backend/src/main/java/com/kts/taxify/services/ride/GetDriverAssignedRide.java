@@ -21,6 +21,6 @@ public class GetDriverAssignedRide {
     @Transactional
     public Ride execute() {
         Driver driver = (Driver) getUserByEmail.execute(getSelf.execute().getEmail());
-        return rideRepository.getRideByDriverAndStatusOrStatusOrStatus(driver, RideStatus.ACCEPTED, RideStatus.ARRIVED, RideStatus.STARTED);
+        return rideRepository.getRideByDriverAndStatusOrStatusOrStatusOrStatus(driver, RideStatus.ACCEPTED, RideStatus.ARRIVED, RideStatus.STARTED, RideStatus.ON_DESTINATION);
     }
 }
