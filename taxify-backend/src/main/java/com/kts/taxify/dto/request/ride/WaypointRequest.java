@@ -11,10 +11,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WaypointRequest {
-
 	Double longitude;
 
 	Double latitude;
 
 	boolean stop;
+
+	String locationName;
 }

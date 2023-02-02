@@ -27,6 +27,9 @@ public class Route extends BaseEntity {
 	@OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
 	List<Waypoint> waypoints;
 
+	@ElementCollection
+	List<String> locationNames;
+
 	@ManyToMany(mappedBy = "favoriteRoutes")
 	Set<Passenger> subscribedPassengers;
 

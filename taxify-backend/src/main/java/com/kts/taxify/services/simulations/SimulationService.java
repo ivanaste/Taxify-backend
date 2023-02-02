@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,6 +39,8 @@ public class SimulationService {
         Ride ride = getDriverAssignedRide.execute();
         notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_ACCEPTED);
         Location clientLocation = ride.getRoute().getWaypoints().get(0).getLocation();
+        ride.setScheduledAt(LocalDateTime.now());
+        saveRide.execute(ride);
         ToClientData toClientData = new ToClientData(ride.getDriver().getVehicle().getId().toString(), ride.getDriver().getVehicle().getLocation(), clientLocation);
         String dataStringMacOS = objectMapper.writeValueAsString(toClientData);
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");

@@ -1,7 +1,5 @@
 package com.kts.taxify.converter;
 
-import com.google.gson.JsonObject;
-import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.dto.request.ride.RouteRequest;
 import com.kts.taxify.dto.request.ride.WaypointRequest;
 import com.kts.taxify.dto.response.*;
@@ -17,7 +15,7 @@ public class RideConverter {
         return modelMapper.map(ride, RideResponse.class);
     }
 
-    public static Route routeResponseToRoute(final RouteRequest routeRequest) {
+    public static Route routeRequestToRoute(final RouteRequest routeRequest) {
         List<Waypoint> waypoints = new ArrayList<>();
         for (WaypointRequest waypointRequest : routeRequest.getWaypoints()) {
             Location location = Location.builder().latitude(waypointRequest.getLatitude()).longitude(waypointRequest.getLongitude())
@@ -25,7 +23,7 @@ public class RideConverter {
             Waypoint waypoint = Waypoint.builder().location(location).stop(waypointRequest.isStop()).build();
             waypoints.add(waypoint);
         }
-        Route route = Route.builder().waypoints(waypoints).build();
+        Route route = Route.builder().waypoints(waypoints).locationNames(routeRequest.getLocationNames()).build();
         route.getWaypoints().forEach(waypoint -> waypoint.setRoute(route));
         return route;
     }
@@ -51,5 +49,19 @@ public class RideConverter {
         }
         rideRouteResponse.setRoute(route);
         return rideRouteResponse;
+    }
+
+    public static List<RideHistoryResponse> toRideHistoryResponseList(List<Ride> rides) {
+        List<RideHistoryResponse> rideHistoryResponse = new ArrayList<>();
+        for(Ride ride: rides) {
+            String route = "";
+            for (String locationName: ride.getRoute().getLocationNames()) {
+                route = route.concat(locationName.split(",")[0]).concat(" - ");
+            }
+            List<UserResponse> passengers = new ArrayList<>();
+            for(User user: ride.getPassengers()) passengers.add(UserConverter.toUserResponse(user));
+            rideHistoryResponse.add(new RideHistoryResponse(ride.getId(),route.substring(0,route.length()-2), ride.getRoute().getLocationNames(), passengers, ride.getRoute().getPrice().toString(), ride.getScheduledAt(), ride.getFinishedAt()));
+        }
+        return rideHistoryResponse;
     }
 }

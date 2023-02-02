@@ -28,7 +28,8 @@ public enum Permission implements GrantedAuthority {
 
     LAST_FINISHED_RIDE_OF_PASSENGER,
 
-    ADD_RIDE_REVIEW;
+    ADD_RIDE_REVIEW,
+    GET_RIDE_HISTORY;
 
     @Override
     public String getAuthority() {

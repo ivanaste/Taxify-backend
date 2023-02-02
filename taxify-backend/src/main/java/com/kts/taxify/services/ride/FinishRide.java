@@ -8,6 +8,8 @@ import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class FinishRide {
@@ -22,6 +24,7 @@ public class FinishRide {
         Ride ride = getDriverAssignedRide.execute();
         ride.setStatus(RideStatus.FINISHED);
         ride.getDriver().getVehicle().setOccupied(false);
+        ride.setFinishedAt(LocalDateTime.now());
         saveRide.execute(ride);
         notifyDriver.execute(ride.getDriver().getEmail(), NotificationType.RIDE_FINISHED_DRIVER);
         notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_FINISHED_PASSENGER);

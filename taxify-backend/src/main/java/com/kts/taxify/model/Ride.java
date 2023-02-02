@@ -40,6 +40,9 @@ public class Ride extends BaseEntity {
     @Column(name = "scheduled_at")
     LocalDateTime scheduledAt;
 
+    @Column(name = "finished_at")
+    LocalDateTime finishedAt;
+
     @Column(name = "rejection_reason")
     String rejectionReason;
 

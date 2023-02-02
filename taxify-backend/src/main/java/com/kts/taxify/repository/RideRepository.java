@@ -14,11 +14,18 @@ import java.util.UUID;
 public interface RideRepository extends JpaRepository<Ride, UUID> {
     Ride getRideByDriverAndStatus(Driver driver, RideStatus status);
 
-    Ride getRideByPassengersContainingAndStatusOrStatusOrStatusOrStatus(Passenger passenger, RideStatus accepted, RideStatus arrived, RideStatus started, RideStatus arrivedToDestination);
+    Ride getRideByPassengersContainingAndStatusOrStatusOrStatusOrStatus(Passenger passenger, RideStatus accepted,
+            RideStatus arrived, RideStatus started, RideStatus arrivedToDestination);
 
-    Ride getRideByDriverAndStatusOrStatusOrStatusOrStatus(Driver driver, RideStatus accepted, RideStatus arrivedToClient, RideStatus started, RideStatus arrivedToDestination);
+    Ride getRideByDriverAndStatusOrStatusOrStatusOrStatus(Driver driver, RideStatus accepted,
+            RideStatus arrivedToClient, RideStatus started, RideStatus arrivedToDestination);
 
     Ride getRideBySenderAndStatus(String senderEmail, RideStatus status);
 
     List<Ride> getRidesByStatus(RideStatus rideStatus);
+
+    List<Ride> getAllByPassengersContainingAndStatus(Passenger passenger, RideStatus status);
+
+    List<Ride> getAllByDriverAndStatus(Driver passenger, RideStatus status);
+
 }
