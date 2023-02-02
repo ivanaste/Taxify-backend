@@ -8,10 +8,6 @@ import com.kts.taxify.model.RideStatus;
 import com.kts.taxify.security.HasAnyPermission;
 import com.kts.taxify.services.notification.*;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
-import com.kts.taxify.services.notification.AcceptAddingToTheRide;
-import com.kts.taxify.services.notification.AddLinkedPassengersToTheRide;
-import com.kts.taxify.services.notification.GetPassengerNotifications;
-import com.kts.taxify.services.notification.RejectAddingToTheRide;
 import com.kts.taxify.services.ride.ChangeRideStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -45,39 +41,33 @@ public class NotificationController {
         return getPassengerNotifications.execute(notificationsAreRead);
     }
 
-    @HasAnyPermission({ Permission.GET_ALL_ADMINS_NOTIFICATIONS })
+    @HasAnyPermission({Permission.GET_ALL_ADMINS_NOTIFICATIONS})
     @GetMapping("/all")
     public Collection<NotificationResponse> getAllAdminNotifications() {
         return getAdminNotifications.execute();
     }
 
-    @HasAnyPermission({ Permission.ANSWER_ON_ADDING_TO_THE_RIDE })
+    @HasAnyPermission({Permission.ANSWER_ON_ADDING_TO_THE_RIDE})
     @PutMapping("/acceptAddingToTheRide/{notificationId}")
     public NotificationResponse acceptAddingToTheRide(@PathVariable("notificationId") final UUID notificationId) {
         return acceptAddingToTheRide.execute(notificationId);
     }
 
-    @HasAnyPermission({ Permission.ANSWER_ON_ADDING_TO_THE_RIDE })
+    @HasAnyPermission({Permission.ANSWER_ON_ADDING_TO_THE_RIDE})
     @PutMapping("/rejectAddingToTheRide/{notificationId}")
     public NotificationResponse rejectAddingToTheRide(@PathVariable("notificationId") final UUID notificationId) {
         return rejectAddingToTheRide.execute(notificationId);
     }
 
-    @HasAnyPermission({ Permission.LINK_PASSENGERS_TO_THE_RIDE })
+    @HasAnyPermission({Permission.LINK_PASSENGERS_TO_THE_RIDE})
     @PostMapping("/addToTheRide")
     public void addPassengersToTheRide(
             @Valid @RequestBody final LinkedPassengersToTheRideRequest linkedPassengersToTheRideRequest) {
         addLinkedPassengersToTheRide.execute(linkedPassengersToTheRideRequest);
     }
 
-    @PutMapping("/vehicleArrived")
-    @HasAnyPermission({ Permission.VEHICLE_ARRIVED })
-    public void notifyOfVehicleArrived() {
-        notifyPassengerOfVehicleArrived.execute();
-    }
-
     @PutMapping("/vehicleArrivedToClient")
-    @HasAnyPermission({ Permission.RIDE_STATUS_CHANGED })
+    @HasAnyPermission({Permission.RIDE_STATUS_CHANGED})
     public void notifyOfVehicleArrivedToClient() {
         changeRideStatus.execute(RideStatus.ARRIVED, NotificationType.VEHICLE_ARRIVED);
     }
