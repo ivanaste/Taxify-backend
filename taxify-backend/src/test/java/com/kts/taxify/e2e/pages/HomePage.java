@@ -29,7 +29,7 @@ public class HomePage {
     }
 
     public void clickLoginBtn() {
-        loginBtn.click();
+        Utilities.clickableWait(driver, loginBtn, 10).click();
     }
 
     public boolean isHomePageLoaded() {
