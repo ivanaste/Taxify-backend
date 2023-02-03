@@ -1,6 +1,8 @@
 package com.kts.taxify.services.passenger;
 
-import com.kts.taxify.model.*;
+import com.kts.taxify.model.Notification;
+import com.kts.taxify.model.NotificationStatus;
+import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.services.notification.SaveNotification;
 import com.kts.taxify.services.user.GetUserByEmail;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ public class NotifyPassengerOfChangedRideState {
     private final GetUserByEmail getUserByEmail;
 
     public Notification execute(String recipientEmail, NotificationType notificationType) {
-        final Notification notification = Notification.builder().type(notificationType).recipient((Passenger) getUserByEmail.execute(recipientEmail))
+        final Notification notification = Notification.builder().type(notificationType).recipient(getUserByEmail.execute(recipientEmail))
                 .arrivalTime(LocalDateTime.now()).read(false).status(NotificationStatus.PENDING)
                 .build();
         saveNotification.execute(notification);

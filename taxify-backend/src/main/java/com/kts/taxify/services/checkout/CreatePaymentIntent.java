@@ -29,7 +29,7 @@ public class CreatePaymentIntent {
         final Passenger passenger = getSelfAsPassenger.execute();
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                 .setCurrency("EUR")
-                .setAmount((long) (charge.getAmount() * 100))
+                .setAmount(charge.getAmount().longValue() * 100)
                 .setConfirm(true)
                 .setPaymentMethod(charge.getPaymentMethodId())
                 .setCustomer(passenger.getCustomerId())

@@ -29,7 +29,7 @@ public class CheckoutRide {
                 charge.setCharged(true);
                 charge.setPaymentId(paymentResponse.getId());
                 saveCharge.execute(charge);
-                message = "You have been successfully charged " + charge.getAmount() + "€.";
+                message = "You have been successfully charged " + charge.getAmount() + " €.";
             } catch (StripeException e) {
                 message = e.getUserMessage();
                 paymentDone = false;

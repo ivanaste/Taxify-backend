@@ -29,7 +29,7 @@ public class AcceptAddingToTheRide {
         notification = saveNotification.execute(notification);
 
         Ride ride = notification.getRide();
-        addChargeToRide.execute(ride, ((Passenger) notification.getRecipient()).getCustomerId(), paymentMethodId, ride.getRoute().getPrice());
+        addChargeToRide.execute(ride, ((Passenger) notification.getRecipient()).getCustomerId(), paymentMethodId);
 
         checkIfAllRideNotificationsAreAccepted.execute(notification.getRide(), notification.getSender().getEmail());
         return NotificationConverter.toNotificationResponse(notification);
