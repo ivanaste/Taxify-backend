@@ -16,7 +16,7 @@ public class CreateAcceptedRideForOnePassenger {
     private final SaveRide saveRide;
 
     public Ride execute(RequestedRideRequest requestedRideRequest, Driver driver, Passenger sender) {
-        Route route = RideConverter.routeRequestToRoute(requestedRideRequest.getRouteRequest());
+        Route route = RideConverter.routeRequestToRoute(requestedRideRequest.getRouteRequest(), driver.getVehicle().getType());
         Ride ride = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).route(route).passengers(new HashSet<>(Collections.singletonList(sender))).sender(sender.getEmail()).build();
         return saveRide.execute(ride);
     }

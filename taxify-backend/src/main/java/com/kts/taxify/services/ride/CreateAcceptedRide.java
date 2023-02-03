@@ -25,14 +25,11 @@ public class CreateAcceptedRide {
     public Ride execute(RequestedRideRequest requestedRideRequest, Driver assignedDriver) throws IOException, InterruptedException {
         Passenger sender = (Passenger) getUserByEmail.execute(requestedRideRequest.getPassengers().getSenderEmail());
         Ride ride;
-        Double price;
         if (requestedRideRequest.getPassengers().getRecipientsEmails().size() > 0) {
             ride = createAcceptedRideForMultiplePassengers.execute(requestedRideRequest, assignedDriver, sender);
-            price = ride.getRoute().getPrice() / ride.getPassengers().size();
         } else {
             ride = createAcceptedRideForOnePassenger.execute(requestedRideRequest, assignedDriver, sender);
-            price = ride.getRoute().getPrice();
         }
-        return addChargeToRide.execute(ride, sender.getCustomerId(), requestedRideRequest.getPaymentMethodId(), price);
+        return addChargeToRide.execute(ride, sender.getCustomerId(), requestedRideRequest.getPaymentMethodId());
     }
 }

@@ -87,12 +87,6 @@ public class DriverController {
         return findSuitableDriver.execute(requestedRideRequest);
     }
 
-//    @GetMapping(value = "/assignedRide")
-//    @HasAnyPermission({Permission.GET_ASSIGNED_RIDE})
-//    public RideResponse getAssignedRide() {
-//        return RideConverter.toRideResponse(getDriverAssignedRide.execute());
-//    }
-
     @PutMapping("/finishRide")
     @HasAnyPermission({Permission.FINISH_RIDE})
     public void finishRide() {

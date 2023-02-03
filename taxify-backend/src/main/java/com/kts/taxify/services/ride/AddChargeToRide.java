@@ -15,12 +15,10 @@ public class AddChargeToRide {
     private final SaveCharge saveCharge;
     private final SaveRide saveRide;
 
-    public Ride execute(Ride ride, String customerId, String paymentMethodId, Double amount) {
-        amount = Double.parseDouble("15.2");
+    public Ride execute(Ride ride, String customerId, String paymentMethodId) {
         Charge charge = Charge.builder()
                 .ride(ride)
                 .customerId(customerId)
-                .amount(amount)
                 .paymentMethodId(paymentMethodId)
                 .build();
         charge = saveCharge.execute(charge);
