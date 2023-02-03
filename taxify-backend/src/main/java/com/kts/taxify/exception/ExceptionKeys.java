@@ -33,7 +33,8 @@ public enum ExceptionKeys implements Translation {
 
 	NO_ACTIVE_DRIVERS("no_active_drivers"),
 	DRIVES_BUSY_AND_RESERVED("drivers_busy_and_reserved"),
-    INVALID_PAYMENT_FOR_SHARED_RIDE("invalid_payment_for_shared_ride");
+    INVALID_PAYMENT_FOR_SHARED_RIDE("invalid_payment_for_shared_ride"),
+    PASSENGER_ACCOUNT_NOT_ACTIVATED("passenger_account_not_activated");
 
 
     private final String code;

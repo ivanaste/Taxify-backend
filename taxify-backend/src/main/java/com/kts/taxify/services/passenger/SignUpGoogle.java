@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.kts.taxify.dto.request.passenger.CreatePassengerRequest;
 import com.kts.taxify.dto.request.passenger.GoogleSignupRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
+import com.kts.taxify.dto.response.GoogleAuthTokenResponse;
 import com.kts.taxify.exception.InvalidGoogleAccountException;
 import com.kts.taxify.exception.UserAlreadyExistsException;
 import com.kts.taxify.model.AccountProvider;
@@ -28,7 +29,7 @@ public class SignUpGoogle {
     private final GoogleIdTokenVerifier verifier;
 
 
-    public AuthTokenResponse execute(GoogleSignupRequest googleSignupRequest) throws GeneralSecurityException, IOException {
+    public GoogleAuthTokenResponse execute(GoogleSignupRequest googleSignupRequest) throws GeneralSecurityException, IOException {
         try {
             GoogleIdToken idToken = verifier.verify(googleSignupRequest.getCredentials());
             Payload payload = idToken.getPayload();
@@ -36,7 +37,7 @@ public class SignUpGoogle {
             String password = payload.getSubject();
             if (!userExistsByEmail.execute(email)) {
                 createPassenger.execute(constructPassengerRequest(payload, googleSignupRequest), AccountProvider.GOOGLE);
-                return logInUser.execute(email, password);
+                return new GoogleAuthTokenResponse(logInUser.execute(email, password), email);
             } else throw new UserAlreadyExistsException();
         } catch (Exception e) {
             throw new InvalidGoogleAccountException();

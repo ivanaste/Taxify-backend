@@ -4,6 +4,7 @@ import com.kts.taxify.dto.request.auth.LoginRequest;
 import com.kts.taxify.dto.request.auth.SelfChangeRequest;
 import com.kts.taxify.dto.request.checkout.AddPaymentMethodRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
+import com.kts.taxify.dto.response.GoogleAuthTokenResponse;
 import com.kts.taxify.dto.response.PaymentMethodResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.Permission;
@@ -78,7 +79,7 @@ public class AuthController {
     }
 
     @PostMapping("/login-google/{credentials}")
-    public AuthTokenResponse loginGoogle(@PathVariable("credentials") String credentials) throws GeneralSecurityException, IOException {
+    public GoogleAuthTokenResponse loginGoogle(@PathVariable("credentials") String credentials) throws GeneralSecurityException, IOException {
         return signInWithGoogle.execute(credentials);
     }
 
