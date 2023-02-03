@@ -18,25 +18,23 @@ import com.kts.taxify.simulatorModel.FromClientToDestinationData;
 import com.kts.taxify.simulatorModel.RideProcessData;
 import com.kts.taxify.simulatorModel.ToClientData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class SimulationService {
 
     public Map<UUID, RideProcessData> activeProcesses = new HashMap<>();
-
     private final ObjectMapper objectMapper;
     private final GetDriverAssignedRide getDriverAssignedRide;
     private final GetSelf getSelf;
@@ -49,6 +47,10 @@ public class SimulationService {
     private final RideRepository rideRepository;
     private final DriverRepository driverRepository;
 
+    public Map<UUID, RideProcessData> getActiveProcesses() {
+        return activeProcesses;
+    }
+
 
     @Transactional
     public Driver searchForFirstFreeDriver(String senderEmail) throws InterruptedException, ExecutionException {
@@ -56,7 +58,7 @@ public class SimulationService {
         Process first = null;
         Duration shortest = Duration.ofSeconds(Long.MAX_VALUE, 999_999_999);
         Driver firstFreeDriver = null;
-        for (UUID key: activeProcesses.keySet()) {
+        for (UUID key : activeProcesses.keySet()) {
             Ride ride = getRideById.execute(key);
             if (!ride.getDriver().isReserved()) {
                 if (Duration.between(activeProcesses.get(key).getExpectedEnd(), activeProcesses.get(key).getStart()).compareTo(shortest) < 0) {
