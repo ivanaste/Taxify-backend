@@ -6,7 +6,9 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -58,6 +60,6 @@ public class Ride extends BaseEntity {
     Set<Complaint> complaints;
 
     @OneToMany(mappedBy = "ride")
-    Set<Charge> passengersCharges = new HashSet<>();
+    List<Charge> passengersCharges = new ArrayList<>();
 
 }

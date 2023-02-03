@@ -25,8 +25,7 @@ public class CreatePaymentIntent {
         Stripe.apiKey = customProperties.getStripeSecret();
     }
 
-    public PaymentIntent execute(final Charge charge) throws StripeException {
-        final Passenger passenger = getSelfAsPassenger.execute();
+    public PaymentIntent execute(final Charge charge, Passenger passenger) throws StripeException {
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                 .setCurrency("EUR")
                 .setAmount(charge.getAmount().longValue() * 100)

@@ -15,17 +15,11 @@ public class CheckoutPassengerForRide {
     private final SaveCharge saveCharge;
     private final Checkout checkout;
 
-    public PaymentResponse execute(Ride ride, Passenger passenger) throws StripeException {
-        for (Charge charge : ride.getPassengersCharges()) {
-            if (charge.getCustomerId().equals(passenger.getCustomerId())) {
-                charge.setAmount(ride.getRoute().getPrice() / ride.getPassengers().size());
-                PaymentResponse response = checkout.execute(charge);
-                charge.setPaymentId(response.getId());
-                saveCharge.execute(charge);
-                return response;
-            }
-        }
-
-        throw new RideNotFoundException();
+    public PaymentResponse execute(Ride ride, Passenger passenger, Charge charge) throws StripeException {
+        charge.setAmount(ride.getRoute().getPrice() * 100 / ride.getPassengers().size());
+        PaymentResponse response = checkout.execute(charge, passenger);
+        charge.setPaymentId(response.getId());
+        saveCharge.execute(charge);
+        return response;
     }
 }

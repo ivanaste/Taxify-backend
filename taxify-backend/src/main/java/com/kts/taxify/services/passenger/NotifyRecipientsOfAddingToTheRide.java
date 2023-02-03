@@ -8,6 +8,7 @@ import com.kts.taxify.services.notification.SaveNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -19,10 +20,12 @@ public class NotifyRecipientsOfAddingToTheRide {
 
     public void execute(Set<Passenger> recipients, Passenger sender, Ride ride) {
         for (Passenger recipient : recipients) {
-            Notification notification = notifyPassengerOfChangedRideState.execute(recipient.getEmail(), NotificationType.ADDED_TO_THE_RIDE);
-            notification.setRide(ride);
-            notification.setSender(sender);
-            saveNotification.execute(notification);
+            if (!Objects.equals(recipient.getEmail(), sender.getEmail())) {
+                Notification notification = notifyPassengerOfChangedRideState.execute(recipient.getEmail(), NotificationType.ADDED_TO_THE_RIDE);
+                notification.setRide(ride);
+                notification.setSender(sender);
+                saveNotification.execute(notification);
+            }
         }
     }
 }

@@ -49,6 +49,7 @@ public class RideConverter {
             routePart.add(new WaypointResponse(waypoint.getLocation().getLongitude(), waypoint.getLocation().getLatitude(), waypoint.isStop()));
         }
         rideRouteResponse.setRoute(route);
+        rideRouteResponse.setDistance(ride.getRoute().getDistance());
         return rideRouteResponse;
     }
 

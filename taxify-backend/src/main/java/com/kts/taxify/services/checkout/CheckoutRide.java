@@ -25,7 +25,7 @@ public class CheckoutRide {
             Passenger passenger = getPassengerByCustomerId.execute(charge.getCustomerId());
             String message;
             try {
-                PaymentResponse paymentResponse = checkoutPassengerForRide.execute(ride, passenger);
+                PaymentResponse paymentResponse = checkoutPassengerForRide.execute(ride, passenger, charge);
                 charge.setCharged(true);
                 charge.setPaymentId(paymentResponse.getId());
                 saveCharge.execute(charge);

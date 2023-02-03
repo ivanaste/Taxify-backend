@@ -13,4 +13,5 @@ public class RideRouteResponse {
     private Map<String, List<WaypointResponse>> route;
     private DriverResponse driver;
     private RideStatus rideStatus;
+    private Double distance;
 }

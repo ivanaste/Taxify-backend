@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -23,9 +25,9 @@ public class AddChargeToRide {
                 .paymentMethodId(paymentMethodId)
                 .build();
         charge = saveCharge.execute(charge);
-        Set<Charge> charges;
+        List<Charge> charges;
         if (ride.getPassengersCharges() == null) {
-            charges = new HashSet<>();
+            charges = new ArrayList<>();
         } else {
             charges = ride.getPassengersCharges();
         }
