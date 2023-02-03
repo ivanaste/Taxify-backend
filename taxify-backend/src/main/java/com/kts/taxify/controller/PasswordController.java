@@ -4,6 +4,7 @@ import com.kts.taxify.dto.request.password.ChangePasswordRequest;
 import com.kts.taxify.services.password.ChangePassword;
 import com.kts.taxify.services.password.SendPasswordResetEmail;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
@@ -16,7 +17,7 @@ public class PasswordController {
     private final ChangePassword changePassword;
 
     @GetMapping("/request-change")
-    public String requestPasswordChange(@Email @RequestParam("email") String email) {
+    public ResponseEntity<String> requestPasswordChange(@Email @RequestParam("email") String email) {
         return sendPasswordResetEmail.execute(email);
     }
 

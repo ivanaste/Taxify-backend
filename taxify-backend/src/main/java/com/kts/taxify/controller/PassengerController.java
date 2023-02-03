@@ -6,6 +6,7 @@ import com.kts.taxify.dto.request.passenger.FacebookSignupRequest;
 import com.kts.taxify.dto.request.passenger.GoogleSignupRequest;
 import com.kts.taxify.dto.request.ride.RideReviewRequest;
 import com.kts.taxify.dto.response.AuthTokenResponse;
+import com.kts.taxify.dto.response.GoogleAuthTokenResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.AccountProvider;
 import com.kts.taxify.services.passenger.*;
@@ -46,7 +47,7 @@ public class PassengerController {
     }
 
     @PostMapping("/google-signup")
-    public AuthTokenResponse signupGoogle(@Valid @RequestBody final GoogleSignupRequest googleSignupRequest)
+    public GoogleAuthTokenResponse signupGoogle(@Valid @RequestBody final GoogleSignupRequest googleSignupRequest)
             throws GeneralSecurityException, IOException {
         return signUpGoogle.execute(googleSignupRequest);
     }
