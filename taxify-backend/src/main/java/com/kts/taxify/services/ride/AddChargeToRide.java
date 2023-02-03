@@ -5,6 +5,7 @@ import com.kts.taxify.model.Ride;
 import com.kts.taxify.services.checkout.SaveCharge;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +16,7 @@ public class AddChargeToRide {
     private final SaveCharge saveCharge;
     private final SaveRide saveRide;
 
+    @Transactional(rollbackFor = Exception.class)
     public Ride execute(Ride ride, String customerId, String paymentMethodId, Double amount) {
         amount = Double.parseDouble("15.2");
         Charge charge = Charge.builder()

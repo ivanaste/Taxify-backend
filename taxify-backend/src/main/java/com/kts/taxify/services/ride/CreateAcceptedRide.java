@@ -4,9 +4,11 @@ import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.model.Driver;
 import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.Ride;
+import com.kts.taxify.repository.RideRepository;
 import com.kts.taxify.services.user.GetUserByEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -22,6 +24,7 @@ public class CreateAcceptedRide {
 
     private final AddChargeToRide addChargeToRide;
 
+    @Transactional(rollbackFor = Exception.class)
     public Ride execute(RequestedRideRequest requestedRideRequest, Driver assignedDriver) throws IOException, InterruptedException {
         Passenger sender = (Passenger) getUserByEmail.execute(requestedRideRequest.getPassengers().getSenderEmail());
         Ride ride;

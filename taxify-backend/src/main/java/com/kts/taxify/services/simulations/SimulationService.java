@@ -74,11 +74,9 @@ public class SimulationService {
         return firstFreeDriver;
     }
 
-
     @Transactional
     public int simulateRideToClient() throws IOException, InterruptedException {
         Ride ride = getDriverAssignedRide.execute();
-        notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_ACCEPTED);
         Location clientLocation = ride.getRoute().getWaypoints().get(0).getLocation();
         ride.setScheduledAt(LocalDateTime.now());
         saveRide.execute(ride);
