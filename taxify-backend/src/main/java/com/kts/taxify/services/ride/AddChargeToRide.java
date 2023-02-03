@@ -16,7 +16,6 @@ public class AddChargeToRide {
     private final SaveCharge saveCharge;
     private final SaveRide saveRide;
 
-    @Transactional(rollbackFor = Exception.class)
     public Ride execute(Ride ride, String customerId, String paymentMethodId, Double amount) {
         amount = Double.parseDouble("15.2");
         Charge charge = Charge.builder()

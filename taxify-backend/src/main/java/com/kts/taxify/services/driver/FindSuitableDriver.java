@@ -58,8 +58,8 @@ public class FindSuitableDriver {
         if (checkoutRide.execute(newRide)) {
 			closestDriver.setReserved(false);
 			driverRepository.save(closestDriver);
-            notifyDriver.execute(closestDriver.getEmail(), NotificationType.RIDE_ASSIGNED);
 			notifyPassengerOfChangedRideState.execute(requestedRideRequest.getPassengers().getSenderEmail(), NotificationType.RIDE_ACCEPTED);
+			notifyDriver.execute(closestDriver.getEmail(), NotificationType.RIDE_ASSIGNED);
             return DriverConverter.toDriverWithAssignedRideResponse(closestDriver, newRide);
         }
         throw new InvalidPaymentForSharedRideException();

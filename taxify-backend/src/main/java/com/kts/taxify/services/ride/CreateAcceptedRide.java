@@ -24,7 +24,7 @@ public class CreateAcceptedRide {
 
     private final AddChargeToRide addChargeToRide;
 
-    @Transactional(rollbackFor = Exception.class)
+
     public Ride execute(RequestedRideRequest requestedRideRequest, Driver assignedDriver) throws IOException, InterruptedException {
         Passenger sender = (Passenger) getUserByEmail.execute(requestedRideRequest.getPassengers().getSenderEmail());
         Ride ride;

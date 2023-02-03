@@ -51,8 +51,7 @@ public class TestRideOrderAndFinishSuccess {
     @Test
     public void testOrderRide() {
         loginDriver("brzi@gmail.com", "Micomilic123!");
-        driverDriver.manage().window().setPosition(new Point(-2000, 0));
-        clientDriver.manage().window().maximize();
+        switchWindows(clientDriver, driverDriver);
         loginClient("prijovic.uros13@gmail.com", "Uros123!");
         setRoute();
         setFiltersAndPayment();
@@ -60,12 +59,9 @@ public class TestRideOrderAndFinishSuccess {
 
         switchWindows(driverDriver, clientDriver);
         homePageDriver.waitForToastMessage("Ride has been assigned to you.");
-        homePageDriver.waitForToastMessage("Ride has been assigned to you.");
 
         switchWindows(clientDriver, driverDriver);
         homePageClient.waitForToastMessage("Your ride has been accepted.");
-        homePageClient.waitForToastMessage("Your ride has been accepted.");
-        homePageClient.waitForToastMessage("Vehicle has arrived on your destination.");
         homePageClient.waitForToastMessage("Vehicle has arrived on your destination.");
 
         switchWindows(driverDriver, clientDriver);
@@ -73,21 +69,16 @@ public class TestRideOrderAndFinishSuccess {
 
         switchWindows(clientDriver, driverDriver);
         homePageClient.waitForToastMessage("Your ride has started.");
-        homePageClient.waitForToastMessage("Your ride has started.");
-        homePageClient.waitForToastMessage("You have arrived on your destination");
         homePageClient.waitForToastMessage("You have arrived on your destination");
 
         switchWindows(driverDriver, clientDriver);
-        homePageDriver.waitForToastMessage("You have arrived on destination.");
         homePageDriver.waitForToastMessage("You have arrived on destination.");
 
         homePageDriver.endRideDriver();
 
         homePageDriver.waitForToastMessage("You successfully finished a ride.");
-        homePageDriver.waitForToastMessage("You successfully finished a ride.");
 
         switchWindows(clientDriver, driverDriver);
-        homePageClient.waitForToastMessage("Your ride has finished.");
         homePageClient.waitForToastMessage("Your ride has finished.");
 
     }

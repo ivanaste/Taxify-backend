@@ -74,7 +74,6 @@ public class SimulationService {
         return firstFreeDriver;
     }
 
-    @Transactional
     public int simulateRideToClient() throws IOException, InterruptedException {
         Ride ride = getDriverAssignedRide.execute();
         Location clientLocation = ride.getRoute().getWaypoints().get(0).getLocation();
@@ -89,7 +88,6 @@ public class SimulationService {
         return exitVal;
     }
 
-    @Transactional
     public boolean simulateRideFromClientToDestination() throws IOException, InterruptedException {
         Driver driver = (Driver) getUserByEmail.execute(getSelf.execute().getEmail());
         Ride ride = getDriverAssignedRide.execute();
