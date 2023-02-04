@@ -95,7 +95,7 @@ public class DriverController {
 
     @PutMapping("/rejectRide")
     @HasAnyPermission({Permission.REJECT_RIDE})
-    public void rejectRide(@RequestBody RejectRideRequest rejectRideRequest) {
+    public void rejectRide(@RequestBody RejectRideRequest rejectRideRequest) throws StripeException {
         rejectRide.execute(rejectRideRequest.getRejectionReason());
     }
 }

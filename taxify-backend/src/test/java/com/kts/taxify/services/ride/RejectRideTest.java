@@ -2,9 +2,11 @@ package com.kts.taxify.services.ride;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kts.taxify.model.*;
+import com.kts.taxify.services.checkout.RefundChargedPassengersInRide;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import com.kts.taxify.services.simulations.FindActiveProcess;
 import com.kts.taxify.simulatorModel.ToClientData;
+import com.stripe.exception.StripeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,9 @@ public class RejectRideTest {
     @Mock
     private NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
 
+    @Mock
+    private RefundChargedPassengersInRide refundChargedPassengersInRide;
+
     @InjectMocks
     private RejectRide rejectRide;
     @Captor
@@ -58,7 +63,7 @@ public class RejectRideTest {
 
     @Test
     @DisplayName("Should reject ride")
-    public void shouldRejectRide() {
+    public void shouldRejectRide() throws StripeException {
         Vehicle vehicle = new Vehicle();
         Driver driver = Driver.builder().vehicle(vehicle).build();
         Ride testRide = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).passengers(new HashSet<>(Arrays.asList(Passenger.builder().email("test1@gmail.com").build(),Passenger.builder().email("test2@gmail.com").build()))).build();
