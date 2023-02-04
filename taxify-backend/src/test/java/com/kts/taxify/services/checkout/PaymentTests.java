@@ -25,10 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -180,7 +177,7 @@ public class PaymentTests {
     @DisplayName("Should checkout passenger for ride")
     public void shouldCheckoutPassengerForRide() throws StripeException {
         Charge charge = Charge.builder().ride(new Ride()).customerId(passenger.getCustomerId()).build();
-        Set<Charge> charges = new HashSet<>();
+        List<Charge> charges = new ArrayList<>();
         charges.add(charge);
         Set<Passenger> passengers = new HashSet<>();
         passengers.add(passenger);
@@ -189,28 +186,13 @@ public class PaymentTests {
 
         PaymentResponse paymentResponse = PaymentResponse.builder().id("1l").build();
 
-        when(checkout.execute(charge)).thenReturn(paymentResponse);
+        when(checkout.execute(charge, passenger)).thenReturn(paymentResponse);
         when(saveChargeMock.execute(charge)).thenReturn(charge);
 
-        checkoutPassengerForRide.execute(ride, passenger);
+        checkoutPassengerForRide.execute(ride, passenger, charge);
 
         verify(saveChargeMock, times(1)).execute(chargeArgumentCaptor.capture());
         assertEquals(paymentResponse.getId(), chargeArgumentCaptor.getValue().getPaymentId());
-    }
-
-    @Test
-    @DisplayName("Should throw ride not found when if passenger is not in ride")
-    public void shouldThrowExceptionForRideNotFound() throws StripeException {
-        Charge charge = Charge.builder().ride(new Ride()).customerId("radnom-id").build();
-        Set<Passenger> passengers = new HashSet<>();
-        Set<Charge> charges = new HashSet<>();
-        charges.add(charge);
-        passengers.add(passenger);
-        ride.setPassengersCharges(charges);
-        ride.setPassengers(passengers);
-
-        RideNotFoundException exception = assertThrows(RideNotFoundException.class, () -> checkoutPassengerForRide.execute(ride, passenger));
-        assertEquals("ride_not_found", exception.getKey().getCode());
     }
 
 
@@ -243,9 +225,7 @@ public class PaymentTests {
     public void shouldCreatePaymentIntentForCharge() throws StripeException {
         Charge charge = Charge.builder().ride(new Ride()).customerId(customer.getId()).amount(100.00).paymentMethodId(paymentMethod.getId()).build();
 
-        when(getSelfAsPassenger.execute()).thenReturn(passenger);
-
-        PaymentIntent paymentIntent = createPaymentIntent.execute(charge);
+        PaymentIntent paymentIntent = createPaymentIntent.execute(charge, passenger);
         assertEquals(charge.getCustomerId(), paymentIntent.getCustomer());
         assertEquals(charge.getAmount().longValue(), paymentIntent.getAmount() / 100);
     }
@@ -254,12 +234,12 @@ public class PaymentTests {
     @DisplayName("Should charge one passenger")
     public void shouldChargeOnePassenger() throws StripeException {
         Charge charge = Charge.builder().ride(new Ride()).customerId(customer.getId()).build();
-        Set<Charge> charges = new HashSet<>(Collections.singletonList(charge));
+        List<Charge> charges = new ArrayList<>(Collections.singletonList(charge));
         ride.setPassengersCharges(charges);
         PaymentResponse paymentResponse = PaymentResponse.builder().id("1L").build();
 
         when(getPassengerByCustomerId.execute(charge.getCustomerId())).thenReturn(passenger);
-        when(checkoutPassengerForRideMock.execute(ride, passenger)).thenReturn(paymentResponse);
+        when(checkoutPassengerForRideMock.execute(ride, passenger, charge)).thenReturn(paymentResponse);
 
         Boolean paymentDone = checkoutRide.execute(ride);
         assertEquals(true, paymentDone);
@@ -273,15 +253,15 @@ public class PaymentTests {
     public void shouldChargeTwoPassengers() throws StripeException {
         Charge charge = Charge.builder().ride(new Ride()).customerId(customer.getId()).build();
         Charge charge2 = Charge.builder().ride(new Ride()).customerId(customer2.getId()).build();
-        Set<Charge> charges = new HashSet<>(Arrays.asList(charge, charge2));
+        List<Charge> charges = Arrays.asList(charge, charge2);
         ride.setPassengersCharges(charges);
         PaymentResponse paymentResponse = PaymentResponse.builder().id("1L").build();
         PaymentResponse paymentResponse2 = PaymentResponse.builder().id("2L").build();
 
         when(getPassengerByCustomerId.execute(charge.getCustomerId())).thenReturn(passenger);
-        when(checkoutPassengerForRideMock.execute(ride, passenger)).thenReturn(paymentResponse);
+        when(checkoutPassengerForRideMock.execute(ride, passenger, charge)).thenReturn(paymentResponse);
         when(getPassengerByCustomerId.execute(charge2.getCustomerId())).thenReturn(passenger2);
-        when(checkoutPassengerForRideMock.execute(ride, passenger2)).thenReturn(paymentResponse2);
+        when(checkoutPassengerForRideMock.execute(ride, passenger2, charge2)).thenReturn(paymentResponse2);
 
         Boolean paymentDone = checkoutRide.execute(ride);
         assertEquals(true, paymentDone);
