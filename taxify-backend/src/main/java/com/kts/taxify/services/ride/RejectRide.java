@@ -3,8 +3,10 @@ package com.kts.taxify.services.ride;
 import com.kts.taxify.model.NotificationType;
 import com.kts.taxify.model.Ride;
 import com.kts.taxify.model.RideStatus;
+import com.kts.taxify.services.checkout.RefundChargedPassengersInRide;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import com.kts.taxify.services.simulations.FindActiveProcess;
+import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,9 @@ public class RejectRide {
     private final NotifyPassengerOfChangedRideState notifyPassengerOfChangedRideState;
     private final GetDriverAssignedRide getDriverAssignedRide;
     private final FindActiveProcess findActiveProcess;
+    private final RefundChargedPassengersInRide refundChargedPassengersInRide;
 
-    public void execute(String rejectionReason) {
+    public void execute(String rejectionReason) throws StripeException {
         Ride ride = getDriverAssignedRide.execute();
 //<<<<<<< Updated upstream
 //        Process currentProcess = simulationService.activeProcesses.get(ride.getId()).getProcess();
@@ -27,7 +30,8 @@ public class RejectRide {
         ride.setRejectionReason(rejectionReason);
         //passenger na unoccupied
         ride.getDriver().getVehicle().setOccupied(false);
-        saveRide.execute(ride);
+        ride = saveRide.execute(ride);
+        refundChargedPassengersInRide.execute(ride);
         notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_REJECTED);
     }
 }
