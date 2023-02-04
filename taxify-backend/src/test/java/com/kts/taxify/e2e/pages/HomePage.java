@@ -116,7 +116,8 @@ public class HomePage {
     }
 
     public void waitForToastMessage(String message){
-        Utilities.textWait(driver, toastMessage, message, 100);
+        Utilities.visibilityWait(driver, toastMessage, 50);
+        Utilities.textWait(driver, toastMessage,message, 10);
         Utilities.clickableWait(driver, toastCloseBtn, 10).click();
     }
 

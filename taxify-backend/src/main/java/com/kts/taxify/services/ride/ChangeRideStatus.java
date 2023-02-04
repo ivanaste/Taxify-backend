@@ -1,6 +1,7 @@
 package com.kts.taxify.services.ride;
 
 import com.kts.taxify.model.NotificationType;
+import com.kts.taxify.model.Passenger;
 import com.kts.taxify.model.Ride;
 import com.kts.taxify.model.RideStatus;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
@@ -19,6 +20,8 @@ public class ChangeRideStatus {
         Ride ride = getDriverAssignedRide.execute();
         ride.setStatus(rideStatus);
         saveRide.execute(ride);
-        notifyPassengerOfChangedRideState.execute(ride.getSender(), notificationType);
+        for(Passenger passenger: ride.getPassengers()){
+            notifyPassengerOfChangedRideState.execute(passenger.getEmail(), notificationType);
+        }
     }
 }

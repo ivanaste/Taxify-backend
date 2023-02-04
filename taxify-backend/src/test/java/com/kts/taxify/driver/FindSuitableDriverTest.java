@@ -17,7 +17,7 @@ import com.kts.taxify.services.driver.SetDriverVehicleAssOccupied;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import com.kts.taxify.services.ride.CreateAcceptedRide;
 import com.kts.taxify.services.ride.GetAssignedRide;
-import com.kts.taxify.services.simulations.GetClosestUnoccupiedDriver;
+import com.kts.taxify.services.simulations.GetClosestDriverWithFilters;
 import com.stripe.exception.StripeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +27,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +39,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class FindSuitableDriverTest {
     @Mock
-    private GetClosestUnoccupiedDriver getClosestUnoccupiedDriver;
+    private GetClosestDriverWithFilters getClosestUnoccupiedDriver;
 
     @Mock
     private NotifyDriver notifyDriver;
@@ -70,7 +72,7 @@ public class FindSuitableDriverTest {
     public void shouldReturnSuitableDriverForRideWithPayment() throws StripeException, IOException, ExecutionException, InterruptedException {
         Location location = new Location();
         RequestedRideRequest rideRequest = new RequestedRideRequest();
-        LinkedPassengersToTheRideRequest linkedPassengersToTheRideRequest = LinkedPassengersToTheRideRequest.builder().senderEmail("test@gmail.com").build();
+        LinkedPassengersToTheRideRequest linkedPassengersToTheRideRequest = LinkedPassengersToTheRideRequest.builder().senderEmail("test@gmail.com").recipientsEmails(new HashSet<>(Arrays.asList("test1@gmail.com","test2@gmail.com"))).build();
         rideRequest.setClientLocation(location);
         rideRequest.setPassengers(linkedPassengersToTheRideRequest);
 
@@ -79,7 +81,7 @@ public class FindSuitableDriverTest {
         Ride assignedRide = new Ride();
 
         when(getAssignedRide.execute()).thenReturn(null);
-        when(getClosestUnoccupiedDriver.execute(location)).thenReturn(driver);
+        when(getClosestUnoccupiedDriver.execute(rideRequest)).thenReturn(driver);
         when(createAcceptedRide.execute(rideRequest, driver)).thenReturn(assignedRide);
         when(checkoutRide.execute(assignedRide)).thenReturn(true);
 
@@ -108,7 +110,7 @@ public class FindSuitableDriverTest {
         Driver driver = Driver.builder().email("test@gmail.com").vehicle(vehicle).build();
         Ride assignedRide = new Ride();
 
-        when(getClosestUnoccupiedDriver.execute(location)).thenReturn(driver);
+        when(getClosestUnoccupiedDriver.execute(rideRequest)).thenReturn(driver);
         when(createAcceptedRide.execute(rideRequest, driver)).thenReturn(assignedRide);
         when(checkoutRide.execute(assignedRide)).thenReturn(false);
 

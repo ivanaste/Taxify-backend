@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,7 +61,7 @@ public class RejectRideTest {
     public void shouldRejectRide() {
         Vehicle vehicle = new Vehicle();
         Driver driver = Driver.builder().vehicle(vehicle).build();
-        Ride testRide = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).build();
+        Ride testRide = Ride.builder().driver(driver).status(RideStatus.ACCEPTED).passengers(new HashSet<>(Arrays.asList(Passenger.builder().email("test1@gmail.com").build(),Passenger.builder().email("test2@gmail.com").build()))).build();
         testRide.setId(UUID.randomUUID());
 
         when(getDriverAssignedRide.execute()).thenReturn(testRide);

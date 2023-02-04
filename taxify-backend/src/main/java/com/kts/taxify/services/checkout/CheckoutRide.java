@@ -9,6 +9,7 @@ import com.kts.taxify.services.passenger.NotifyPassengerOfPaymentResultForRide;
 import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class CheckoutRide {
     private final CheckoutPassengerForRide checkoutPassengerForRide;
     private final NotifyPassengerOfPaymentResultForRide notifyPassengerOfPaymentResultForRide;
 
+    @Transactional
     public Boolean execute(Ride ride) throws StripeException {
         Boolean paymentDone = true;
         for (Charge charge : ride.getPassengersCharges()) {

@@ -1,6 +1,7 @@
 package com.kts.taxify.services.simulations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kts.taxify.dto.request.ride.RequestedRideRequest;
 import com.kts.taxify.exception.AllDriversBusyAndReservedException;
 import com.kts.taxify.exception.NoActiveDriversException;
 import com.kts.taxify.model.*;
@@ -24,10 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -52,24 +50,52 @@ public class SimulationService {
     }
 
 
+    private List<Ride> getListOfActiveRidesWithSatisfactoryDriver(RequestedRideRequest requestedRideRequest) {
+        List<Ride> rides = new ArrayList<>();
+        for (UUID key : activeProcesses.keySet()) {
+            Ride ride = getRideById.execute(key);
+            Driver driver = ride.getDriver();
+            if (!driver.isReserved() && requestedRideRequest.getVehicleTypes().contains(driver.getVehicle().getType().getName())) {
+                if (requestedRideRequest.isBabyFriendly() && requestedRideRequest.isPetFriendly()) {
+                    if (driver.getVehicle().getBabyFriendly() && driver.getVehicle().getPetFriendly()) {
+                        rides.add(ride);
+                    }
+                } else if (requestedRideRequest.isBabyFriendly()) {
+                    if (driver.getVehicle().getBabyFriendly()) {
+                        rides.add(ride);
+                    }
+                } else if (requestedRideRequest.isPetFriendly()) {
+                    if (driver.getVehicle().getPetFriendly()) {
+                        rides.add(ride);
+                    }
+                } else {
+                    rides.add(ride);
+                }
+            }
+        }
+        return rides;
+    }
+
+
     @Transactional
-    public Driver searchForFirstFreeDriver(String senderEmail) throws InterruptedException, ExecutionException {
+    public Driver searchForFirstFreeDriver(RequestedRideRequest requestedRideRequest) throws InterruptedException, ExecutionException {
         if (activeProcesses.size() == 0) throw new NoActiveDriversException();
         Process first = null;
         Duration shortest = Duration.ofSeconds(Long.MAX_VALUE, 999_999_999);
         Driver firstFreeDriver = null;
-        for (UUID key : activeProcesses.keySet()) {
-            Ride ride = getRideById.execute(key);
-            if (!ride.getDriver().isReserved()) {
-                if (Duration.between(activeProcesses.get(key).getExpectedEnd(), activeProcesses.get(key).getStart()).compareTo(shortest) < 0) {
-                    shortest = Duration.between(activeProcesses.get(key).getExpectedEnd(), activeProcesses.get(key).getStart());
-                    first = activeProcesses.get(key).getProcess();
-                    firstFreeDriver = ride.getDriver();
-                }
+        List<Ride> activeRidesWithSatisfactoryDriver = getListOfActiveRidesWithSatisfactoryDriver(requestedRideRequest);
+        for(Ride ride: activeRidesWithSatisfactoryDriver) {
+            if (Duration.between(activeProcesses.get(ride.getId()).getExpectedEnd(), activeProcesses.get(ride.getId()).getStart()).compareTo(shortest) < 0) {
+                shortest = Duration.between(activeProcesses.get(ride.getId()).getExpectedEnd(), activeProcesses.get(ride.getId()).getStart());
+                first = activeProcesses.get(ride.getId()).getProcess();
+                firstFreeDriver = ride.getDriver();
             }
         }
         if (Objects.isNull(first)) throw new AllDriversBusyAndReservedException();
-        notifyPassengerOfChangedRideState.execute(senderEmail, NotificationType.RESERVED_DRIVER);
+        notifyPassengerOfChangedRideState.execute(requestedRideRequest.getPassengers().getSenderEmail(), NotificationType.RESERVED_DRIVER);
+        for(String email: requestedRideRequest.getPassengers().getRecipientsEmails()) {
+            notifyPassengerOfChangedRideState.execute(email, NotificationType.RESERVED_DRIVER);
+        }
         firstFreeDriver.setReserved(true);
         driverRepository.save(firstFreeDriver);
         first.waitFor();
@@ -97,7 +123,9 @@ public class SimulationService {
         Ride ride = getDriverAssignedRide.execute();
         ride.setStatus(RideStatus.STARTED);
         saveRide.execute(ride);
-        notifyPassengerOfChangedRideState.execute(ride.getSender(), NotificationType.RIDE_STARTED);
+        for(Passenger passenger: ride.getPassengers()) {
+            notifyPassengerOfChangedRideState.execute(passenger.getEmail(), NotificationType.RIDE_STARTED);
+        }
         FromClientToDestinationData data = new FromClientToDestinationData(driver.getVehicle().getId().toString(), ride.getRoute().getWaypoints());
         String dataStringMacOS = objectMapper.writeValueAsString(data);
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");

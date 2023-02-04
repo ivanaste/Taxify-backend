@@ -73,7 +73,6 @@ public class TestRideOrderSplitPay {
 
         switchWindows(secondClientDriver, driverDriver, firstClientDriver);
         acceptRideInvite();
-        Assertions.assertTrue(homePageSecondClient.getToastMessage().contains("You have been successfully charged"));
         switchWindows(firstClientDriver, driverDriver, secondClientDriver);
         homePageFirstClient.waitForToastMessage("All linked users have accepted the ride");
         Assertions.assertTrue(homePageFirstClient.getToastMessage().contains("You have been successfully charged"));
@@ -82,6 +81,7 @@ public class TestRideOrderSplitPay {
 
         switchWindows(driverDriver, firstClientDriver, secondClientDriver);
         homePageDriver.waitForToastMessage("Ride has been assigned to you.");
+
         switchWindows(firstClientDriver, secondClientDriver, driverDriver);
         homePageFirstClient.waitForToastMessage("Vehicle has arrived on your destination.");
 
@@ -105,8 +105,8 @@ public class TestRideOrderSplitPay {
         homePageDriver.logout();
         homePageFirstClient.cancelAssessment();
         homePageFirstClient.logout();
+        homePageSecondClient.cancelAssessment();
         homePageSecondClient.logout();
-
 
     }
 

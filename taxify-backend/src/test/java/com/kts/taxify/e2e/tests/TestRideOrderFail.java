@@ -51,7 +51,7 @@ public class TestRideOrderFail {
         setFiltersAndPayment();
 
         homePageClient.searchForRide();
-        homePageClient.waitForToastMessage("There are none active drivers in your area.");
+        homePageClient.waitForToastMessage("There are none active drivers in area with matching filters!");
     }
 
     private void setFiltersAndPayment() {
