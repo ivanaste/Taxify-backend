@@ -50,12 +50,48 @@ public class HomePage {
     @FindBy(className = "startEndRideButton")
     private WebElement startEndRideButtonDriver;
 
+    @FindBy(id = "linkPassengers")
+    private WebElement linkPassengersDialog;
+
+    @FindBy(id = "linkedUserInput")
+    private WebElement addLinkedPassengerInput;
+
+    @FindBy(id = "moveLinkedUser")
+    private WebElement moveLinkedPassenger;
+
+    @FindBy(id = "continueLinkedUsers")
+    private WebElement continueLinkedUsersButton;
+
+    @FindBy(id = "dropdownMenuButton1")
+    private WebElement notifications;
+
+    @FindBy(id = "acceptRide")
+    private WebElement acceptRideBtn;
+
+    @FindBy(id = "logoutButton")
+    private WebElement logoutButton;
+
+    @FindBy(id = "assessmentCancelButton")
+    private WebElement assessmentCancelButton;
+
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         driver.get("https://localhost:4200/");
         PageFactory.initElements(driver, this);
         this.actions = new Actions(driver);
     }
+
+    public void cancelAssessment(){ Utilities.clickableWait(driver, assessmentCancelButton, 10).click();}
+    public void logout() {Utilities.clickableWait(driver, logoutButton, 10).click();}
+    public void openNotifications() { Utilities.clickableWait(driver, notifications, 10).click();}
+    public void acceptRideInvite() { Utilities.clickableWait(driver, acceptRideBtn, 10).click();}
+
+    public void openLinkedPassengersDialog() { Utilities.visibilityWait(driver, linkPassengersDialog, 10).click();}
+    public void writeLinkedPassengerEmail(String email) { Utilities.visibilityWait(driver, addLinkedPassengerInput, 10).sendKeys(email);}
+    public void moveLinkedPassengerToListOfPassengers() { Utilities.clickableWait(driver, moveLinkedPassenger, 10).click();}
+
+    public void submitLinkedPassengers() { Utilities.clickableWait(driver, continueLinkedUsersButton, 10).click();}
 
     public void startRideDriver() {
         Utilities.clickableWait(driver, startEndRideButtonDriver, 30).click();
