@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    password: nvt
+    username: kts
+    url: jdbc:h2:file:./data/test/taxify;AUTO_SERVER=true;
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  mail:
+    host: smtp.gmail.com
+    username: milicftn@gmail.com
+    password: zpfomujclzozrrnr
+    port: "587"
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: "true"
+            required: "true"
+          auth: "true"
+  servlet:
+    multipart:
+      max-file-size: 10MB
+custom:
+  jwtSecret: superepiksecret
+  clientUrl: https://localhost:4200
+  authTokenExpirationMilliseconds: 604800000 #7 days
+  jwtForgotPasswordTokenExpiration: 3600000
+  jwtActivateEmailTokenExpiration: 3600000
+  createUserTokenExpirationMilliseconds: 2592000000
+  messageSource: messages
+  defaultLocale: en
+  senderEmail: taxify@gmail.com
+  googleClientId: '84188920859-ip1b5avhcc6qer7q99g97hgtusb8lur1.apps.googleusercontent.com'
+  stripeSecret: 'sk_test_51MRkdwDSxhX8YRHr3mkGtJ7VehBqLGWvVVadF9JIruoksnLsqZ7daUGM0rJhYOy8aUDihEcMeqBfIf1FxSx5kRWa00Qlcw681K'
+  stripePublic: 'pk_test_51MRkdwDSxhX8YRHrtGFwWm5fbBi6XzL7VKsnh15egMp8WBXvLmkM4Y0Qia1ixWM64ZMabCgBsVS0ot0TPGNgXnTg00enV3yuVb'
+server:
+  servlet:
+    contextPath: /api
+  port: "8080"
+  ssl:
+    key-store: keystore.p12
+    key-store-password: Micomilic123!
+    keyStoreType: PKCS12
+    keyAlias: tomcat
