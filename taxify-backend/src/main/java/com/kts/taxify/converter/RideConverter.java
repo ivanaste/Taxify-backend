@@ -23,7 +23,7 @@ public class RideConverter {
             Waypoint waypoint = Waypoint.builder().location(location).stop(waypointRequest.isStop()).build();
             waypoints.add(waypoint);
         }
-        Double price = routeRequest.getRouteDistance() + chosenVehicleType.getPrice();
+        Double price = routeRequest.getRouteDistance() * 120 + chosenVehicleType.getPrice();
         Route route = Route.builder().price(price).distance(routeRequest.getRouteDistance()).waypoints(waypoints).locationNames(routeRequest.getLocationNames()).build();
         route.getWaypoints().forEach(waypoint -> waypoint.setRoute(route));
         return route;

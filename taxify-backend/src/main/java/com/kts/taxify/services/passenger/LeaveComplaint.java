@@ -9,6 +9,8 @@ import com.kts.taxify.services.ride.SaveRide;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 @RequiredArgsConstructor
 public class LeaveComplaint {
@@ -18,7 +20,7 @@ public class LeaveComplaint {
     private final SaveRide saveRide;
 
     public void execute(String complaintReason) {
-        Ride ride = rideRepository.getRideBySenderAndStatus(getSelf.execute().getEmail(), RideStatus.STARTED);
+        Ride ride = rideRepository.getRideBySenderAndStatusIn(getSelf.execute().getEmail(), Arrays.asList(RideStatus.STARTED, RideStatus.ON_DESTINATION));
         Complaint complaint = Complaint.builder().complaintReason(complaintReason).ride(ride).build();
         ride.getComplaints().add(complaint);
         saveRide.execute(ride);

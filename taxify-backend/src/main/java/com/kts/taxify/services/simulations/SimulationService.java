@@ -86,7 +86,9 @@ public class SimulationService {
         String dataStringWindowsOS = dataStringMacOS.replace("\"", "\\\"");
         Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_to_client.py", "--conf", "vehicleMovementScripts/locust.conf", "--data",
                 dataStringWindowsOS).start();
+        activeProcesses.put(ride.getId(), new RideProcessData(p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(ride.getRoute().getWaypoints().size()).plusSeconds(60)));
         int exitVal = p.waitFor();
+        activeProcesses.remove(ride.getId());
         return exitVal;
     }
 
@@ -102,6 +104,7 @@ public class SimulationService {
         Process p = new ProcessBuilder("locust", "-f", "vehicleMovementScripts/simulate_ride.py", "--conf", "vehicleMovementScripts/locust.conf", "--data", dataStringWindowsOS).start();
         activeProcesses.put(ride.getId(), new RideProcessData(p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(ride.getRoute().getWaypoints().size())));
         int exitVal = p.waitFor();
+        activeProcesses.remove(ride.getId());
         changeRideStatus.execute(RideStatus.ON_DESTINATION, NotificationType.ON_DESTINATION_PASSENGER);
         notifyDriver.execute(driver.getEmail(), NotificationType.ON_DESTINATION_DRIVER);
         return true;

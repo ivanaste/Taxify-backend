@@ -18,13 +18,13 @@ public interface RideRepository extends JpaRepository<Ride, UUID> {
     Ride getRideByPassengersContainingAndStatusIn(Passenger passenger, List<RideStatus> statuses);
 
 
-    Ride getRideByDriverAndStatusIn(Driver driver, List<RideStatus> statuses);
-    Ride getRideByDriverAndStatusInAndScheduledAtIsNull(Driver driver, List<RideStatus> statuses);
 
     Ride findFirstByDriverAndStatusIn(Driver driver, List<RideStatus> statuses);
 
 
     Ride getRideBySenderAndStatus(String senderEmail, RideStatus status);
+
+    Ride getRideBySenderAndStatusIn(String senderEmail, List<RideStatus> statuses);
 
     List<Ride> getRidesByStatus(RideStatus rideStatus);
 

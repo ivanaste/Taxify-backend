@@ -16,7 +16,7 @@ public class CheckoutPassengerForRide {
     private final Checkout checkout;
 
     public PaymentResponse execute(Ride ride, Passenger passenger, Charge charge) throws StripeException {
-        charge.setAmount(ride.getRoute().getPrice() * 100 / ride.getPassengers().size());
+        charge.setAmount(ride.getRoute().getPrice() / ride.getPassengers().size());
         PaymentResponse response = checkout.execute(charge, passenger);
         charge.setPaymentId(response.getId());
         saveCharge.execute(charge);

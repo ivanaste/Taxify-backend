@@ -57,7 +57,7 @@ public class Ride extends BaseEntity {
     Set<Notification> notifications;
 
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
-    Set<Complaint> complaints;
+    Set<Complaint> complaints = new HashSet<>();
 
     @OneToMany(mappedBy = "ride")
     List<Charge> passengersCharges = new ArrayList<>();

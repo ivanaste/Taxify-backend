@@ -53,7 +53,7 @@ public class CreateAcceptedRideTest {
 
         when(getUserByEmail.execute(rideRequest.getPassengers().getSenderEmail())).thenReturn(sender);
         when(createAcceptedRideForMultiplePassengers.execute(rideRequest, assignedDriver, sender)).thenReturn(ride);
-        when(addChargeToRide.execute(ride, sender.getCustomerId(), rideRequest.getPaymentMethodId(), splitFarePrice)).thenReturn(ride);
+        when(addChargeToRide.execute(ride, sender.getCustomerId(), rideRequest.getPaymentMethodId())).thenReturn(ride);
 
         Ride actualRide = createAcceptedRide.execute(rideRequest, assignedDriver);
         assertEquals(ride.getPassengers(), actualRide.getPassengers());

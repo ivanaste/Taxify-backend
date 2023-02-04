@@ -80,5 +80,6 @@ public class TestLogin{
         loginPage.login();
         Assertions.assertEquals(loginPage.getToastMessage(), "You successfully logged in.");
         Assertions.assertEquals(REDIRECT_URL, driver.getCurrentUrl());
+        homePage.logout();
     }
 }

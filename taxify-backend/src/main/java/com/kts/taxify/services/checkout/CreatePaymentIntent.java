@@ -27,7 +27,7 @@ public class CreatePaymentIntent {
 
     public PaymentIntent execute(final Charge charge, Passenger passenger) throws StripeException {
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setCurrency("EUR")
+                .setCurrency("RSD")
                 .setAmount(charge.getAmount().longValue() * 100)
                 .setConfirm(true)
                 .setPaymentMethod(charge.getPaymentMethodId())

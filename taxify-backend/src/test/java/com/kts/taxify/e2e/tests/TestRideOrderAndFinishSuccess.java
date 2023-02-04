@@ -57,11 +57,14 @@ public class TestRideOrderAndFinishSuccess {
         setFiltersAndPayment();
         homePageClient.searchForRide();
 
-        switchWindows(driverDriver, clientDriver);
-        homePageDriver.waitForToastMessage("Ride has been assigned to you.");
-
-        switchWindows(clientDriver, driverDriver);
+        Assertions.assertTrue(homePageClient.getToastMessage().contains("You have been successfully charged"));
         homePageClient.waitForToastMessage("Your ride has been accepted.");
+
+        switchWindows(driverDriver, clientDriver);
+
+        homePageDriver.waitForToastMessage("Ride has been assigned to you.");
+        switchWindows(clientDriver, driverDriver);
+
         homePageClient.waitForToastMessage("Vehicle has arrived on your destination.");
 
         switchWindows(driverDriver, clientDriver);
@@ -80,6 +83,11 @@ public class TestRideOrderAndFinishSuccess {
 
         switchWindows(clientDriver, driverDriver);
         homePageClient.waitForToastMessage("Your ride has finished.");
+        homePageClient.cancelAssessment();
+        homePageClient.logout();
+
+        homePageDriver.logout();
+
 
     }
 

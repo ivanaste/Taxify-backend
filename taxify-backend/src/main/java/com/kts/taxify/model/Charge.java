@@ -30,7 +30,7 @@ public class Charge extends BaseEntity {
     @JoinColumn(name = "ride_id")
     Ride ride;
 
-    String currency = "EUR";
+    String currency = "RSD";
 
     @Column(name = "charged")
     Boolean charged = false;

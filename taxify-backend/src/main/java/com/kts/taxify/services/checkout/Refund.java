@@ -24,7 +24,7 @@ public class Refund {
 
     public com.stripe.model.Refund execute(Double amount, String customerId, String paymentId) throws StripeException {
         RefundCreateParams params = RefundCreateParams.builder()
-                .setCurrency("EUR")
+                .setCurrency("RSD")
                 .setAmount(Long.parseLong(amount.toString()))
                 .setCustomer(customerId)
                 .setPaymentIntent(paymentId)
