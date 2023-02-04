@@ -1,4 +1,4 @@
-package com.kts.taxify.vehicle;
+package com.kts.taxify.services.vehicle;
 
 import com.kts.taxify.model.Vehicle;
 import com.kts.taxify.repository.VehicleRepository;
