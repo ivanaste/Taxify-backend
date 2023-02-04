@@ -9,18 +9,18 @@ import com.kts.taxify.dto.response.AuthTokenResponse;
 import com.kts.taxify.dto.response.GoogleAuthTokenResponse;
 import com.kts.taxify.dto.response.UserResponse;
 import com.kts.taxify.model.AccountProvider;
-import com.kts.taxify.services.passenger.*;
-import com.stripe.exception.StripeException;
 import com.kts.taxify.model.Permission;
 import com.kts.taxify.security.HasAnyPermission;
 import com.kts.taxify.services.passenger.*;
 import com.kts.taxify.services.ride.CreateRideReview;
+import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/passenger")
@@ -33,6 +33,8 @@ public class PassengerController {
     private final CreateRideReview createRideReview;
 
     private final LeaveComplaint leaveComplaint;
+
+    private final CheckIfReviewAvailable checkIfReviewAvailable;
 
     @PostMapping("/create")
     public UserResponse createPassenger(@Valid @RequestBody final CreatePassengerRequest createPassengerRequest)
@@ -58,14 +60,20 @@ public class PassengerController {
     }
 
     @PostMapping("/complaint")
-    @HasAnyPermission({ Permission.LEAVE_COMPLAINT })
+    @HasAnyPermission({Permission.LEAVE_COMPLAINT})
     public void leaveComplaint(@RequestBody CreateComplaintRequest createComplaintRequest) {
         leaveComplaint.execute(createComplaintRequest.getComplaintReason());
     }
 
     @PostMapping(value = "/review")
-    @HasAnyPermission({ Permission.ADD_RIDE_REVIEW })
+    @HasAnyPermission({Permission.ADD_RIDE_REVIEW})
     public void createRideReview(@RequestBody RideReviewRequest rideReviewRequest) {
         createRideReview.execute(rideReviewRequest);
+    }
+
+    @GetMapping(value = "reviewAvailable/{rideId}")
+    @HasAnyPermission({Permission.ADD_RIDE_REVIEW})
+    public boolean isReviewAvailable(@PathVariable("rideId") final String rideId) {
+        return checkIfReviewAvailable.execute(UUID.fromString(rideId));
     }
 }
