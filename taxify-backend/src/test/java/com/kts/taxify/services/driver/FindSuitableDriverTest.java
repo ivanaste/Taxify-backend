@@ -1,4 +1,4 @@
-package com.kts.taxify.driver;
+package com.kts.taxify.services.driver;
 
 import com.kts.taxify.dto.request.notification.LinkedPassengersToTheRideRequest;
 import com.kts.taxify.dto.request.ride.RequestedRideRequest;
@@ -11,9 +11,6 @@ import com.kts.taxify.model.Ride;
 import com.kts.taxify.model.Vehicle;
 import com.kts.taxify.repository.DriverRepository;
 import com.kts.taxify.services.checkout.CheckoutRide;
-import com.kts.taxify.services.driver.FindSuitableDriver;
-import com.kts.taxify.services.driver.NotifyDriver;
-import com.kts.taxify.services.driver.SetDriverVehicleAssOccupied;
 import com.kts.taxify.services.passenger.NotifyPassengerOfChangedRideState;
 import com.kts.taxify.services.ride.CreateAcceptedRide;
 import com.kts.taxify.services.ride.GetAssignedRide;

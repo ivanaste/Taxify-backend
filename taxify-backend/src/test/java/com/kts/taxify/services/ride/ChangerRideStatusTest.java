@@ -40,15 +40,12 @@ public class ChangerRideStatusTest {
         when(getDriverAssignedRide.execute()).thenReturn(testRide);
         when(saveRide.execute(testRide)).thenReturn(testRide);
 
-
         changeRideStatus.execute(RideStatus.STARTED, NotificationType.RIDE_STARTED);
 
         assertThat(testRide.getStatus()).isEqualTo(RideStatus.STARTED);
         verify(notifyPassengerOfChangedRideState, times(1)).execute("test@gmail.com", NotificationType.RIDE_STARTED);
         verify(notifyPassengerOfChangedRideState, times(1)).execute("test1@gmail.com", NotificationType.RIDE_STARTED);
         verify(notifyPassengerOfChangedRideState, times(1)).execute("test2@gmail.com", NotificationType.RIDE_STARTED);
-
-
     }
 
 }
